@@ -1,0 +1,51 @@
+<view class="diary-container">
+  <!-- 写新日记按钮 -->
+  <view class="new-diary-btn" bindtap="createNewDiary">
+    <text class="btn-icon">✏️</text>
+    <text class="btn-text">写新日记</text>
+  </view>
+
+  <!-- 日记列表 -->
+  <view class="diary-list">
+    <view 
+      class="diary-item {{item.isPublic ? 'public' : 'private'}}"
+      wx:for="{{diaryList}}" 
+      wx:key="id"
+      bindtap="viewDiaryDetail"
+      data-diary="{{item}}"
+    >
+      <view class="diary-header">
+        <view class="diary-date">{{item.createTime}}</view>
+        <view class="diary-privacy">
+          {{item.isPublic ? '公开' : '私密'}}
+        </view>
+      </view>
+      
+      <view class="diary-content">
+        <text class="diary-text">{{item.content}}</text>
+        <view class="diary-mood" wx:if="{{item.mood}}">
+          <text class="mood-icon">{{item.moodIcon}}</text>
+          <text class="mood-text">{{item.mood}}</text>
+        </view>
+      </view>
+      
+      <view class="diary-footer">
+        <view class="diary-tags">
+          <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="diary-actions">
+          <text class="action-btn" bindtap="togglePrivacy" data-id="{{item.id}}" catchtap>
+            {{item.isPublic ? '设为私密' : '设为公开'}}
+          </text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{diaryList.length === 0}}">
+      <text class="empty-icon">📔</text>
+      <text class="empty-text">还没有日记哦</text>
+      <text class="empty-subtext">记录宝宝成长的每一个瞬间</text>
+    </view>
+  </view>
+</view>

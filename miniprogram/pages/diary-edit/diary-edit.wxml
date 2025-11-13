@@ -1,0 +1,74 @@
+<view class="edit-container">
+  <!-- 心情选择 -->
+  <view class="form-section">
+    <view class="section-title">😊 今天的心情</view>
+    <view class="mood-options">
+      <view 
+        class="mood-option {{selectedMood === item.value ? 'selected' : ''}}"
+        wx:for="{{moodOptions}}" 
+        wx:key="value"
+        bindtap="selectMood"
+        data-value="{{item.value}}"
+      >
+        <text class="mood-icon">{{item.icon}}</text>
+        <text class="mood-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 日记内容 -->
+  <view class="form-section">
+    <view class="section-title">📝 日记内容</view>
+    <textarea 
+      class="diary-content" 
+      placeholder="记录宝宝今天的成长点滴..."
+      value="{{diaryContent}}"
+      bindinput="onContentInput"
+      maxlength="1000"
+    ></textarea>
+    <view class="char-count">{{diaryContent.length}}/1000</view>
+  </view>
+
+  <!-- 标签 -->
+  <view class="form-section">
+    <view class="section-title">🏷️ 标签</view>
+    <view class="tag-options">
+      <view 
+        class="tag-option {{selectedTags.includes(item) ? 'selected' : ''}}"
+        wx:for="{{tagOptions}}" 
+        wx:key="*this"
+        bindtap="toggleTag"
+        data-tag="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+    <input 
+      class="custom-tag-input" 
+      placeholder="自定义标签..."
+      value="{{customTag}}"
+      bindinput="onCustomTagInput"
+      bindconfirm="addCustomTag"
+    />
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="form-section">
+    <view class="section-title">🔒 隐私设置</view>
+    <view class="privacy-setting">
+      <text class="privacy-label">公开日记</text>
+      <text class="privacy-desc">其他家长可以看到</text>
+      <switch 
+        class="privacy-switch" 
+        checked="{{isPublic}}"
+        bindchange="onPrivacyChange"
+      />
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="action-buttons">
+    <view class="btn secondary" bindtap="cancelEdit">取消</view>
+    <view class="btn primary" bindtap="saveDiary">保存日记</view>
+  </view>
+</view>

@@ -1,0 +1,90 @@
+<view class="status-banner" bindtap="editBabyInfo">
+  <view class="banner-content">
+    <view class="baby-basic-info">
+      <text class="baby-name">{{babyInfo.name}}</text>
+      <text class="baby-age">{{babyInfo.age}}</text>
+    </view>
+    <view class="health-status">
+      <text class="status-tag">{{babyInfo.status}}</text>
+    </view>
+    <view class="health-rating">
+      <text class="rating-text">健康评分</text>
+      <text class="rating-stars">{{getRatingStars(babyInfo.rating)}}</text>
+    </view>
+  </view>
+  <!-- 添加编辑提示 -->
+  <view class="edit-hint">点击修改宝宝信息</view>
+</view>
+
+<!-- 关心宝贝功能区 -->
+<view class="care-section">
+  <view class="section-title">❤️ 关心宝贝</view>
+  <view class="function-grid">
+    <!-- 我宝情况按钮 - 应该绑定 navToBabyStatus -->
+    <view class="function-item" bindtap="navToBabyStatus">
+      <view class="function-icon">📊</view>
+      <text class="function-text">我宝情况</text>
+    </view>
+    
+    <!-- 看看周围按钮 -->
+    <view class="function-item" bindtap="navToMap">
+      <view class="function-icon">🗺️</view>
+      <text class="function-text">看看周围</text>
+    </view>
+    
+    <!-- 心情日记按钮 - 应该绑定 navToDiary -->
+    <view class="function-item" bindtap="navToDiary">
+      <view class="function-icon">📔</view>
+      <text class="function-text">心情日记</text>
+    </view>
+  </view>
+</view>
+
+<!-- 健康趋势图表 -->
+<view class="chart-section">
+  <view class="section-title">📊 健康趋势图表</view>
+  <!-- 这里放置健康图表组件 -->
+  <view class="chart-placeholder">健康图表区域</view>
+</view>
+
+<!-- 今日快速记录 -->
+<view class="quick-record-section">
+  <view class="section-title">📝 今日快速记录</view>
+  <view class="quick-actions">
+    <view class="action-item" bindtap="quickRecord" data-type="mood">
+      <view class="action-icon">😊</view>
+      <text class="action-text">情绪</text>
+    </view>
+    <view class="action-item" bindtap="quickRecord" data-type="diet">
+      <view class="action-icon">🍽️</view>
+      <text class="action-text">饮食</text>
+    </view>
+    <view class="action-item" bindtap="quickRecord" data-type="sleep">
+      <view class="action-icon">😴</view>
+      <text class="action-text">睡眠</text>
+    </view>
+    <view class="action-item" bindtap="quickRecord" data-type="exercise">
+      <view class="action-icon">🏃</view>
+      <text class="action-text">运动</text>
+    </view>
+    <view class="action-item" bindtap="quickRecord" data-type="special">
+      <view class="action-icon">🆘</view>
+      <text class="action-text">特殊</text>
+    </view>
+  </view>
+</view>
+
+<!-- 经验交流精选 -->
+<view class="experience-section">
+  <view class="section-title">💬 经验交流精选</view>
+  <!-- 这里放置经验列表组件 -->
+  <view class="experience-placeholder">经验交流内容</view>
+</view>
+
+<!-- 底部聊天入口 -->
+<view class="chat-section">
+  <view class="chat-button" bindtap="startChat">
+    <text class="chat-icon">💌</text>
+    <text class="chat-text">和我聊聊</text>
+  </view>
+</view>

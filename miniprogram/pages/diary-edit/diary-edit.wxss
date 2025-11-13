@@ -1,0 +1,150 @@
+.edit-container {
+  padding: 20px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.form-section {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* 心情选择样式 */
+.mood-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.mood-option {
+  border: 2px solid #f0f0f0;
+  border-radius: 10px;
+  padding: 15px 10px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.mood-option.selected {
+  border-color: #87CEEB;
+  background: rgba(135, 206, 235, 0.1);
+}
+
+.mood-icon {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.mood-label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+}
+
+/* 日记内容样式 */
+.diary-content {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.char-count {
+  text-align: right;
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* 标签样式 */
+.tag-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tag-option {
+  background: #f0f0f0;
+  color: #666;
+  padding: 8px 12px;
+  border-radius: 15px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.tag-option.selected {
+  background: #87CEEB;
+  color: white;
+}
+
+.custom-tag-input {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+/* 隐私设置样式 */
+.privacy-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.privacy-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.privacy-desc {
+  flex: 1;
+  margin-left: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.privacy-switch {
+  transform: scale(0.8);
+}
+
+/* 按钮样式 */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn {
+  flex: 1;
+  padding: 15px;
+  border-radius: 25px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btn.secondary {
+  background: white;
+  color: #87CEEB;
+  border: 2px solid #87CEEB;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  color: white;
+  box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+}

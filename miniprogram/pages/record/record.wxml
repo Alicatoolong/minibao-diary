@@ -1,0 +1,261 @@
+<!-- 记录症状的页面 -->
+<view class="container">
+  <view class="header">
+    <text class="title">📝 记录敏宝今天的情况</text>
+  </view>
+
+  <!-- 日期时间选择 -->
+  <view class="section">
+    <text class="label">📅 记录时间</text>
+    <view class="time-row">
+      <view class="time-item">
+        <text class="time-label">日期</text>
+        <picker mode="date" value="{{date}}" bindchange="onDateChange">
+          <view class="time-picker">{{date || '选择日期'}}</view>
+        </picker>
+      </view>
+      <view class="time-item">
+        <text class="time-label">时间</text>
+        <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+          <view class="time-picker">{{time || '选择时间'}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 症状类型选择 -->
+  <view class="section">
+    <text class="label">👀 今天观察到什么症状？</text>
+    <view class="type-grid">
+      <block wx:for="{{symptomTypes}}" wx:key="index">
+        <view 
+          class="type-item {{selectedSymptom === item ? 'active' : ''}}"
+          bindtap="selectSymptom"
+          data-symptom="{{item}}"
+        >
+          {{item}}
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 严重程度 -->
+  <view class="section">
+    <text class="label">📊 严重程度如何？</text>
+    <text class="sub-label">1分(轻微) - 5分(严重)</text>
+    <view class="severity-container">
+      <block wx:for="{{5}}" wx:for-item="i" wx:key="index">
+        <view 
+          class="severity-item {{selectedSeverity === (i+1) ? 'active' : ''}}"
+          bindtap="selectSeverity"
+          data-severity="{{i+1}}"
+        >
+          <text class="severity-number">{{i+1}}</text>
+          <text class="severity-desc">{{i+1 === 1 ? '轻微' : i+1 === 5 ? '严重' : ''}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 饮食记录 -->
+  <view class="section">
+    <text class="label">🍽️ 今日饮食记录</text>
+    <view class="type-grid">
+      <block wx:for="{{dietTypes}}" wx:key="index">
+        <view 
+          class="type-item {{selectedDiet === item ? 'active' : ''}}"
+          bindtap="selectDiet"
+          data-diet="{{item}}"
+        >
+          {{item}}
+        </view>
+      </block>
+    </view>
+    <input 
+      class="diet-input" 
+      placeholder="吃了什么？（选填）" 
+      value="{{dietDetail}}" 
+      bindinput="onDietInput"
+      maxlength="100"
+    />
+  </view>
+
+  <!-- 睡眠质量 -->
+  <view class="section">
+    <text class="label">😴 睡眠情况</text>
+    <view class="sleep-container">
+      <view class="sleep-item">
+        <text class="sleep-label">时长：{{sleepHours}}小时</text>
+        <slider 
+          min="0" 
+          max="14" 
+          step="0.5" 
+          value="{{sleepHours}}" 
+          bindchange="onSleepChange" 
+          show-value 
+          activeColor="#3498db"
+        />
+      </view>
+      <view class="sleep-item">
+        <text class="sleep-label">质量：</text>
+        <view class="quality-container">
+          <block wx:for="{{5}}" wx:for-item="i" wx:key="index">
+            <view 
+              class="quality-item {{sleepQuality === (i+1) ? 'active' : ''}}"
+              bindtap="selectSleepQuality"
+              data-quality="{{i+1}}"
+            >
+              <text class="quality-number">{{i+1}}</text>
+              <text class="quality-desc">{{i+1 === 1 ? '差' : i+1 === 5 ? '好' : ''}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 营养补充记录 -->
+  <view class="section">
+    <text class="label">💊 今日营养补充</text>
+    <text class="sub-label">记录宝宝服用的营养补充剂（可选）</text>
+    
+    <view class="type-grid">
+      <block wx:for="{{supplementTypes}}" wx:key="index">
+        <view 
+          class="type-item {{selectedSupplements.indexOf(item) > -1 ? 'active' : ''}}"
+          bindtap="toggleSupplement"
+          data-supplement="{{item}}"
+        >
+          {{item}}
+        </view>
+      </block>
+    </view>
+    
+    <input 
+      class="custom-input" 
+      placeholder="其他补充剂名称（选填）" 
+      value="{{customSupplement}}" 
+      bindinput="onCustomSupplementInput"
+    />
+    
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="small-label">剂量</text>
+        <input 
+          class="small-input" 
+          placeholder="如：1粒" 
+          value="{{supplementDosage}}" 
+          bindinput="onSupplementDosageInput"
+        />
+      </view>
+      <view class="form-item half">
+        <text class="small-label">服用时间</text>
+        <input 
+          class="small-input" 
+          placeholder="如：早餐后" 
+          value="{{supplementTime}}" 
+          bindinput="onSupplementTimeInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 运动情况 -->
+  <view class="section">
+    <text class="label">🏃 今日运动情况</text>
+    
+    <view class="type-grid">
+      <block wx:for="{{activityTypes}}" wx:key="index">
+        <view 
+          class="type-item {{selectedActivity === item ? 'active' : ''}}"
+          bindtap="selectActivity"
+          data-activity="{{item}}"
+        >
+          {{item}}
+        </view>
+      </block>
+    </view>
+    
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="small-label">时长：{{activityDuration}}分钟</text>
+        <slider 
+          min="0" 
+          max="180" 
+          step="10" 
+          value="{{activityDuration}}" 
+          bindchange="onActivityDurationChange" 
+          show-value 
+        />
+      </view>
+      <view class="form-item half">
+        <text class="small-label">强度</text>
+        <view class="intensity-container">
+          <block wx:for="{{3}}" wx:for-item="i" wx:key="index">
+            <view 
+              class="intensity-item {{activityIntensity === (i+1) ? 'active' : ''}}"
+              bindtap="selectActivityIntensity"
+              data-intensity="{{i+1}}"
+            >
+              <text class="intensity-text">{{i+1 === 1 ? '低' : i+1 === 2 ? '中' : '高'}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 好转日标记 -->
+  <view class="section">
+    <text class="label">🌟 今日状态标记</text>
+    <view class="goodday-container">
+      <view 
+        class="goodday-toggle {{isGoodDay ? 'active' : ''}}"
+        bindtap="toggleGoodDay"
+      >
+        <text class="goodday-icon">{{isGoodDay ? '✅' : '⚪'}}</text>
+        <text class="goodday-text">标记为好转日</text>
+      </view>
+      <text class="goodday-hint">感觉宝宝今天状态特别好？标记一下吧！</text>
+      
+      <input 
+        wx:if="{{isGoodDay}}"
+        class="improvement-input" 
+        placeholder="记录好转的具体表现（选填）" 
+        value="{{improvementNotes}}" 
+        bindinput="onImprovementNotesInput"
+      />
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="section">
+    <text class="label">📝 备注（选填）</text>
+    <textarea 
+      class="notes-input" 
+      placeholder="添加其他观察或说明..."
+      value="{{notes}}"
+      bindinput="onNotesInput"
+      maxlength="200"
+      show-confirm-bar="{{false}}"
+    ></textarea>
+    <text class="word-count">{{notes.length}}/200</text>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="btn-area">
+    <button 
+      class="btn-secondary" 
+      bindtap="goBack"
+    >
+      取消
+    </button>
+    <button 
+      class="record-btn {{!selectedSymptom || selectedSeverity === 0 ? 'disabled' : ''}}"
+      bindtap="saveRecord"
+      disabled="{{!selectedSymptom || selectedSeverity === 0}}"
+    >
+      💾 保存记录
+    </button>
+  </view>
+</view>

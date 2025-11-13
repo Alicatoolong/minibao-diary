@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/record/record",
+    "pages/baby-status/baby-status",
+    "pages/edit-symptom/edit-symptom",
+    "pages/edit-baby-info/edit-baby-info",
+    "pages/diary-list/diary-list",
+    "pages/diary-edit/diary-edit"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "敏宝健康记录",
+    "navigationBarTextStyle": "black"
+  }
+}

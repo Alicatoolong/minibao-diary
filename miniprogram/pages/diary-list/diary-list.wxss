@@ -1,0 +1,163 @@
+.diary-container {
+  padding: 20px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.new-diary-btn {
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+}
+
+.btn-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.btn-text {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.diary-list {
+  space-y: 15px;
+}
+
+.diary-item {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.diary-item.public {
+  border-left: 4px solid #87CEEB;
+}
+
+.diary-item.private {
+  border-left: 4px solid #FF6B6B;
+}
+
+.diary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.diary-date {
+  color: #666;
+  font-size: 14px;
+}
+
+.diary-privacy {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.diary-item.public .diary-privacy {
+  background: rgba(135, 206, 235, 0.1);
+  color: #87CEEB;
+}
+
+.diary-item.private .diary-privacy {
+  background: rgba(255, 107, 107, 0.1);
+  color: #FF6B6B;
+}
+
+.diary-content {
+  margin-bottom: 15px;
+}
+
+.diary-text {
+  color: #333;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.diary-mood {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.mood-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.mood-text {
+  color: #666;
+  font-size: 14px;
+}
+
+.diary-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+}
+
+.diary-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  background: #f0f0f0;
+  color: #666;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.diary-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  color: #87CEEB;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-icon {
+  font-size: 50px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.empty-text {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.empty-subtext {
+  display: block;
+  font-size: 14px;
+  color: #ccc;
+}

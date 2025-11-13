@@ -1,0 +1,96 @@
+<view class="edit-container">
+  <!-- 症状选择部分 -->
+  <view class="form-section">
+    <text class="section-title">选择症状类型</text>
+    <view class="symptom-options">
+      <block wx:for="{{symptomOptions}}" wx:key="value">
+        <view 
+          class="symptom-option {{selectedSymptom === item.value ? 'selected' : ''}}"
+          bindtap="selectSymptom"
+          data-value="{{item.value}}"
+        >
+          <text class="option-text">{{item.label}}</text>
+          <text class="option-desc">{{item.desc}}</text>
+        </view>
+      </block>
+    </view>
+    
+    <!-- 其他症状输入 -->
+    <view wx:if="{{showOtherInput}}" class="other-input-container">
+      <input 
+        class="other-input"
+        value="{{otherSymptomText}}"
+        placeholder="请输入其他症状描述"
+        bindinput="onOtherSymptomInput"
+      />
+    </view>
+  </view>
+
+  <!-- 严重程度部分 -->
+  <view class="form-section">
+    <text class="section-title">严重程度</text>
+    <view class="severity-options">
+      <block wx:for="{{severityLevels}}" wx:key="level">
+        <view 
+          class="severity-option {{severityData.level === item.level ? 'selected' : ''}}"
+          bindtap="selectSeverity"
+          data-level="{{item.level}}"
+        >
+          <text class="severity-icon">{{item.icon}}</text>
+          <text class="severity-label">{{item.label}}</text>
+          <text class="severity-desc">{{item.desc}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 症状详情部分 -->
+  <view class="form-section">
+    <text class="section-title">症状详情</text>
+    <view class="input-group">
+      <view class="input-item">
+        <text class="input-label">发作频率</text>
+        <input 
+          class="input-field"
+          value="{{severityData.frequency}}"
+          placeholder="如：每天3-5次"
+          bindinput="onFrequencyInput"
+        />
+      </view>
+      <view class="input-item">
+        <text class="input-label">持续时间</text>
+        <input 
+          class="input-field"
+          value="{{severityData.duration}}"
+          placeholder="如：每次几秒钟"
+          bindinput="onDurationInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 症状描述部分 -->
+  <view class="form-section">
+    <text class="section-title">症状描述</text>
+    <textarea 
+      class="description-input"
+      value="{{severityData.description}}"
+      placeholder="请详细描述症状表现..."
+      bindinput="onDescriptionInput"
+      maxlength="200"
+    />
+    <view class="char-count">{{severityData.description.length}}/200</view>
+  </view>
+
+  <!-- 自动保存提示 -->
+  <view class="auto-save-hint">
+    <text class="hint-icon">💾</text>
+    <text class="hint-text">修改后自动保存</text>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <view class="btn secondary" bindtap="cancelEdit">取消</view>
+    <view class="btn primary" bindtap="saveSymptom">保存记录</view>
+  </view>
+</view>

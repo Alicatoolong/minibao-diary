@@ -1,0 +1,7 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "心情日记",
+  "navigationBarBackgroundColor": "#87CEEB",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

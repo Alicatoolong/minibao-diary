@@ -1,0 +1,52 @@
+<view class="edit-container">
+  <view class="form-section">
+    <view class="section-title">👶 宝宝姓名</view>
+    <input 
+      class="input-field" 
+      placeholder="请输入宝宝姓名" 
+      value="{{babyName}}"
+      bindinput="onNameInput"
+    />
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">🎂 宝宝生日</view>
+    <picker 
+      mode="date" 
+      value="{{birthday}}"
+      bindchange="onBirthdayChange"
+    >
+      <view class="picker-field">{{birthday}}</view>
+    </picker>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">❤️ 健康状况</view>
+    <textarea 
+      class="health-input" 
+      placeholder="请输入健康状况"
+      value="{{healthStatus}}"
+      bindinput="onHealthInput"
+    ></textarea>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">⭐ 健康评分</view>
+    <view class="rating-stars">
+      <view 
+        class="star {{index < healthRating ? 'active' : ''}}"
+        wx:for="{{5}}"
+        wx:key="index"
+        bindtap="setRating"
+        data-rating="{{index + 1}}"
+      >
+        ⭐
+      </view>
+    </view>
+  </view>
+
+  <view class="action-buttons">
+    <view class="btn secondary" bindtap="cancelEdit">取消</view>
+    <view class="btn primary" bindtap="saveBabyInfo">保存</view>
+  </view>
+</view>

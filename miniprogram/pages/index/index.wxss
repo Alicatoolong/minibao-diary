@@ -1,0 +1,169 @@
+/* 宝宝状态概览 Banner */
+.status-banner {
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  border-radius: 15px;
+  margin: 20px;
+  padding: 25px 20px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative; /* 添加这行，为了绝对定位的子元素 */
+}
+
+.edit-hint {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  z-index: 10;
+}
+
+.banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.baby-basic-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.baby-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.baby-age {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.health-status {
+  background: rgba(255,255,255,0.2);
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+
+.status-tag {
+  font-size: 14px;
+}
+
+.health-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rating-text {
+  font-size: 12px;
+  margin-bottom: 5px;
+  opacity: 0.9;
+}
+
+.rating-stars {
+  font-size: 16px;
+}
+
+/* 通用区块样式 */
+.care-section,
+.chart-section,
+.quick-record-section,
+.experience-section {
+  margin: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* 功能区网格 */
+.function-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.function-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.function-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.function-text {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 快速记录网格 */
+.quick-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.action-text {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 占位符样式 */
+.chart-placeholder,
+.experience-placeholder {
+  height: 100px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+/* 聊天入口 */
+.chat-section {
+  margin: 30px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.chat-button {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+}
+
+.chat-icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.chat-text {
+  font-size: 16px;
+  font-weight: bold;
+}
