@@ -125,7 +125,7 @@ Page({
     });
   },
 
-  // 编辑症状 - 重点修复这个方法
+  // 编辑症状
   editSymptom: function() {
     console.log('✏️ 点击编辑症状');
     
@@ -138,7 +138,6 @@ Page({
         console.error('❌ 跳转到编辑页面失败:', err);
         console.log('错误详情:', err);
         
-        // 显示错误提示
         wx.showToast({
           title: '无法打开编辑页面',
           icon: 'none',

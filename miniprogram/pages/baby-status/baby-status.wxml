@@ -9,48 +9,58 @@
 
 <!-- 健康指标卡片 -->
 <view class="indicators-container">
-  <!-- 症状指标 -->
-  <view class="indicator-card">
-    <view class="card-header">
-      <text class="card-title">🗣️ 症状表现</text>
-      <view class="card-actions">
-        <view class="history-btn" bindtap="viewSymptomHistory">历史记录</view>
-        <view class="edit-btn" bindtap="editSymptom">编辑</view>
-      </view>
+ <!-- 症状指标卡片 -->
+<view class="indicator-card">
+  <view class="card-header">
+    <text class="card-title">🗣️ 症状表现</text>
+    <view class="card-actions">
+      <view class="edit-btn" bindtap="editSymptom">编辑</view>
     </view>
-    <view class="card-content">
-      <!-- 有症状记录时显示最新记录 -->
-      <view wx:if="{{hasSymptomRecords && latestSymptom}}" class="symptom-display">
-        <view class="current-symptom">
-          <view class="symptom-main-info">
-            <text class="symptom-name">{{latestSymptom.symptomName}}</text>
-            <text class="symptom-severity {{latestSymptom.severity}}">{{latestSymptom.severity}}</text>
-          </view>
-          
-          <view class="symptom-details" wx:if="{{latestSymptom.frequency || latestSymptom.duration}}">
-            <text class="detail-item" wx:if="{{latestSymptom.frequency}}">频率: {{latestSymptom.frequency}}</text>
-            <text class="detail-item" wx:if="{{latestSymptom.duration}}">时长: {{latestSymptom.duration}}</text>
-          </view>
-          
-          <view class="symptom-notes" wx:if="{{latestSymptom.notes}}">
-            <text class="notes-text">{{latestSymptom.notes}}</text>
+  </view>
+  
+  <view class="card-content">
+    <!-- 有症状记录时显示最新记录 -->
+    <block wx:if="{{hasSymptomRecords && latestSymptom}}">
+      <view class="symptom-item">
+        <view class="symptom-main">
+          <view class="symptom-desc">{{latestSymptom.description || '暂无描述'}}</view>
+          <view class="symptom-severity">
+            <text class="severity-level level-{{latestSymptom.severity}}">
+              {{getSeverityText(latestSymptom.severity)}}
+            </text>
           </view>
         </view>
         
-        <view class="history-prompt" bindtap="viewSymptomHistory">
-          <text class="prompt-text">查看全部 {{symptomRecords.length}} 条记录 →</text>
+        <view class="symptom-details">
+          <view class="detail-item" wx:if="{{latestSymptom.frequency}}">
+            <text class="detail-label">频率：</text>
+            <text class="detail-value">{{latestSymptom.frequency}}次/天</text>
+          </view>
+          <view class="detail-item" wx:if="{{latestSymptom.duration}}">
+            <text class="detail-label">时长：</text>
+            <text class="detail-value">{{latestSymptom.duration}}分钟</text>
+          </view>
+        </view>
+        
+        <!-- 查看全部记录入口 -->
+        <view class="view-all-records" bindtap="viewSymptomHistory">
+          <text class="record-count">查看全部{{symptomRecords.length}}条记录</text>
+          <text class="arrow">→</text>
         </view>
       </view>
-      
-      <!-- 无记录时显示 -->
-      <view wx:else class="no-records">
+    </block>
+    
+    <!-- 无记录时显示 -->
+    <block wx:else>
+      <view class="no-records">
         <text class="no-data-text">暂无症状记录</text>
         <text class="no-data-hint">点击编辑添加症状记录</text>
       </view>
-    </view>
+    </block>
   </view>
+</view>
 
-  <!-- 其他卡片保持不变 -->
+  <!-- 饮食情况卡片 -->
   <view class="indicator-card">
     <view class="card-header">
       <text class="card-title">🍽️ 饮食情况</text>
@@ -78,7 +88,7 @@
     </view>
   </view>
 
-  <!-- 其他卡片... -->
+  <!-- 可以继续添加其他卡片，比如睡眠、运动等 -->
 </view>
 
 <!-- 底部操作 -->
@@ -87,9 +97,4 @@
     <text class="btn-icon">💾</text>
     <text class="btn-text">保存所有数据</text>
   </view>
-</view>
-
-<!-- 调试按钮 -->
-<view class="debug-section">
-  <button bindtap="forceRefreshSymptoms" class="debug-btn">🔄 调试：刷新症状数据</button>
 </view>

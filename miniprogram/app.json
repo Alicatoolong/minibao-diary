@@ -6,7 +6,8 @@
     "pages/edit-symptom/edit-symptom",
     "pages/edit-baby-info/edit-baby-info",
     "pages/diary-list/diary-list",
-    "pages/diary-edit/diary-edit"
+    "pages/diary-edit/diary-edit",
+    "pages/symptom-history/symptom-history"
   ],
   "window": {
     "backgroundTextStyle": "light",

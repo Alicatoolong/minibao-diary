@@ -1,0 +1,59 @@
+<view class="symptom-history-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-content">
+      <view class="back-btn" bindtap="goBack">
+        <text class="back-icon">←</text>
+        <text class="back-text">返回</text>
+      </view>
+      <text class="title">症状历史记录</text>
+      <view class="placeholder"></view>
+    </view>
+  </view>
+
+  <!-- 症状记录列表 -->
+  <view class="history-list">
+    <block wx:if="{{symptomRecords.length > 0}}">
+      <view class="history-item" wx:for="{{symptomRecords}}" wx:key="id">
+        <view class="item-header">
+          <text class="symptom-desc">{{item.description}}</text>
+          <view class="severity-badge level-{{item.severity}}">
+            <block wx:if="{{item.severity === 1}}">轻微</block>
+            <block wx:elif="{{item.severity === 2}}">中等</block>
+            <block wx:elif="{{item.severity === 3}}">严重</block>
+            <block wx:else>未知</block>
+          </view>
+        </view>
+        
+        <view class="item-details">
+          <view class="detail-row">
+            <text class="detail-label">记录时间：</text>
+            <text class="detail-value">{{item.time || '未知时间'}}</text>
+          </view>
+          <view class="detail-row" wx:if="{{item.frequency}}">
+            <text class="detail-label">频率：</text>
+            <text class="detail-value">{{item.frequency}}次/天</text>
+          </view>
+          <view class="detail-row" wx:if="{{item.duration}}">
+            <text class="detail-label">时长：</text>
+            <text class="detail-value">{{item.duration}}分钟</text>
+          </view>
+        </view>
+        
+        <view class="item-actions">
+          <text class="action-btn" bindtap="editRecord" data-id="{{item.id}}">编辑</text>
+          <text class="action-btn delete" bindtap="deleteRecord" data-id="{{item.id}}">删除</text>
+        </view>
+      </view>
+    </block>
+    
+    <block wx:else>
+      <view class="empty-state">
+        <text class="empty-icon">📝</text>
+        <text class="empty-text">暂无症状记录</text>
+        <text class="empty-tip">快去记录宝宝的症状吧</text>
+        <view class="empty-btn" bindtap="goToEdit">记录症状</view>
+      </view>
+    </block>
+  </view>
+</view>
