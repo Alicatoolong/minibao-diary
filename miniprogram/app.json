@@ -2,13 +2,19 @@
   "lazyCodeLoading": "requiredComponents",
   "pages": [
     "pages/index/index",
-    "pages/record/record", 
+    "pages/record/record",
     "pages/baby-status/baby-status",
     "pages/edit-symptom/edit-symptom",
     "pages/edit-baby-info/edit-baby-info",
     "pages/diary-list/diary-list",
     "pages/diary-edit/diary-edit",
-    "pages/symptom-history/symptom-history"
+    "pages/diet-record/diet-record",
+    "pages/symptom-history/symptom-history",
+    "pages/diet-analysis/diet-analysis",
+    "pages/diet-history/diet-history",
+    "pages/experience-detail/experience-detail",
+    "pages/experience-list/experience-list",
+    "pages/experience-edit/experience-edit"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -456,137 +456,272 @@
   color: #666;
 }
 
-/* 经验交流精选 */
+/* 经验交流模块 */
 .experience-section {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 30rpx;
-  margin: 20rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  margin: 24rpx;
+  padding: 24rpx 24rpx 12rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  box-shadow: 0 6rpx 18rpx rgba(0, 0, 0, 0.04);
 }
 
-.experience-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 30rpx;
-  display: flex;
-  align-items: center;
-}
-
-.experience-title::before {
-  content: '';
-  display: inline-block;
-  width: 6rpx;
-  height: 30rpx;
-  background: #4a90e2;
-  border-radius: 3rpx;
-  margin-right: 15rpx;
-}
-
-.experience-list {
-  margin-top: 20rpx;
-}
-
-.experience-item {
-  padding: 25rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
-}
-
-.experience-item:last-child {
-  border-bottom: none;
-}
-
-.post-header {
+.experience-header {
+  flex-direction: row;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15rpx;
+  margin-bottom: 16rpx;
 }
 
-.post-author {
-  font-size: 26rpx;
+.experience-header-left {
+  flex: 1;
+}
+
+.experience-title-row {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4rpx;
+}
+
+.experience-title-bar {
+  width: 8rpx;
+  height: 32rpx;
+  border-radius: 999rpx;
+  background: #6A8BFF;
+  margin-right: 12rpx;
+}
+
+.experience-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.experience-subtitle {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.experience-more-wrap {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  padding: 6rpx 4rpx;
+}
+
+.experience-more-text {
+  font-size: 24rpx;
+  color: #6A8BFF;
+}
+
+.experience-more-arrow {
+  font-size: 28rpx;
+  color: #6A8BFF;
+  margin-left: 4rpx;
+}
+
+/* 卡片列表 */
+.experience-card {
+  margin-top: 12rpx;
+  padding: 18rpx 16rpx 14rpx;
+  background: #f9fbff;
+  border-radius: 18rpx;
+}
+
+.experience-card + .experience-card {
+  margin-top: 10rpx;
+}
+
+.card-title-row {
+  margin-bottom: 6rpx;
+}
+
+.card-title {
+  font-size: 28rpx;
   font-weight: 500;
   color: #333;
 }
 
-.post-likes {
+.card-meta-row {
+  margin-bottom: 8rpx;
+}
+
+.card-author {
   font-size: 24rpx;
   color: #999;
+}
+
+.card-stat-row {
+  flex-direction: row;
+  display: flex;
+  gap: 24rpx;
+}
+
+.card-stat {
+  flex-direction: row;
   display: flex;
   align-items: center;
 }
 
-.post-title {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 10rpx;
-  line-height: 1.4;
+.card-stat-icon {
+  font-size: 24rpx;
+  margin-right: 4rpx;
 }
 
-.post-content {
-  font-size: 26rpx;
+.card-stat-text {
+  font-size: 24rpx;
   color: #666;
-  line-height: 1.5;
 }
 
-/* 底部聊天入口 */
+/* 空状态 */
+.experience-empty {
+  margin-top: 16rpx;
+}
+
+.empty-title {
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.empty-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+
+/* ===== 和我聊聊模块 ===== */
 .chat-section {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 30rpx;
-  margin: 20rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  margin: 24rpx;
 }
 
-.chat-button {
-  background: #4a90e2;
-  color: white;
-  text-align: center;
-  padding: 30rpx;
-  border-radius: 16rpx;
-  font-size: 32rpx;
-  font-weight: 600;
+.chat-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 26rpx 28rpx;
+  background: linear-gradient(135deg, #6A8BFF, #8AB5FF);
+  border-radius: 24rpx;
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.chat-left {
+  flex: 1;
+}
+
+.chat-title-row {
+  flex-direction: row;
   display: flex;
   align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.chat-emoji {
+  font-size: 30rpx;
+  margin-right: 10rpx;
+}
+
+.chat-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.chat-subtitle {
+  font-size: 24rpx;
+  color: #eaf0ff;
+}
+
+.chat-right {
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  background-color: #ffffff;
+}
+
+.chat-btn-text {
+  font-size: 24rpx;
+  color: #6A8BFF;
+}
+
+/* ===== 和我聊聊弹层 ===== */
+.chat-modal-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 999;
+  display: flex;
   justify-content: center;
-  transition: all 0.3s;
+  align-items: center;
 }
 
-.chat-button:active {
-  background: #3a7bc8;
-  transform: scale(0.98);
+.chat-modal {
+  width: 80%;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 24rpx 28rpx 30rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.18);
 }
 
-.chat-icon {
-  margin-right: 15rpx;
+.chat-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
 }
 
-.chat-text {
-  color: white;
+.chat-modal-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
 }
 
-/* 响应式调整 */
-@media (max-width: 375px) {
-  .status-overview,
-  .care-section,
-  .chart-section,
-  .quick-record-section,
-  .experience-section,
-  .chat-section {
-    margin: 15rpx;
-    padding: 25rpx;
-  }
-  
-  .function-grid,
-  .quick-actions {
-    flex-wrap: wrap;
-  }
-  
-  .function-item,
-  .action-item {
-    margin-bottom: 20rpx;
-    min-width: 33%;
-  }
+.chat-modal-close {
+  font-size: 32rpx;
+  color: #999999;
+}
+
+.chat-modal-body {
+  margin-top: 4rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chat-modal-desc {
+  font-size: 24rpx;
+  color: #666666;
+  text-align: center;
+  margin-bottom: 18rpx;
+}
+
+/* 🎨 二维码占位色块 */
+.qrcode-placeholder {
+  width: 420rpx;
+  height: 420rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #E0E7FF, #C7D2FE);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.qrcode-placeholder-text {
+  font-size: 26rpx;
+  color: #4B5563;
+}
+
+.chat-modal-btn {
+  margin-top: 16rpx;
+  width: 100%;
+  padding: 18rpx 0;
+  border-radius: 999rpx;
+  border: none;
+  font-size: 28rpx;
+  color: #ffffff;
+  background-color: #6A8BFF;
 }

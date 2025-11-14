@@ -1,0 +1,90 @@
+<view class="exp-list-page">
+  <!-- 头部 -->
+  <view class="page-header">
+    <text class="back-btn" bindtap="goBack">←</text>
+    <text class="page-title">经验交流</text>
+    <text class="post-btn" bindtap="goToPostEdit">＋ 发经验</text>
+  </view>
+
+  <!-- 顶部筛选：全部 / 我发布的 -->
+  <view class="scope-tabs">
+    <view
+      class="scope-tab {{currentScope === 'all' ? 'active' : ''}}"
+      data-scope="all"
+      bindtap="onScopeTap"
+    >
+      全部经验
+    </view>
+    <view
+      class="scope-tab {{currentScope === 'mine' ? 'active' : ''}}"
+      data-scope="mine"
+      bindtap="onScopeTap"
+    >
+      我发布的
+    </view>
+  </view>
+
+  <!-- 排序：最热 / 最新 -->
+  <view class="sort-tabs">
+    <view
+      class="sort-tab {{currentSort === 'hot' ? 'active' : ''}}"
+      data-sort="hot"
+      bindtap="onSortTap"
+    >
+      🔥 最热
+    </view>
+    <view
+      class="sort-tab {{currentSort === 'new' ? 'active' : ''}}"
+      data-sort="new"
+      bindtap="onSortTap"
+    >
+      🕒 最新
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="page-content">
+    <!-- 有帖子 -->
+    <block wx:if="{{posts && posts.length}}">
+      <block wx:for="{{posts}}" wx:key="id">
+        <view class="post-item" bindtap="goToDetail" data-id="{{item.id}}">
+          <view class="post-top">
+            <text class="post-title">{{item.title}}</text>
+          </view>
+
+          <view class="post-middle">
+            <text class="post-author">{{item.author}}</text>
+            <text class="post-time">{{item.createdAt}}</text>
+          </view>
+
+          <view class="post-bottom">
+            <view class="stat">
+              <text class="stat-icon">👍</text>
+              <text class="stat-text">{{item.likes || 0}}</text>
+            </view>
+            <view class="stat">
+              <text class="stat-icon">💪</text>
+              <text class="stat-text">{{item.cheers || 0}}</text>
+            </view>
+
+            <view
+              class="mine-tag"
+              wx:if="{{item.isMine}}"
+            >
+              我发布的
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <!-- 没有帖子 -->
+    <block wx:else>
+      <view class="no-posts">
+        <text class="no-posts-title">这里还空空的</text>
+        <text class="no-posts-text">先去发布一条经验，再回来看看吧～</text>
+      </view>
+    </block>
+  </view>
+</view>
+  

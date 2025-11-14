@@ -73,7 +73,7 @@
   padding: 0 32rpx 32rpx 32rpx;
 }
 
-/* 症状记录样式 */
+/* 情况记录样式 */
 .symptom-item {
   background: #f8f8f8;
   border-radius: 12rpx;

@@ -9,17 +9,17 @@
 
 <!-- 健康指标卡片 -->
 <view class="indicators-container">
- <!-- 症状指标卡片 -->
+ <!-- 情况指标卡片 -->
 <view class="indicator-card">
   <view class="card-header">
-    <text class="card-title">🗣️ 症状表现</text>
+    <text class="card-title">🗣️ 情况表现</text>
     <view class="card-actions">
       <view class="edit-btn" bindtap="editSymptom">编辑</view>
     </view>
   </view>
   
   <view class="card-content">
-    <!-- 有症状记录时显示最新记录 -->
+    <!-- 有情况记录时显示最新记录 -->
     <block wx:if="{{hasSymptomRecords && latestSymptom}}">
       <view class="symptom-item">
         <view class="symptom-main">
@@ -53,8 +53,8 @@
     <!-- 无记录时显示 -->
     <block wx:else>
       <view class="no-records">
-        <text class="no-data-text">暂无症状记录</text>
-        <text class="no-data-hint">点击编辑添加症状记录</text>
+        <text class="no-data-text">暂无情况记录</text>
+        <text class="no-data-hint">点击编辑添加情况记录</text>
       </view>
     </block>
   </view>

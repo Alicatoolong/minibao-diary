@@ -1,6 +1,6 @@
 // 健康趋势计算函数（你原有的重要逻辑，完全保留）
 const HEALTH_CALCULATION = {
-  // 症状权重映射
+  // 情况权重映射
   SYMPTOM_WEIGHTS: {
     'blink': 1.0, 'nose': 1.0, 'eyebrow': 1.0, 'mouth': 1.0, 'head': 1.0, 'shoulder': 1.0,
     'neck': 1.5, 'belly': 1.5, 'wrist': 1.5, 'ankle': 1.5, 'jump': 1.5, 'touch': 1.5,
@@ -44,7 +44,7 @@ const HEALTH_CALCULATION = {
       symptomCount++;
     });
 
-    // 如果有症状，计算健康指数
+    // 如果有情况，计算健康指数
     if (symptomCount > 0) {
       const avgImpact = totalImpact / symptomCount;
       const healthIndex = Math.max(0, 100 - (avgImpact * 8));
@@ -66,7 +66,7 @@ const HEALTH_CALCULATION = {
       const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
       const fullDateString = date.toISOString().split('T')[0];
       
-      // 获取当天的症状记录
+      // 获取当天的情况记录
       const dailySymptoms = symptoms.filter(symptom => {
         if (!symptom.date) return false;
         const symptomDate = new Date(symptom.date);
@@ -150,29 +150,35 @@ Page({
     hotPosts: [
       {
         id: 1,
-        author: '张妈妈',
-        title: '宝宝花粉过敏怎么办？',
-        content: '分享我的抗过敏经验，希望对大家有帮助...',
-        likes: 23
+        author: '乐乐妈妈',
+        title: '孩子总清嗓子，我是怎么办的',
+        content: '乐乐前阵子总清嗓子，我是这样排查的：先观察是否有感冒、再留意是否吃了容易刺激的食物，最后配合雾化和饮食调整，目前明显好了很多。',
+        likes: 12,
+        cheers: 5
       },
       {
-        id: 2, 
-        author: '李爸爸',
-        title: '湿疹宝宝的护理心得',
-        content: '三个月战胜湿疹！分享我的护理方法...',
-        likes: 45
+        id: 2,
+        author: '辰辰妈妈',
+        title: '睡前总眨眼怎么办？',
+        content: '我们家辰辰睡前总眨眼，后来发现是白天看屏幕时间太长了，现在控制每天看屏幕不超过30分钟，好了很多。',
+        likes: 8,
+        cheers: 3
       },
       {
         id: 3,
-        author: '王妈妈', 
-        title: '过敏体质饮食调理',
-        content: '这些食物要避开，这些可以多吃...',
-        likes: 67
+        author: '果果妈妈',
+        title: '饮食调整后，白天抽动变少了',
+        content: '最近把含糖零食和加工肉类都停掉，多换成水果、坚果和优质蛋白，感觉白天抽动次数少了一些，分享给大家参考。',
+        likes: 15,
+        cheers: 9
       }
     ],
     healthTrendData: [],
     currentHealthIndex: 88,
     healthChartVisible: true,
+
+    // 👇 新增：和我聊聊弹层开关（一定要写在 data 里面）
+    showChatModal: false
   },
 
   onLoad: function(options) {
@@ -190,10 +196,10 @@ Page({
       });
     }
     
-    // 检查症状记录
+    // 检查情况记录
     const symptoms = StorageManager.getAllRecords();
-    console.log('📋 症状记录数量:', symptoms.length);
-    console.log('📋 症状记录内容:', symptoms);
+    console.log('📋 情况记录数量:', symptoms.length);
+    console.log('📋 情况记录内容:', symptoms);
     
     // 计算并设置年龄
     this.calculateAge();
@@ -210,11 +216,11 @@ Page({
   calculateHealthTrend: function() {
     try {
       const symptoms = StorageManager.getAllRecords();
-      console.log('📊 开始计算健康趋势，症状记录数:', symptoms.length);
+      console.log('📊 开始计算健康趋势，情况记录数:', symptoms.length);
       
-      // 如果没有症状记录，使用默认数据
+      // 如果没有情况记录，使用默认数据
       if (symptoms.length === 0) {
-        console.log('📝 没有症状记录，使用默认数据');
+        console.log('📝 没有情况记录，使用默认数据');
         const defaultData = this.generateDefaultTrendData();
         this.setData({
           healthTrendData: defaultData,
@@ -366,12 +372,17 @@ Page({
     // 显示详细数据
     wx.showModal({
       title: `${item.displayDate} 健康详情`,
-      content: `健康评分: ${item.healthIndex}分\n症状记录: ${item.symptomCount}条`,
+      content: `健康评分: ${item.healthIndex}分\n情况记录: ${item.symptomCount}条`,
       showCancel: false,
       confirmText: '知道了'
     });
   },
-
+// 跳转到经验广场页面
+  goToExperienceList: function() {
+    wx.navigateTo({
+      url: '/pages/experience-list/experience-list'
+    });
+  },
   // 显示健康详情
   showHealthDetail: function(e) {
     const { date, score } = e.currentTarget.dataset;
@@ -381,7 +392,29 @@ Page({
       showCancel: false
     });
   },
+  // 首页：点击某一条经验 → 跳转到经验详情页
+  onPostPreviewTap: function(e) {
+    const id = e.currentTarget.dataset.id;
+    const post = this.data.hotPosts.find(p => p.id === id);
+    if (!post) return;
 
+    wx.navigateTo({
+      url: '/pages/experience-detail/experience-detail',
+      success: function(res) {
+        // 通过 eventChannel 向详情页传递这条帖子的完整数据
+        if (res.eventChannel) {
+          res.eventChannel.emit('postData', post);
+        }
+      },
+      fail: function(err) {
+        console.error('❌ 跳转经验详情失败:', err);
+        wx.showToast({
+          title: '无法打开经验详情',
+          icon: 'none'
+        });
+      }
+    });
+  },
   // 快速记录点击事件
   quickRecord: function(e) {
     const type = e.currentTarget.dataset.type;
@@ -470,7 +503,23 @@ Page({
       }
     });
   },
-
+// 跳转到饮食记录页面
+navToDietRecord: function() {
+  console.log('跳转到饮食记录页面');
+  wx.navigateTo({
+    url: '/pages/diet-record/diet-record',
+    success: function(res) {
+      console.log('跳转成功', res);
+    },
+    fail: function(err) {
+      console.error('跳转失败', err);
+      wx.showToast({
+        title: '无法打开饮食记录',
+        icon: 'none'
+      });
+    }
+  });
+},
   // 跳转到心情日记页面  
   navToDiary: function() {
     console.log('跳转到心情日记页面');
@@ -529,7 +578,20 @@ Page({
       icon: 'success'
     });
   },
+// 👇 新增：打开“和我聊聊”弹层
+openChatModal: function () {
+  console.log('openChatModal 点击了'); // 方便你在控制台看
+  this.setData({
+    showChatModal: true
+  });
+},
 
+// 👇 新增：关闭“和我聊聊”弹层
+closeChatModal: function () {
+  this.setData({
+    showChatModal: false
+  });
+},
   // 分享功能
   handleShare: function() {
     wx.showShareMenu({

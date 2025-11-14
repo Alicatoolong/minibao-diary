@@ -4,10 +4,10 @@ Page({
     otherSymptomText: '',
     showOtherInput: false,
     
-    // 基于YGTSS量表的症状分类
+    // 基于YGTSS量表的情况分类
     symptomOptions: [
-      // 无症状
-      { value: 'asymptomatic', label: '无症状', desc: '今日无异常症状', weight: 0, category: 'none' },
+      // 无情况
+      { value: 'asymptomatic', label: '无情况', desc: '今日无异常情况', weight: 0, category: 'none' },
       
       // 简单运动性抽动 - 权重 1.0
       { value: 'blink', label: '眨眼睛', desc: '频繁眨眼', weight: 1.0, category: 'simple_motor' },
@@ -41,9 +41,9 @@ Page({
       { value: 'coprolalia', label: '秽语', desc: '说脏话或不当言语', weight: 3.0, category: 'coprolalia' },
       { value: 'insult', label: '侮辱性语言', desc: '说侮辱性话语', weight: 3.0, category: 'coprolalia' },
       
-      // 其他症状
+      // 其他情况
       { value: 'compulsion', label: '强迫行为', desc: '强迫行为或思维', weight: 1.5, category: 'other' },
-      { value: 'other', label: '其他症状', desc: '其他特殊症状', weight: 1.0, category: 'other' }
+      { value: 'other', label: '其他情况', desc: '其他特殊情况', weight: 1.0, category: 'other' }
     ],
     
     severityLevels: [
@@ -59,26 +59,26 @@ Page({
       description: ''
     },
     
-    // 症状分类说明
+    // 情况分类说明
     categoryInfo: {
       'simple_motor': { name: '简单运动抽动', color: '#1890FF', desc: '短暂、孤立的动作' },
       'complex_motor': { name: '复杂运动抽动', color: '#722ED1', desc: '较复杂、有目的的动作' },
       'simple_vocal': { name: '简单发声抽动', color: '#FA8C16', desc: '简单声音或噪音' },
       'complex_vocal': { name: '复杂发声抽动', color: '#EB2F96', desc: '词语或短语' },
       'coprolalia': { name: '秽语症', color: '#F5222D', desc: '不当或攻击性语言' },
-      'other': { name: '其他症状', color: '#52C41A', desc: '其他相关症状' }
+      'other': { name: '其他情况', color: '#52C41A', desc: '其他相关情况' }
     }
   },
 
   onLoad: function(options) {
-    console.log('🔄 症状编辑页面加载');
+    console.log('🔄 情况编辑页面加载');
     // 如果有传入ID，说明是编辑模式
     if (options.id) {
       this.loadSymptomData(options.id);
     }
   },
 
-  // 加载已有症状数据（编辑模式）
+  // 加载已有情况数据（编辑模式）
   loadSymptomData: function(id) {
     const records = wx.getStorageSync('symptomRecords') || [];
     const record = records.find(r => r.id == id);
@@ -98,7 +98,7 @@ Page({
     }
   },
 
-  // 选择症状类型
+  // 选择情况类型
   selectSymptom: function(e) {
     const value = e.currentTarget.dataset.value;
     const showOtherInput = value === 'other';
@@ -108,7 +108,7 @@ Page({
       showOtherInput: showOtherInput
     });
     
-    // 显示症状分类信息
+    // 显示情况分类信息
     const selectedOption = this.data.symptomOptions.find(opt => opt.value === value);
     if (selectedOption && selectedOption.category !== 'none') {
       const category = this.data.categoryInfo[selectedOption.category];
@@ -120,7 +120,7 @@ Page({
     }
   },
 
-  // 输入其他症状内容
+  // 输入其他情况内容
   onOtherSymptomInput: function(e) {
     this.setData({
       otherSymptomText: e.detail.value
@@ -165,18 +165,18 @@ Page({
     return 2.0;
   },
 
-  // 计算症状影响值
+  // 计算情况影响值
   calculateSymptomImpact: function() {
     const { selectedSymptom, otherSymptomText, severityData } = this.data;
     
     if (selectedSymptom === 'asymptomatic') {
-      return 0; // 无症状，影响值为0
+      return 0; // 无情况，影响值为0
     }
     
-    // 获取症状权重
+    // 获取情况权重
     let weight = 1.0;
     if (selectedSymptom === 'other') {
-      weight = 1.0; // 其他症状默认权重
+      weight = 1.0; // 其他情况默认权重
     } else {
       const selectedOption = this.data.symptomOptions.find(opt => opt.value === selectedSymptom);
       weight = selectedOption ? selectedOption.weight : 1.0;
@@ -193,7 +193,7 @@ Page({
     // 计算总影响值
     const impact = weight * severityFactor * frequencyFactor;
     
-    console.log(`📊 症状影响计算: 权重${weight} × 严重${severityFactor} × 频率${frequencyFactor} = ${impact}`);
+    console.log(`📊 情况影响计算: 权重${weight} × 严重${severityFactor} × 频率${frequencyFactor} = ${impact}`);
     
     return impact;
   },
@@ -203,7 +203,7 @@ Page({
     wx.navigateBack();
   },
 
-  // 保存症状
+  // 保存情况
   saveSymptom: function() {
     const that = this;
     const { selectedSymptom, otherSymptomText, severityData } = this.data;
@@ -211,28 +211,28 @@ Page({
     // 验证数据
     if (selectedSymptom === 'other' && !otherSymptomText.trim()) {
       wx.showToast({
-        title: '请输入其他症状描述',
+        title: '请输入其他情况描述',
         icon: 'none'
       });
       return;
     }
 
-    // 获取症状详细信息
+    // 获取情况详细信息
     let symptomName = '';
     let weight = 0;
     let category = 'none';
     
     if (selectedSymptom === 'asymptomatic') {
-      symptomName = '无症状';
+      symptomName = '无情况';
       weight = 0;
       category = 'none';
     } else if (selectedSymptom === 'other') {
-      symptomName = otherSymptomText || '其他症状';
+      symptomName = otherSymptomText || '其他情况';
       weight = 1.0;
       category = 'other';
     } else {
       const selectedOption = this.data.symptomOptions.find(option => option.value === selectedSymptom);
-      symptomName = selectedOption ? selectedOption.label : '未知症状';
+      symptomName = selectedOption ? selectedOption.label : '未知情况';
       weight = selectedOption ? selectedOption.weight : 1.0;
       category = selectedOption ? selectedOption.category : 'other';
     }
@@ -250,7 +250,7 @@ Page({
     const dateString = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
     const timeString = now.toLocaleString('zh-CN');
 
-    // 构建症状记录
+    // 构建情况记录
     const newRecord = {
       id: new Date().getTime(),
       symptomName: symptomName,
@@ -273,7 +273,7 @@ Page({
       healthIndex: Math.max(0, 100 - (impact * 10)) // 计算健康指数
     };
 
-    console.log('💾 保存症状记录:', newRecord);
+    console.log('💾 保存情况记录:', newRecord);
 
     // 获取现有记录
     let existingRecords = wx.getStorageSync('symptomRecords') || [];
@@ -292,8 +292,8 @@ Page({
       key: 'symptomRecords',
       data: existingRecords,
       success: function() {
-        console.log('✅ 症状保存成功，记录总数:', existingRecords.length);
-        console.log('📈 本次症状影响值:', impact);
+        console.log('✅ 情况保存成功，记录总数:', existingRecords.length);
+        console.log('📈 本次情况影响值:', impact);
         console.log('🏥 计算健康指数:', newRecord.healthIndex);
         
         wx.showToast({

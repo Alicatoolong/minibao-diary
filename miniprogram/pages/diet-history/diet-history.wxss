@@ -1,0 +1,110 @@
+.history-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: white;
+  border-bottom: 1rpx solid #eee;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  color: #6A8BFF;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.main-content {
+  padding: 30rpx 40rpx 60rpx;
+}
+
+/* 空状态卡片 */
+.empty-card {
+  margin-top: 80rpx;
+  padding: 50rpx 40rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.empty-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #999;
+  line-height: 1.6;
+}
+
+/* 每条记录卡片 */
+.record-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 30rpx 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.record-card:active {
+  background-color: #f6f7ff;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.record-date {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.record-meal {
+  font-size: 26rpx;
+  color: #6A8BFF;
+  font-weight: 600;
+}
+
+.record-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+}
+
+.record-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.small-btn {
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  border: none;
+}
+
+.delete-btn {
+  background: #ffecef;
+  color: #e53935;
+}

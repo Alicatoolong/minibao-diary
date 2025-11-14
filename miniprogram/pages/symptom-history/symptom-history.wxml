@@ -6,12 +6,12 @@
         <text class="back-icon">←</text>
         <text class="back-text">返回</text>
       </view>
-      <text class="title">症状历史记录</text>
+      <text class="title">情况历史记录</text>
       <view class="placeholder"></view>
     </view>
   </view>
 
-  <!-- 症状记录列表 -->
+  <!-- 情况记录列表 -->
   <view class="history-list">
     <block wx:if="{{symptomRecords.length > 0}}">
       <view class="history-item" wx:for="{{symptomRecords}}" wx:key="id">
@@ -50,9 +50,9 @@
     <block wx:else>
       <view class="empty-state">
         <text class="empty-icon">📝</text>
-        <text class="empty-text">暂无症状记录</text>
-        <text class="empty-tip">快去记录宝宝的症状吧</text>
-        <view class="empty-btn" bindtap="goToEdit">记录症状</view>
+        <text class="empty-text">暂无情况记录</text>
+        <text class="empty-tip">快去记录宝宝的情况吧</text>
+        <view class="empty-btn" bindtap="goToEdit">记录情况</view>
       </view>
     </block>
   </view>

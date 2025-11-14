@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*.ts"
-, "miniprogram/pages/index/index.js", "miniprogram/pages/edit-symptom/edit-symptom.js", "miniprogram/pages/baby-status/baby-status.json.js", "miniprogram/pages/diary-edit/diary-edit.js", "miniprogram/pages/diary-list/diary-list.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/symptom-history/symptom-history.js", "miniprogram/utils/storageManager.js"  ],
+, "miniprogram/pages/index/index.js", "miniprogram/pages/edit-symptom/edit-symptom.js", "miniprogram/pages/baby-status/baby-status.json.js", "miniprogram/pages/diary-edit/diary-edit.js", "miniprogram/pages/diary-list/diary-list.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/symptom-history/symptom-history.js", "miniprogram/utils/storageManager.js", "miniprogram/utils/foodAnalyzer/foodAnalyzer.js", "miniprogram/pages/diet-record/diet-record.js", "miniprogram/pages/diet-history/diet-history.js", "miniprogram/pages/experience-detail/experience-detail.js", "miniprogram/pages/experience-list/experience-list.js", "miniprogram/pages/experience-edit/experience-edit.js"  ],
   "exclude": [
     "node_modules"
   ]

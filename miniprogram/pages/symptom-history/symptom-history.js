@@ -4,16 +4,16 @@ Page({
   },
 
   onLoad: function(options) {
-    console.log('📚 症状历史页面加载');
+    console.log('📚 情况历史页面加载');
     this.loadSymptomRecords();
   },
 
   onShow: function() {
-    console.log('🔄 症状历史页面显示');
+    console.log('🔄 情况历史页面显示');
     this.loadSymptomRecords();
   },
 
-  // 加载症状记录
+  // 加载情况记录
   loadSymptomRecords: function() {
     try {
       const records = wx.getStorageSync('symptomRecords') || [];
@@ -57,7 +57,7 @@ Page({
     
     wx.showModal({
       title: '确认删除',
-      content: '确定要删除这条症状记录吗？',
+      content: '确定要删除这条情况记录吗？',
       success: (res) => {
         if (res.confirm) {
           this.deleteSymptomRecord(id);
@@ -66,7 +66,7 @@ Page({
     });
   },
 
-  // 删除症状记录
+  // 删除情况记录
   deleteSymptomRecord: function(id) {
     try {
       let records = wx.getStorageSync('symptomRecords') || [];

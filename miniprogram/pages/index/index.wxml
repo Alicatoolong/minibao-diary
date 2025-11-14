@@ -39,6 +39,11 @@
       <view class="function-icon">📊</view>
       <text class="function-text">我宝情况</text>
     </view>
+    <!-- 在这里添加饮食记录 -->
+    <view class="function-item" bindtap="navToDietRecord">
+      <view class="function-icon">🍽️</view>
+      <text class="function-text">饮食记录</text>
+    </view>
     <view class="function-item" bindtap="navToMap">
       <view class="function-icon">🗺️</view>
       <text class="function-text">看看周围</text>
@@ -54,8 +59,8 @@
 <view class="chart-section">
   <view class="chart-header">
     <view class="header-left">
-      <text class="chart-title">健康趋势 - 症状严重程度</text>
-      <text class="chart-desc">基于最近症状数据计算 · 当前评分: {{currentHealthIndex}}</text>
+      <text class="chart-title">健康趋势</text>
+      <text class="chart-desc">基于最近情况数据计算 · 当前评分: {{currentHealthIndex}}</text>
     </view>
     <view class="header-right">
       <text class="refresh-btn" bindtap="refreshHealthData">刷新</text>
@@ -158,5 +163,104 @@
       <view class="action-icon">🆘</view>
       <text class="action-text">特殊</text>
     </view>
+  </view>
+</view>
+<!-- 第5段：经验交流预览（美化版） -->
+<view class="experience-section">
+  <!-- 头部 -->
+  <view class="experience-header">
+    <view class="experience-header-left">
+      <view class="experience-title-row">
+        <view class="experience-title-bar"></view>
+        <text class="experience-title">🤝 经验交流</text>
+      </view>
+      <text class="experience-subtitle">妈妈们的真实经验分享</text>
+    </view>
+
+    <view class="experience-more-wrap" bindtap="goToExperienceList">
+      <text class="experience-more-text">更多</text>
+      <text class="experience-more-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 有帖子时：展示几条热门经验 -->
+  <block wx:if="{{hotPosts && hotPosts.length}}">
+    <block wx:for="{{hotPosts}}" wx:key="id">
+  <view class="experience-card" bindtap="goToExperienceList">
+    <view class="card-title-row">
+      <text class="card-title">{{item.title}}</text>
+        </view>
+
+        <view class="card-meta-row">
+          <text class="card-author">{{item.author}}</text>
+        </view>
+
+        <view class="card-stat-row">
+          <view class="card-stat">
+            <text class="card-stat-icon">👍</text>
+            <text class="card-stat-text">{{item.likes || 0}}</text>
+          </view>
+          <view class="card-stat">
+            <text class="card-stat-icon">💪</text>
+            <text class="card-stat-text">{{item.cheers || 0}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </block>
+
+  <!-- 没有帖子时 -->
+  <block wx:else>
+    <view class="experience-empty">
+      <text class="empty-title">还没有经验分享</text>
+      <text class="empty-text">可以在「经验交流」里发布第一条经验～</text>
+    </view>
+  </block>
+</view> <!-- 这里是经验交流卡片的结尾 -->
+
+<!-- 和我聊聊 -->
+<view class="chat-section">
+  <view class="chat-card">
+    <view class="chat-left">
+      <view class="chat-title-row">
+        <text class="chat-emoji">🙋‍♀️</text>
+        <text class="chat-title">和我聊聊</text>
+      </view>
+      <text class="chat-subtitle">
+        有困惑、想问问题，都可以加我企业微信私聊
+      </text>
+    </view>
+
+    <view class="chat-right" bindtap="openChatModal">
+      <text class="chat-btn-text">点我联系</text>
+    </view>
+  </view>
+</view>
+<!-- 企业微信二维码弹层 -->
+<view 
+  class="chat-modal-mask" 
+  wx:if="{{showChatModal}}" 
+  catchtouchmove="true"
+>
+  <view class="chat-modal">
+    <view class="chat-modal-header">
+      <text class="chat-modal-title">加我企业微信</text>
+      <text class="chat-modal-close" bindtap="closeChatModal">✕</text>
+    </view>
+
+    <view class="chat-modal-body">
+      <text class="chat-modal-desc">
+        截图 / 保存后，用企业微信扫一扫添加我为好友。
+      </text>
+
+      <!-- 🎨 这里是代替二维码的色块 -->
+      <view class="qrcode-placeholder">
+        <text class="qrcode-placeholder-text">企业微信二维码占位</text>
+      </view>
+    </view>
+
+    <button class="chat-modal-btn" bindtap="closeChatModal">
+      我知道了
+    </button>
   </view>
 </view>

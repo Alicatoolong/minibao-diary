@@ -67,7 +67,7 @@
   background: #f8f9fa;
 }
 
-/* 症状类型网格 */
+/* 情况类型网格 */
 .type-grid {
   display: flex;
   flex-wrap: wrap;

@@ -1,7 +1,7 @@
 // record.js
 Page({
   data: {
-    // 症状相关
+    // 情况相关
     symptomTypes: [
       '眨眼', '皱鼻子', '歪嘴巴', '摇头',
       '耸肩', '清嗓子', '发出声音', '其他动作'
@@ -67,13 +67,13 @@ Page({
     });
   },
 
-  // 症状选择方法
+  // 情况选择方法
   selectSymptom: function(e) {
     const symptom = e.currentTarget.dataset.symptom;
     this.setData({
       selectedSymptom: symptom
     });
-    console.log('选择症状:', symptom);
+    console.log('选择情况:', symptom);
   },
 
   selectSeverity: function(e) {
@@ -223,7 +223,7 @@ Page({
     
     if (!selectedSymptom) {
       wx.showToast({
-        title: '请选择症状类型',
+        title: '请选择情况类型',
         icon: 'none'
       });
       return false;

@@ -1,0 +1,131 @@
+<view class="analysis-page">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="header-left">
+      <text class="back-btn" bindtap="goBack">←</text>
+      <text class="page-title">饮食分析</text>
+    </view>
+  </view>
+
+  <view class="main-content">
+    <!-- 无数据提示 -->
+    <block wx:if="{{!hasData}}">
+      <view class="empty-card">
+        <text class="empty-title">暂无饮食记录</text>
+        <text class="empty-text">先去记录几天饮食，我再帮你自动分析宝宝的饮食规律～</text>
+        <button class="record-btn" open-type="navigateBack">去记录饮食</button>
+      </view>
+    </block>
+
+    <!-- 有数据时的分析内容 -->
+    <block wx:else>
+      <!-- 总体说明 -->
+      <view class="summary-card">
+        <text class="summary-title">📊 饮食分析（自动生成）</text>
+        <text class="summary-text">
+          基于您最近 {{usedRecords}} 条记录统计（共 {{totalRecords}} 条），帮助了解宝宝饮食规律。
+        </text>
+        <text class="summary-subtext" wx:if="{{latestDate}}">
+          最近记录日期：{{latestDate}}
+        </text>
+      </view>
+
+      <!-- 最近常吃食物 -->
+      <view class="section-card">
+        <text class="section-label">🍽 最近常吃食物</text>
+
+        <block wx:if="{{commonFoods.length}}">
+          <block wx:for="{{commonFoods}}" wx:key="name">
+            <view class="food-row">
+              <text class="food-index">{{index + 1}}.</text>
+              <view class="food-main">
+                <view class="food-name-row">
+                  <text class="food-name">{{item.name}}</text>
+                  <text 
+                    wx:if="{{item.isAllergen}}" 
+                    class="allergen-tag"
+                  >
+                    🟡 易致敏
+                  </text>
+                </view>
+              </view>
+              <text class="food-count">({{item.count}}次)</text>
+            </view>
+          </block>
+        </block>
+
+        <block wx:else>
+          <text class="empty-text">暂时还没有统计到常吃食物哦～</text>
+        </block>
+      </view>
+
+      <!-- 食物出现趋势 -->
+      <view class="section-card">
+        <text class="section-label">📈 食物出现趋势</text>
+
+        <view class="trend-row">
+          <text class="trend-label">📈 新增：</text>
+          <view class="trend-content">
+            <block wx:if="{{newFoods.length}}">
+              <block wx:for="{{newFoods}}" wx:key="name">
+                <text class="trend-item">
+                  {{item.name}}
+                  <text 
+                    wx:if="{{item.isAllergen}}" 
+                    class="allergen-tag-inline"
+                  >
+                    🟡
+                  </text>
+                </text>
+              </block>
+            </block>
+            <block wx:else>
+              <text class="trend-empty">暂无明显新增食物</text>
+            </block>
+          </view>
+        </view>
+
+        <view class="trend-row">
+          <text class="trend-label">📉 减少：</text>
+          <view class="trend-content">
+            <block wx:if="{{decreasedFoods.length}}">
+              <block wx:for="{{decreasedFoods}}" wx:key="name">
+                <text class="trend-item">
+                  {{item.name}}
+                  <text 
+                    wx:if="{{item.isAllergen}}" 
+                    class="allergen-tag-inline"
+                  >
+                    🟡
+                  </text>
+                </text>
+              </block>
+            </block>
+            <block wx:else>
+              <text class="trend-empty">暂无明显减少食物</text>
+            </block>
+          </view>
+        </view>
+
+        <view class="legend">
+          <text class="legend-dot">🟡</text>
+          <text class="legend-text">代表较容易致敏的食物（如牛奶、鸡蛋、小麦、鱼虾、花生坚果等）</text>
+        </view>
+      </view>
+
+      <!-- 分析说明 -->
+      <view class="section-card">
+        <text class="section-label">💡 分析说明</text>
+        <text class="tips-text">
+          • 统计基于最近 {{usedRecords}} 条饮食记录，简单拆分记录中的食物名称进行汇总。
+        </text>
+        <text class="tips-text">
+          • 易致敏黄灯标记基于常见「八大致敏原」：牛奶、鸡蛋、小麦、花生、坚果、大豆、鱼类、甲壳类等。
+        </text>
+        <text class="tips-text">
+          • 该分析仅为辅助参考，如宝宝有明确过敏史，请以医生或营养师建议为准。
+        </text>
+      </view>
+    </block>
+  </view>
+</view>

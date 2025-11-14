@@ -1,7 +1,7 @@
 <view class="edit-container">
-  <!-- 症状选择部分 -->
+  <!-- 情况选择部分 -->
   <view class="form-section">
-    <text class="section-title">选择症状类型</text>
+    <text class="section-title">选择情况类型</text>
     <view class="symptom-options">
       <block wx:for="{{symptomOptions}}" wx:key="value">
         <view 
@@ -16,25 +16,38 @@
     </view>
   </view>
 
-  <!-- 在症状选择区域添加分类提示 -->
-  <view class="symptom-category-hint" wx:if="{{selectedSymptom !== 'asymptomatic' && selectedSymptom !== 'other'}}">
-    <block wx:for="{{symptomOptions}}" wx:key="value" wx:if="{{item.value === selectedSymptom}}">
-      <view class="category-tag" style="background: {{categoryInfo[item.category].color}}20; border-color: {{categoryInfo[item.category].color}}">
-        <text class="category-name" style="color: {{categoryInfo[item.category].color}}">
-          {{categoryInfo[item.category].name}}
+  <!-- 在情况选择区域添加分类提示 -->
+  <view 
+    class="symptom-category-hint" 
+    wx:if="{{selectedSymptom != 'asymptomatic' && selectedSymptom != 'other'}}"
+  >
+    <block wx:for="{{symptomOptions}}" wx:key="value">
+      <block wx:if="{{item.value === selectedSymptom}}">
+        <view 
+          class="category-tag" 
+          style="background: {{categoryInfo[item.category].color}}20; border-color: {{categoryInfo[item.category].color}}"
+        >
+          <text 
+            class="category-name" 
+            style="color: {{categoryInfo[item.category].color}}"
+          >
+            {{categoryInfo[item.category].name}}
+          </text>
+          <text class="weight-badge">权重{{item.weight}}</text>
+        </view>
+        <text class="category-desc">
+          {{categoryInfo[item.category].desc}}
         </text>
-        <text class="weight-badge">权重{{item.weight}}</text>
-      </view>
-      <text class="category-desc">{{categoryInfo[item.category].desc}}</text>
+      </block>
     </block>
   </view>
     
-  <!-- 其他症状输入 -->
+  <!-- 其他情况输入 -->
   <view wx:if="{{showOtherInput}}" class="other-input-container">
     <input 
       class="other-input"
       value="{{otherSymptomText}}"
-      placeholder="请输入其他症状描述"
+      placeholder="请输入其他情况描述"
       bindinput="onOtherSymptomInput"
     />
   </view>
@@ -57,9 +70,9 @@
     </view>
   </view>
 
-  <!-- 症状详情部分 -->
+  <!-- 情况详情部分 -->
   <view class="form-section">
-    <text class="section-title">症状详情</text>
+    <text class="section-title">情况详情</text>
     <view class="input-group">
       <view class="input-item">
         <text class="input-label">发作频率</text>
@@ -82,17 +95,19 @@
     </view>
   </view>
 
-  <!-- 症状描述部分 -->
+  <!-- 情况描述部分 -->
   <view class="form-section">
-    <text class="section-title">症状描述</text>
+    <text class="section-title">情况描述</text>
     <textarea 
       class="description-input"
       value="{{severityData.description}}"
-      placeholder="请详细描述症状表现..."
+      placeholder="请详细描述情况表现..."
       bindinput="onDescriptionInput"
       maxlength="200"
-    />
-    <view class="char-count">{{severityData.description.length}}/200</view>
+    ></textarea>
+    <view class="char-count">
+  {{severityData.description ? severityData.description.length : 0}}/200
+</view>
   </view>
 
   <!-- 自动保存提示 -->

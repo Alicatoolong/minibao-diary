@@ -1,0 +1,223 @@
+.analysis-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: white;
+  border-bottom: 1rpx solid #eee;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  color: #6A8BFF;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.main-content {
+  padding: 30rpx 40rpx 60rpx;
+}
+
+/* 无数据卡片 */
+.empty-card {
+  margin-top: 80rpx;
+  padding: 50rpx 40rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.empty-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #999;
+  line-height: 1.6;
+  margin-bottom: 30rpx;
+}
+
+.record-btn {
+  padding: 22rpx 0;
+  width: 60%;
+  margin: 0 auto;
+  background: #6A8BFF;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+}
+
+/* 总览卡片 */
+.summary-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.summary-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.summary-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.summary-subtext {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+/* 通用卡片 */
+.section-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx 32rpx 32rpx;
+  margin-bottom: 25rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.section-label {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+/* 食物列表 */
+.food-row {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx dashed #f0f0f0;
+}
+
+.food-row:last-child {
+  border-bottom-width: 0;
+}
+
+.food-index {
+  width: 50rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.food-main {
+  flex: 1;
+}
+
+.food-name-row {
+  display: flex;
+  align-items: center;
+}
+
+.food-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.allergen-tag {
+  margin-left: 12rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: #fff8e1;
+  border: 1rpx solid #ffca28;
+  font-size: 22rpx;
+  color: #e65100;
+}
+
+.food-count {
+  font-size: 26rpx;
+  color: #999;
+  margin-left: 12rpx;
+}
+
+/* 趋势区域 */
+.trend-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 14rpx;
+}
+
+.trend-label {
+  font-size: 26rpx;
+  color: #333;
+  width: 120rpx;
+}
+
+.trend-content {
+  flex: 1;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+}
+
+.trend-item {
+  font-size: 26rpx;
+  color: #555;
+  margin-right: 16rpx;
+  margin-bottom: 6rpx;
+}
+
+.trend-empty {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.allergen-tag-inline {
+  font-size: 26rpx;
+  margin-left: 4rpx;
+}
+
+/* 说明文字 */
+.tips-text {
+  font-size: 24rpx;
+  color: #777;
+  line-height: 1.6;
+  margin-bottom: 6rpx;
+}
+
+/* 图例 */
+.legend {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+}
+
+.legend-dot {
+  font-size: 26rpx;
+  margin-right: 10rpx;
+}
+
+.legend-text {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.5;
+}

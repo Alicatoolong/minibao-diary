@@ -1,0 +1,155 @@
+.exp-list-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* 顶部 */
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #eee;
+}
+
+.back-btn {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  color: #6A8BFF;
+}
+
+.page-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.post-btn {
+  font-size: 26rpx;
+  color: #6A8BFF;
+}
+
+/* 作用范围 tabs：全部 / 我发布的 */
+.scope-tabs {
+  display: flex;
+  margin: 20rpx 30rpx 0;
+  background: #eef2ff;
+  padding: 6rpx;
+  border-radius: 999rpx;
+}
+
+.scope-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10rpx 0;
+  font-size: 24rpx;
+  color: #6A6F8F;
+  border-radius: 999rpx;
+}
+
+.scope-tab.active {
+  background: #ffffff;
+  color: #4b63ff;
+  font-weight: 600;
+}
+
+/* 排序 tabs：最热 / 最新 */
+.sort-tabs {
+  display: flex;
+  margin: 16rpx 30rpx 0;
+}
+
+.sort-tab {
+  margin-right: 20rpx;
+  font-size: 24rpx;
+  color: #888;
+}
+
+.sort-tab.active {
+  color: #4b63ff;
+  font-weight: 600;
+}
+
+/* 列表 */
+.page-content {
+  padding: 20rpx 30rpx 40rpx;
+}
+
+.post-item {
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  padding: 24rpx 26rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.post-top {
+  margin-bottom: 6rpx;
+}
+
+.post-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.post-middle {
+  display: flex;
+  justify-content: space-between;
+  margin: 4rpx 0 10rpx;
+}
+
+.post-author {
+  font-size: 24rpx;
+  color: #888;
+}
+
+.post-time {
+  font-size: 22rpx;
+  color: #bbb;
+}
+
+.post-bottom {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #555;
+}
+
+.stat-icon {
+  margin-right: 4rpx;
+}
+
+.mine-tag {
+  margin-left: auto;
+  padding: 2rpx 12rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  color: #9faaf3;
+  background: #eef2ff;
+}
+
+/* 空状态 */
+.no-posts {
+  margin-top: 80rpx;
+}
+
+.no-posts-title {
+  font-size: 28rpx;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10rpx;
+}
+
+.no-posts-text {
+  font-size: 24rpx;
+  color: #888;
+  text-align: center;
+}

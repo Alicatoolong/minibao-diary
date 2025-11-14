@@ -1,0 +1,98 @@
+.exp-edit-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: #ffffff;
+  border-bottom: 1rpx solid #eee;
+}
+
+.back-btn {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  color: #6A8BFF;
+}
+
+.page-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.page-content {
+  padding: 40rpx;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.label {
+  display: block;
+  font-size: 26rpx;
+  color: #555;
+  margin-bottom: 10rpx;
+}
+
+.input {
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+}
+
+.textarea {
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  min-height: 220rpx;
+  line-height: 1.7;
+}
+
+.char-count {
+  text-align: right;
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.hint-box {
+  background-color: #fff8e1;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.hint-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #ef6c00;
+  margin-bottom: 6rpx;
+}
+
+.hint-text {
+  font-size: 24rpx;
+  color: #ef6c00;
+  line-height: 1.5;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 24rpx;
+  border-radius: 999rpx;
+  border: none;
+  font-size: 30rpx;
+  color: #ffffff;
+  background-color: #6A8BFF;
+}
+
+.submit-btn[disabled] {
+  background-color: #cfd3e6;
+  color: #f5f5f5;
+}

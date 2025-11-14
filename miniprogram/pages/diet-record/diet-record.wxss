@@ -1,0 +1,419 @@
+.diet-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: white;
+  border-bottom: 1rpx solid #eee;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.back-btn {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  color: #6A8BFF;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.main-content {
+  padding: 40rpx;
+}
+
+.meal-time-section {
+  background: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.section-label {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+.time-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.time-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  background: #f8f9fa;
+  border-radius: 15rpx;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.time-btn.active {
+  background: #6A8BFF;
+  color: white;
+}
+
+.time-emoji {
+  font-size: 40rpx;
+  margin-bottom: 10rpx;
+}
+
+.time-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.diet-content-section {
+  background: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.diet-textarea {
+  width: 100%;
+  height: 300rpx;
+  padding: 30rpx;
+  background: #f8f9fa;
+  border-radius: 15rpx;
+  font-size: 28rpx;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.word-count {
+  display: block;
+  text-align: right;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 15rpx;
+}
+
+.confirm-btn {
+  margin-top: 20rpx;
+  width: 100%;
+  padding: 24rpx 0;
+  background: #ffffff;
+  border-radius: 15rpx;
+  border: 2rpx solid #6A8BFF;
+  font-size: 28rpx;
+  color: #6A8BFF;
+}
+
+.confirm-btn:active {
+  background: #eef1ff;
+}
+
+.confirm-btn.confirmed {
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.submit-section {
+  margin: 50rpx 0 30rpx;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 35rpx;
+  background: #6A8BFF;
+  color: white;
+  border-radius: 20rpx;
+  font-size: 32rpx;
+  border: none;
+  font-weight: 500;
+}
+
+.submit-btn:active {
+  background: #5a7be0;
+}
+
+.submit-btn[disabled] {
+  background: #ccc;
+  color: #999;
+}
+
+.tips-section {
+  background: #fff3e0;
+  border-radius: 15rpx;
+  padding: 30rpx;
+  border-left: 6rpx solid #ff9800;
+  margin-bottom: 30rpx;
+}
+
+.tips-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #e65100;
+  margin-bottom: 20rpx;
+}
+
+.tips-content {
+  display: block;
+  font-size: 26rpx;
+  color: #e65100;
+  margin-bottom: 10rpx;
+  line-height: 1.5;
+}
+
+/* ---- 底部分析区域 ---- */
+
+.analysis-container {
+  margin-top: 20rpx;
+}
+
+/* 总览卡片 */
+.summary-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.summary-card-clickable {
+  position: relative;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.summary-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.summary-toggle {
+  font-size: 24rpx;
+  color: #6A8BFF;
+}
+
+.summary-text {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.6;
+}
+
+.summary-subtext {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+/* 整体统计下面的详情区域：像同一块的下半部分 */
+.summary-history {
+  margin-top: -10rpx;                   /* 往上叠一点点，让两块连起来 */
+  padding: 10rpx 30rpx 20rpx;
+  background: #f7f8ff;
+  border-radius: 0 0 20rpx 20rpx;       /* 只给底部圆角 */
+  border-top: 1rpx dashed #e0e4ff;
+  box-shadow: 0 6rpx 22rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 20rpx;
+}
+
+/* 每条历史记录 */
+.history-row {
+  padding: 16rpx 0;
+  border-bottom: 1rpx dashed #e3e5ff;
+}
+
+.history-row:last-child {
+  border-bottom: 0;
+}
+
+.history-row-main {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6rpx;
+}
+
+.history-date {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.history-meal {
+  font-size: 26rpx;
+  color: #6A8BFF;
+  font-weight: 600;
+}
+
+.history-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 10rpx;
+}
+
+.history-row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+}
+
+/* 按钮（编辑 / 删除） */
+.small-btn {
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  border: none;
+}
+
+.edit-btn {
+  background: #eef1ff;
+  color: #4a5fd6;
+}
+
+.delete-btn {
+  background: #ffecef;
+  color: #e53935;
+}
+
+.summary-card-clickable:active {
+  background-color: #f3f3f3;
+}
+
+/* 通用卡片 */
+.section-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 30rpx 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+}
+
+.section-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+/* 食物列表 */
+.food-row {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+  border-bottom: 1rpx dashed #f0f0f0;
+}
+
+.food-row:last-child {
+  border-bottom-width: 0;
+}
+
+.food-index {
+  width: 50rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.food-main {
+  flex: 1;
+}
+
+.food-name {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.food-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 12rpx;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 趋势一行文本 */
+.trend-line {
+  display: block;
+  font-size: 26rpx;
+  color: #555;
+  margin-bottom: 10rpx;
+}
+.history-container {
+  margin-top: 10rpx;
+}
+
+/* 记录卡片样式 */
+.record-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 30rpx 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.record-date {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.record-meal {
+  font-size: 26rpx;
+  color: #6A8BFF;
+  font-weight: 600;
+}
+
+.record-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+}
+
+.record-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20rpx;
+}
+
+.small-btn {
+  padding: 10rpx 24rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  border: none;
+}
+
+.edit-btn {
+  background: #eef1ff;
+  color: #4a5fd6;
+}
+
+.delete-btn {
+  background: #ffecef;
+  color: #e53935;
+}

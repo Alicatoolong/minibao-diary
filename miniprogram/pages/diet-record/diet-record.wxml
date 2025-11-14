@@ -1,0 +1,203 @@
+<view class="diet-page">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="header-left">
+      <text class="back-btn" bindtap="goBack">←</text>
+      <text class="page-title">饮食记录</text>
+    </view>
+  </view>
+
+  <view class="main-content">
+    <!-- 用餐时间选择 -->
+    <view class="meal-time-section">
+      <text class="section-label">🍽️ 选择用餐时间</text>
+      <view class="time-buttons">
+        <view 
+          class="time-btn {{selectedMealTime === 'breakfast' ? 'active' : ''}}" 
+          bindtap="selectMealTime" 
+          data-time="breakfast"
+        >
+          <text class="time-emoji">☀️</text>
+          <text class="time-text">早餐</text>
+        </view>
+        <view 
+          class="time-btn {{selectedMealTime === 'lunch' ? 'active' : ''}}" 
+          bindtap="selectMealTime" 
+          data-time="lunch"
+        >
+          <text class="time-emoji">🌞</text>
+          <text class="time-text">午餐</text>
+        </view>
+        <view 
+          class="time-btn {{selectedMealTime === 'dinner' ? 'active' : ''}}" 
+          bindtap="selectMealTime" 
+          data-time="dinner"
+        >
+          <text class="time-emoji">🌙</text>
+          <text class="time-text">晚餐</text>
+        </view>
+        <view 
+          class="time-btn {{selectedMealTime === 'snack' ? 'active' : ''}}" 
+          bindtap="selectMealTime" 
+          data-time="snack"
+        >
+          <text class="time-emoji">🍪</text>
+          <text class="time-text">加餐</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 饮食内容记录 -->
+    <view class="diet-content-section">
+      <text class="section-label">📝 记录饮食内容</text>
+      <textarea 
+        class="diet-textarea" 
+        placeholder="例如：喝了200ml牛奶，一个鸡蛋，半片面包&#10;或者：米饭、西兰花炒鸡肉、苹果"
+        bindinput="onDietInput"
+        value="{{dietContent}}"
+        maxlength="500"
+        show-confirm-bar="{{false}}"
+      ></textarea>
+      <text class="word-count">{{dietContent.length}}/500</text>
+
+      <!-- 确认按钮 -->
+      <button 
+        class="confirm-btn {{isConfirmed ? 'confirmed' : ''}}"
+        bindtap="confirmDietContent"
+      >
+        {{isConfirmed ? '✅ 已确认这一餐记录' : '✅ 确认这一餐记录'}}
+      </button>
+    </view>
+
+    <!-- 保存按钮 -->
+    <view class="submit-section">
+      <button 
+        class="submit-btn" 
+        bindtap="submitDietRecord" 
+        disabled="{{!canSubmit}}"
+      >
+        {{canSubmit ? '💾 保存记录' : '先确认输入内容'}}
+      </button>
+    </view>
+
+    <!-- 记录提示 -->
+    <view class="tips-section">
+      <text class="tips-title">💡 记录小贴士</text>
+      <text class="tips-content">• 记录具体食物，如"牛奶、鸡蛋、面包"</text>
+      <text class="tips-content">• 可以记录食量，如"200ml牛奶"</text>
+      <text class="tips-content">• 系统会自动分析常吃食物</text>
+    </view>
+
+    <!-- 📊 饮食分析（自动生成，展示在记录下方） -->
+    <view class="analysis-container">
+      <text class="section-label">📊 饮食分析（自动生成）</text>
+
+      <!-- 没有历史数据时 -->
+      <block wx:if="{{!hasData}}">
+        <view class="summary-card">
+          <text class="summary-text">
+            还没有足够的饮食记录哦～先记录几天，我会自动帮你统计宝宝最近常吃什么、哪些食物在增加或减少。
+          </text>
+        </view>
+      </block>
+
+      <!-- 有数据时 -->
+      <block wx:if="{{hasData}}">
+        <!-- 整体统计卡片（点击展开/收起详情） -->
+        <view class="summary-card summary-card-clickable" bindtap="toggleHistory">
+          <view class="summary-header">
+            <text class="summary-title">整体统计</text>
+            <text class="summary-toggle">
+              {{showHistory ? '收起详情 ▲' : '查看详情 ▼'}}
+            </text>
+          </view>
+
+          <text class="summary-text">
+            基于您最近 {{usedRecords}} 条记录统计（共 {{totalRecords}} 条），帮助了解宝宝饮食规律。
+          </text>
+
+          <text class="summary-subtext" wx:if="{{latestDate}}">
+            最近记录日期：{{latestDate}}
+          </text>
+        </view>
+
+        <!-- 📜 记录详情：紧贴在整体统计下面，看起来是一块 -->
+        <view 
+          id="history-section" 
+          wx:if="{{showHistory}}" 
+          class="summary-history"
+        >
+          <!-- 有记录时 -->
+          <block wx:if="{{historyRecords.length}}">
+            <block wx:for="{{historyRecords}}" wx:key="id">
+              <view class="history-row">
+                <view class="history-row-main">
+                  <text class="history-date">{{item.date}}</text>
+                  <text class="history-meal">{{mealTimeMap[item.mealTime]}}</text>
+                </view>
+
+                <text class="history-content">{{item.content}}</text>
+
+                <view class="history-row-actions">
+                  <button 
+                    class="small-btn edit-btn" 
+                    catchtap="onEditHistory" 
+                    data-id="{{item.id}}"
+                  >
+                    编辑
+                  </button>
+                  <button 
+                    class="small-btn delete-btn" 
+                    catchtap="onDeleteHistory" 
+                    data-id="{{item.id}}"
+                  >
+                    删除
+                  </button>
+                </view>
+              </view>
+            </block>
+          </block>
+
+          <!-- 没有记录时 -->
+          <block wx:if="{{!historyRecords.length}}">
+            <text class="empty-text">暂时还没有饮食记录哦～</text>
+          </block>
+        </view>
+
+        <!-- 最近常吃食物 -->
+        <view class="section-card">
+          <text class="section-title">🍽 最近常吃食物</text>
+
+          <block wx:if="{{commonFoods.length}}">
+            <block wx:for="{{commonFoods}}" wx:key="name">
+              <view class="food-row">
+                <text class="food-index">{{index + 1}}.</text>
+                <view class="food-main">
+                  <text class="food-name">{{item.name}}</text>
+                </view>
+                <text class="food-count">({{item.count}}次)</text>
+              </view>
+            </block>
+          </block>
+
+          <block wx:if="{{!commonFoods.length}}">
+            <text class="empty-text">暂时还没有统计到常吃食物哦～</text>
+          </block>
+        </view>
+
+        <!-- 食物出现趋势（单行文本，保证对齐） -->
+        <view class="section-card">
+          <text class="section-title">📈 食物出现趋势</text>
+
+          <text class="trend-line">
+            📈 新增：{{newFoodsText}}
+          </text>
+
+          <text class="trend-line">
+            📉 减少：{{decreasedFoodsText}}
+          </text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

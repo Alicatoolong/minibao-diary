@@ -1,4 +1,4 @@
-<!-- 记录症状的页面 -->
+<!-- 记录情况的页面 -->
 <view class="container">
   <view class="header">
     <text class="title">📝 记录敏宝今天的情况</text>
@@ -23,9 +23,9 @@
     </view>
   </view>
 
-  <!-- 症状类型选择 -->
+  <!-- 情况类型选择 -->
   <view class="section">
-    <text class="label">👀 今天观察到什么症状？</text>
+    <text class="label">👀 今天观察到什么情况？</text>
     <view class="type-grid">
       <block wx:for="{{symptomTypes}}" wx:key="index">
         <view 

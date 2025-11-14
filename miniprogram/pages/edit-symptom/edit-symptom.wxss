@@ -18,7 +18,7 @@
   color: #333;
   margin-bottom: 15px;
 }
-/* 症状分类提示 */
+/* 情况分类提示 */
 .symptom-category-hint {
   margin: 20rpx 0;
   padding: 20rpx;
@@ -53,7 +53,7 @@
   color: #666;
   display: block;
 }
-/* 症状选项样式 - 改为3列布局 */
+/* 情况选项样式 - 改为3列布局 */
 .symptom-options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,7 +90,7 @@
   line-height: 1.2;
 }
 
-/* 其他症状输入框 */
+/* 其他情况输入框 */
 .other-input-container {
   margin-top: 15px;
   padding-top: 15px;

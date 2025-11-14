@@ -1,0 +1,61 @@
+<view class="exp-page">
+  <!-- 头部 -->
+  <view class="page-header">
+    <text class="back-btn" bindtap="goBack">←</text>
+    <text class="page-title">经验详情</text>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="page-content" wx:if="{{post}}">
+    <view class="post-header">
+      <text class="post-title">{{post.title}}</text>
+      <text class="post-author">{{post.author}}</text>
+    </view>
+
+    <view class="post-body">
+      <text class="post-content">
+        {{post.content}}
+      </text>
+    </view>
+
+    <!-- 点赞 / 鼓励 -->
+    <view class="post-actions">
+      <view class="action-btn" bindtap="handleLike">
+        <text class="action-icon">👍</text>
+        <text class="action-text">{{post.likes || 0}} 赞</text>
+      </view>
+      <view class="action-btn" bindtap="handleCheer">
+        <text class="action-icon">💪</text>
+        <text class="action-text">{{post.cheers || 0}} 鼓励</text>
+      </view>
+    </view>
+
+    <!-- 提示：暂不开放评论 -->
+    <view class="comment-hint">
+      <text class="hint-title">评论功能暂未开放</text>
+      <text class="hint-text">后续将开放妈妈之间的留言互动，敬请期待～</text>
+    </view>
+  </view>
+
+  <!-- 防御：万一没有拿到数据 -->
+  <view class="page-content" wx:if="{{!post}}">
+    <text class="empty-text">没有找到这条经验内容～</text>
+  </view>
+</view>
+<!-- 上一条 / 下一条 导航 -->
+<view class="detail-nav">
+    <button
+      class="nav-btn"
+      bindtap="goPrev"
+      disabled="{{!prevPostId}}"
+    >
+      ← 上一条经验
+    </button>
+    <button
+      class="nav-btn nav-btn-primary"
+      bindtap="goNext"
+      disabled="{{!nextPostId}}"
+    >
+      下一条经验 →
+    </button>
+  </view>

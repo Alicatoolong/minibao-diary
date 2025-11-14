@@ -1,0 +1,47 @@
+<view class="history-page">
+  <!-- 头部 -->
+  <view class="page-header">
+    <view class="header-left">
+      <text class="back-btn" bindtap="goBack">←</text>
+      <text class="page-title">记录详情</text>
+    </view>
+  </view>
+
+  <view class="main-content">
+    <!-- 没有记录时 -->
+    <block wx:if="{{records.length === 0}}">
+      <view class="empty-card">
+        <text class="empty-title">暂无饮食记录</text>
+        <text class="empty-text">
+          先在「饮食记录」页面多记录几天宝宝吃了什么，这里会自动显示历史记录～
+        </text>
+      </view>
+    </block>
+
+    <!-- 有记录时 -->
+    <block wx:if="{{records.length > 0}}">
+      <block wx:for="{{records}}" wx:key="id">
+        <!-- 整个卡片可点击：进入编辑模式 -->
+        <view class="record-card" bindtap="onEdit" data-id="{{item.id}}">
+          <view class="record-header">
+            <text class="record-date">{{item.date}}</text>
+            <text class="record-meal">{{mealTimeMap[item.mealTime]}}</text>
+          </view>
+
+          <text class="record-content">{{item.content}}</text>
+
+          <view class="record-footer">
+            <!-- 删除按钮用 catchtap，防止触发上面的 onEdit -->
+            <button 
+              class="small-btn delete-btn" 
+              catchtap="onDelete" 
+              data-id="{{item.id}}"
+            >
+              删除
+            </button>
+          </view>
+        </view>
+      </block>
+    </block>
+  </view>
+</view>
