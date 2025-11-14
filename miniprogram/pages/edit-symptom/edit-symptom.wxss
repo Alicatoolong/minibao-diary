@@ -18,7 +18,41 @@
   color: #333;
   margin-bottom: 15px;
 }
+/* 症状分类提示 */
+.symptom-category-hint {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+}
 
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  border: 2rpx solid;
+  border-radius: 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.category-name {
+  font-size: 24rpx;
+  font-weight: 500;
+  margin-right: 16rpx;
+}
+
+.weight-badge {
+  font-size: 22rpx;
+  background: rgba(0,0,0,0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.category-desc {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+}
 /* 症状选项样式 - 改为3列布局 */
 .symptom-options {
   display: grid;

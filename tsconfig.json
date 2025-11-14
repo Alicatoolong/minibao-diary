@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*.ts"
-, "miniprogram/pages/index/index.js", "miniprogram/pages/edit-symptom/edit-symptom.js", "miniprogram/pages/baby-status/baby-status.json.js", "miniprogram/pages/diary-edit/diary-edit.js", "miniprogram/pages/diary-list/diary-list.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js"  ],
+, "miniprogram/pages/index/index.js", "miniprogram/pages/edit-symptom/edit-symptom.js", "miniprogram/pages/baby-status/baby-status.json.js", "miniprogram/pages/diary-edit/diary-edit.js", "miniprogram/pages/diary-list/diary-list.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/edit-baby-info/edit-baby-info.js", "miniprogram/pages/symptom-history/symptom-history.js", "miniprogram/utils/storageManager.js"  ],
   "exclude": [
     "node_modules"
   ]

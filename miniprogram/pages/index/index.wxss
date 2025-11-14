@@ -1,91 +1,158 @@
-/* 宝宝状态概览 Banner */
-.status-banner {
+/* 页面容器 */
+.page-container {
+  padding: 30rpx;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  min-height: 100vh;
+}
+
+/* 宝宝信息概览卡片 */
+.status-overview {
   background: linear-gradient(135deg, #87CEEB, #4682B4);
-  border-radius: 15px;
-  margin: 20px;
-  padding: 25px 20px;
+  border-radius: 24rpx;
+  padding: 40rpx 30rpx;
+  margin: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
   color: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  position: relative; /* 添加这行，为了绝对定位的子元素 */
 }
 
-.edit-hint {
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.7);
-  z-index: 10;
+/* 宝宝信息行 */
+.baby-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
 }
 
-.banner-content {
+/* 头像圆形设计 */
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  margin-right: 24rpx;
+}
+
+/* 信息文字 */
+.info-text {
+  flex: 1;
+}
+
+.name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.mood {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.9);
+  display: block;
+}
+/* 姓名区域样式 */
+.name-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+  flex: 1;
+}
+
+.edit-icon {
+  font-size: 28rpx;
+  margin-left: 20rpx;
+  padding: 8rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s;
+}
+
+.edit-icon:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.9);
+}
+/* 签到区域 */
+.checkin-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.baby-basic-info {
+.checkin-stats {
+  font-size: 28rpx;
+  color: white;
+}
+
+.days {
   display: flex;
-  flex-direction: column;
-}
-
-.baby-name {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.baby-age {
-  font-size: 16px;
-  opacity: 0.9;
-}
-
-.health-status {
-  background: rgba(255,255,255,0.2);
-  padding: 8px 15px;
-  border-radius: 20px;
-}
-
-.status-tag {
-  font-size: 14px;
-}
-
-.health-rating {
-  display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
-.rating-text {
-  font-size: 12px;
-  margin-bottom: 5px;
-  opacity: 0.9;
+/* 图标按钮区域 */
+.actions {
+  display: flex;
+  gap: 40rpx;
 }
 
-.rating-stars {
-  font-size: 16px;
+.action-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  transition: all 0.3s;
 }
 
-/* 通用区块样式 */
-.care-section,
-.chart-section,
-.quick-record-section,
-.experience-section {
-  margin: 20px;
-  padding: 20px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+.action-icon:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
 }
 
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #333;
+.action-icon .icon {
+  font-size: 44rpx;
+  margin-bottom: 8rpx;
 }
 
-/* 功能区网格 */
+.action-icon .icon-text {
+  font-size: 22rpx;
+  color: white;
+}
+
+/* 关心宝贝功能区 */
+.care-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.care-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.care-title::before {
+  content: '';
+  display: inline-block;
+  width: 6rpx;
+  height: 30rpx;
+  background: #4a90e2;
+  border-radius: 3rpx;
+  margin-right: 15rpx;
+}
+
 .function-grid {
   display: flex;
   justify-content: space-around;
@@ -98,16 +165,268 @@
 }
 
 .function-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 60rpx;
+  margin-bottom: 15rpx;
 }
 
 .function-text {
-  font-size: 12px;
+  font-size: 26rpx;
   color: #666;
 }
 
-/* 快速记录网格 */
+/* 健康趋势图表样式 */
+.chart-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+/* 图表占位符样式 */
+.chart-placeholder {
+  height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  margin: 20rpx 0;
+}
+
+.placeholder-text {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.placeholder-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30rpx;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.chart-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.chart-desc {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+}
+
+.refresh-btn {
+  color: #4a90e2;
+  font-size: 26rpx;
+  padding: 12rpx 24rpx;
+  border-radius: 20rpx;
+  background: #f0f7ff;
+}
+
+/* 健康等级指示器 */
+.health-levels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.level-item {
+  flex: 1;
+  text-align: center;
+  padding: 15rpx 8rpx;
+  border-radius: 8rpx;
+  transition: all 0.3s;
+  min-width: 0;
+}
+
+.level-item.active {
+  background: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.level-text {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4rpx;
+  white-space: nowrap;
+}
+
+.level-range {
+  display: block;
+  font-size: 20rpx;
+  color: #666;
+  white-space: nowrap;
+}
+
+/* 折线图容器样式 */
+.line-chart-container {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-top: 20rpx;
+}
+
+.chart-bg {
+  display: flex;
+  position: relative;
+  height: 300rpx;
+}
+
+/* Y轴样式 */
+.y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 20rpx;
+  margin-bottom: 40rpx;
+  text-align: right;
+  width: 60rpx;
+}
+
+.y-label {
+  font-size: 20rpx;
+  color: #999;
+}
+
+/* 图表主区域 */
+.chart-area {
+  flex: 1;
+  position: relative;
+  border-left: 1rpx solid #e0e0e0;
+  border-bottom: 1rpx solid #e0e0e0;
+  height: 100%;
+}
+
+/* 水平网格线 */
+.grid-horizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1rpx;
+  background: #f0f0f0;
+}
+
+.grid-horizontal:nth-child(1) { top: 0%; }
+.grid-horizontal:nth-child(2) { top: 20%; }
+.grid-horizontal:nth-child(3) { top: 40%; }
+.grid-horizontal:nth-child(4) { top: 60%; }
+.grid-horizontal:nth-child(5) { top: 80%; }
+
+/* 折线路径 - 简化版本 */
+.line-path {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(74, 144, 226, 0.2), rgba(74, 144, 226, 0.05));
+}
+
+/* 数据点 */
+.data-point {
+  position: absolute;
+  width: 20rpx;
+  height: 20rpx;
+  background: #4a90e2;
+  border: 3rpx solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  box-shadow: 0 2rpx 8rpx rgba(74, 144, 226, 0.3);
+  transition: all 0.3s;
+  z-index: 2;
+}
+
+.data-point.active {
+  background: #ff6b6b;
+  width: 24rpx;
+  height: 24rpx;
+  z-index: 3;
+}
+
+/* 数据点提示 */
+.point-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8rpx 12rpx;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  white-space: nowrap;
+  margin-bottom: 12rpx;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.data-point:active .point-tooltip {
+  opacity: 1;
+}
+
+/* X轴样式 */
+.x-axis {
+  display: flex;
+  justify-content: space-around;
+  padding-left: 60rpx;
+  margin-top: 10rpx;
+}
+
+.x-label {
+  font-size: 22rpx;
+  color: #666;
+  flex: 1;
+  text-align: center;
+}
+
+/* 今日快速记录 */
+.quick-record-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+}
+
+.record-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.record-title::before {
+  content: '';
+  display: inline-block;
+  width: 6rpx;
+  height: 30rpx;
+  background: #4a90e2;
+  border-radius: 3rpx;
+  margin-right: 15rpx;
+}
+
 .quick-actions {
   display: flex;
   justify-content: space-around;
@@ -117,53 +436,157 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  transition: all 0.3s;
+}
+
+.action-item:active {
+  background: #f5f7fa;
+  transform: scale(0.95);
 }
 
 .action-icon {
-  font-size: 20px;
-  margin-bottom: 5px;
+  font-size: 50rpx;
+  margin-bottom: 10rpx;
 }
 
 .action-text {
-  font-size: 12px;
+  font-size: 24rpx;
   color: #666;
 }
 
-/* 占位符样式 */
-.chart-placeholder,
-.experience-placeholder {
-  height: 100px;
-  background: #f8f9fa;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
+/* 经验交流精选 */
+.experience-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
 }
 
-/* 聊天入口 */
-.chat-section {
-  margin: 30px 20px;
+.experience-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 30rpx;
   display: flex;
-  justify-content: center;
+  align-items: center;
+}
+
+.experience-title::before {
+  content: '';
+  display: inline-block;
+  width: 6rpx;
+  height: 30rpx;
+  background: #4a90e2;
+  border-radius: 3rpx;
+  margin-right: 15rpx;
+}
+
+.experience-list {
+  margin-top: 20rpx;
+}
+
+.experience-item {
+  padding: 25rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.experience-item:last-child {
+  border-bottom: none;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.post-author {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.post-likes {
+  font-size: 24rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+}
+
+.post-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+}
+
+.post-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 底部聊天入口 */
+.chat-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
 }
 
 .chat-button {
-  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+  background: #4a90e2;
   color: white;
-  padding: 15px 30px;
-  border-radius: 25px;
+  text-align: center;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.chat-button:active {
+  background: #3a7bc8;
+  transform: scale(0.98);
 }
 
 .chat-icon {
-  font-size: 18px;
-  margin-right: 8px;
+  margin-right: 15rpx;
 }
 
 .chat-text {
-  font-size: 16px;
-  font-weight: bold;
+  color: white;
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+  .status-overview,
+  .care-section,
+  .chart-section,
+  .quick-record-section,
+  .experience-section,
+  .chat-section {
+    margin: 15rpx;
+    padding: 25rpx;
+  }
+  
+  .function-grid,
+  .quick-actions {
+    flex-wrap: wrap;
+  }
+  
+  .function-item,
+  .action-item {
+    margin-bottom: 20rpx;
+    min-width: 33%;
+  }
 }

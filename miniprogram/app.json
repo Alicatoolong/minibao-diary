@@ -1,7 +1,8 @@
 {
+  "lazyCodeLoading": "requiredComponents",
   "pages": [
     "pages/index/index",
-    "pages/record/record",
+    "pages/record/record", 
     "pages/baby-status/baby-status",
     "pages/edit-symptom/edit-symptom",
     "pages/edit-baby-info/edit-baby-info",
@@ -11,8 +12,10 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "敏宝健康记录",
-    "navigationBarTextStyle": "black"
-  }
+    "navigationBarBackgroundColor": "#6A8BFF",
+    "navigationBarTitleText": "敏宝日记",
+    "navigationBarTextStyle": "white"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
 }

@@ -1,6 +1,6 @@
 /* 顶部状态概览 */
 .status-header {
-  background: linear-gradient(135deg, #6BC5D2, #8ED9E6);
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
   padding: 32rpx;
   color: white;
   border-radius: 0 0 24rpx 24rpx;

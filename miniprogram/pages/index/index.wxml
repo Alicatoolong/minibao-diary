@@ -1,38 +1,48 @@
-<view class="status-banner" bindtap="editBabyInfo">
-  <view class="banner-content">
-    <view class="baby-basic-info">
-      <text class="baby-name">{{babyInfo.name}}</text>
-      <text class="baby-age">{{babyInfo.age}}</text>
+<!-- 第1段：宝宝信息横幅 -->
+<view class="status-overview">
+  <view class="baby-info">
+    <!-- 头像区域，点击可编辑 -->
+    <view class="avatar" bindtap="editBabyInfo">
+      <text class="avatar-text">{{babyInfo.name ? babyInfo.name.substring(0,2) : '宝宝'}}</text>
     </view>
-    <view class="health-status">
-      <text class="status-tag">{{babyInfo.status}}</text>
-    </view>
-    <view class="health-rating">
-      <text class="rating-text">健康评分</text>
-      <text class="rating-stars">{{getRatingStars(babyInfo.rating)}}</text>
+    <view class="info-text">
+      <!-- 姓名和编辑图标 -->
+      <view class="name-section">
+        <text class="name">{{babyInfo.name || '宝宝'}} · {{babyInfo.age || '0岁0个月'}}</text>
+        <text class="edit-icon" bindtap="editBabyInfo">✏️</text>
+      </view>
+      <text class="mood">{{babyInfo.healthStatus || '点击设置宝宝信息'}}</text>
     </view>
   </view>
-  <!-- 添加编辑提示 -->
-  <view class="edit-hint">点击修改宝宝信息</view>
+  <view class="checkin-section">
+    <view class="checkin-stats">
+      <text class="days">健康评分 {{babyInfo.healthRating || 0}}分</text>
+    </view>
+    <view class="actions">
+      <view class="action-icon" bindtap="handleCheckin">
+        <view class="icon">📅</view>
+        <text class="icon-text">签到</text>
+      </view>
+      <view class="action-icon" bindtap="handleShare">
+        <view class="icon">↗️</view>
+        <text class="icon-text">分享</text>
+      </view>
+    </view>
+  </view>
 </view>
 
-<!-- 关心宝贝功能区 -->
+<!-- 第2段：关心宝贝功能区 -->
 <view class="care-section">
-  <view class="section-title">❤️ 关心宝贝</view>
+  <view class="care-title">❤️ 关心宝贝</view>
   <view class="function-grid">
-    <!-- 我宝情况按钮 - 应该绑定 navToBabyStatus -->
     <view class="function-item" bindtap="navToBabyStatus">
       <view class="function-icon">📊</view>
       <text class="function-text">我宝情况</text>
     </view>
-    
-    <!-- 看看周围按钮 -->
     <view class="function-item" bindtap="navToMap">
       <view class="function-icon">🗺️</view>
       <text class="function-text">看看周围</text>
     </view>
-    
-    <!-- 心情日记按钮 - 应该绑定 navToDiary -->
     <view class="function-item" bindtap="navToDiary">
       <view class="function-icon">📔</view>
       <text class="function-text">心情日记</text>
@@ -40,14 +50,91 @@
   </view>
 </view>
 
-<!-- 健康趋势图表 -->
+<!-- 第3段：健康趋势图表 -->
 <view class="chart-section">
-  <view class="section-title">📊 健康趋势图表</view>
-  <!-- 这里放置健康图表组件 -->
-  <view class="chart-placeholder">健康图表区域</view>
+  <view class="chart-header">
+    <view class="header-left">
+      <text class="chart-title">健康趋势 - 症状严重程度</text>
+      <text class="chart-desc">基于最近症状数据计算 · 当前评分: {{currentHealthIndex}}</text>
+    </view>
+    <view class="header-right">
+      <text class="refresh-btn" bindtap="refreshHealthData">刷新</text>
+    </view>
+  </view>
+
+  <view class="health-levels">
+    <view class="level-item {{currentHealthIndex >= 90 ? 'active' : ''}}">
+      <text class="level-text">优秀</text>
+      <text class="level-range">90-100</text>
+    </view>
+    <view class="level-item {{currentHealthIndex >= 80 && currentHealthIndex < 90 ? 'active' : ''}}">
+      <text class="level-text">良好</text>
+      <text class="level-range">80-89</text>
+    </view>
+    <view class="level-item {{currentHealthIndex >= 70 && currentHealthIndex < 80 ? 'active' : ''}}">
+      <text class="level-text">一般</text>
+      <text class="level-range">70-79</text>
+    </view>
+    <view class="level-item {{currentHealthIndex >= 60 && currentHealthIndex < 70 ? 'active' : ''}}">
+      <text class="level-text">关注</text>
+      <text class="level-range">60-69</text>
+    </view>
+    <view class="level-item {{currentHealthIndex < 60 ? 'active' : ''}}">
+      <text class="level-text">需重视</text>
+      <text class="level-range">&lt;60</text>
+    </view>
+  </view>
+
+  <!-- 折线图容器 -->
+  <view class="line-chart-container">
+    <view class="chart-bg">
+      <!-- Y轴标签 -->
+      <view class="y-axis">
+        <text class="y-label">100</text>
+        <text class="y-label">80</text>
+        <text class="y-label">60</text>
+        <text class="y-label">40</text>
+        <text class="y-label">20</text>
+        <text class="y-label">0</text>
+      </view>
+      
+      <!-- 图表区域 -->
+      <view class="chart-area">
+        <!-- 网格线 -->
+        <view class="grid-horizontal"></view>
+        <view class="grid-horizontal"></view>
+        <view class="grid-horizontal"></view>
+        <view class="grid-horizontal"></view>
+        <view class="grid-horizontal"></view>
+        
+        <!-- 折线路径 - 移除复杂的clip-path -->
+        <view class="line-path"></view>
+        
+        <!-- 数据点 -->
+        <block wx:for="{{healthTrendData}}" wx:key="date">
+          <view 
+            class="data-point {{currentHealthIndex === item.healthIndex ? 'active' : ''}}" 
+            style="left: {{(100 / (healthTrendData.length - 1)) * index}}%; bottom: {{item.healthIndex}}%;"
+            bindtap="onDataPointTap"
+            data-index="{{index}}"
+            data-item="{{item}}"
+          >
+            <view class="point-tooltip">{{item.displayDate}}: {{item.healthIndex}}分</view>
+          </view>
+        </block>
+      </view>
+    </view>
+    
+    <!-- X轴日期 -->
+    <view class="x-axis">
+      <block wx:for="{{healthTrendData}}" wx:key="date">
+        <text class="x-label">{{item.displayDate}}</text>
+      </block>
+    </view>
+  </view>
 </view>
 
-<!-- 今日快速记录 -->
+<!-- 第4段：其他内容 -->
 <view class="quick-record-section">
   <view class="section-title">📝 今日快速记录</view>
   <view class="quick-actions">
@@ -71,20 +158,5 @@
       <view class="action-icon">🆘</view>
       <text class="action-text">特殊</text>
     </view>
-  </view>
-</view>
-
-<!-- 经验交流精选 -->
-<view class="experience-section">
-  <view class="section-title">💬 经验交流精选</view>
-  <!-- 这里放置经验列表组件 -->
-  <view class="experience-placeholder">经验交流内容</view>
-</view>
-
-<!-- 底部聊天入口 -->
-<view class="chat-section">
-  <view class="chat-button" bindtap="startChat">
-    <text class="chat-icon">💌</text>
-    <text class="chat-text">和我聊聊</text>
   </view>
 </view>

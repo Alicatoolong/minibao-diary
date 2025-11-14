@@ -14,16 +14,29 @@
         </view>
       </block>
     </view>
+  </view>
+
+  <!-- 在症状选择区域添加分类提示 -->
+  <view class="symptom-category-hint" wx:if="{{selectedSymptom !== 'asymptomatic' && selectedSymptom !== 'other'}}">
+    <block wx:for="{{symptomOptions}}" wx:key="value" wx:if="{{item.value === selectedSymptom}}">
+      <view class="category-tag" style="background: {{categoryInfo[item.category].color}}20; border-color: {{categoryInfo[item.category].color}}">
+        <text class="category-name" style="color: {{categoryInfo[item.category].color}}">
+          {{categoryInfo[item.category].name}}
+        </text>
+        <text class="weight-badge">权重{{item.weight}}</text>
+      </view>
+      <text class="category-desc">{{categoryInfo[item.category].desc}}</text>
+    </block>
+  </view>
     
-    <!-- 其他症状输入 -->
-    <view wx:if="{{showOtherInput}}" class="other-input-container">
-      <input 
-        class="other-input"
-        value="{{otherSymptomText}}"
-        placeholder="请输入其他症状描述"
-        bindinput="onOtherSymptomInput"
-      />
-    </view>
+  <!-- 其他症状输入 -->
+  <view wx:if="{{showOtherInput}}" class="other-input-container">
+    <input 
+      class="other-input"
+      value="{{otherSymptomText}}"
+      placeholder="请输入其他症状描述"
+      bindinput="onOtherSymptomInput"
+    />
   </view>
 
   <!-- 严重程度部分 -->
