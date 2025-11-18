@@ -1,150 +1,144 @@
+.baby-status-page {
+  min-height: 100vh;
+  background: #f8f8f8;
+  padding-bottom: 40rpx;
+}
+
 /* 顶部状态概览 */
 .status-header {
-  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  background: white;
   padding: 32rpx;
-  color: white;
-  border-radius: 0 0 24rpx 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
 }
 
 .baby-info {
   display: flex;
   align-items: center;
-  gap: 24rpx;
   margin-bottom: 16rpx;
 }
 
 .name {
-  font-size: 40rpx;
+  font-size: 36rpx;
   font-weight: bold;
+  color: #333;
+  margin-right: 20rpx;
 }
 
 .age {
   font-size: 28rpx;
-  opacity: 0.9;
+  color: #666;
+  background: #f5f5f5;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
 }
 
 .last-update {
-  font-size: 24rpx;
-  opacity: 0.8;
+  font-size: 26rpx;
+  color: #999;
 }
 
-/* 健康指标容器 */
+/* 卡片容器 */
 .indicators-container {
   padding: 32rpx;
 }
 
-/* 指标卡片 */
 .indicator-card {
   background: white;
-  border-radius: 16rpx;
-  margin-bottom: 32rpx;
+  border-radius: 20rpx;
+  margin-bottom: 24rpx;
   box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);
-  overflow: hidden;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32rpx 32rpx 0 32rpx;
+  padding: 32rpx 32rpx 0;
   margin-bottom: 24rpx;
 }
 
 .card-title {
   font-size: 32rpx;
-  font-weight: bold;
+  font-weight: 600;
   color: #333;
 }
 
+/* 统一按钮样式 */
 .card-actions {
   display: flex;
-  gap: 24rpx;
+  gap: 16rpx;
 }
 
-.edit-btn {
-  color: #6BC5D2;
-  font-size: 26rpx;
-  padding: 12rpx 20rpx;
-  border: 2rpx solid #6BC5D2;
-  border-radius: 20rpx;
-}
-
-.card-content {
-  padding: 0 32rpx 32rpx 32rpx;
-}
-
-/* 情况记录样式 */
-.symptom-item {
-  background: #f8f8f8;
+.action-btn {
+  padding: 16rpx 24rpx;
   border-radius: 12rpx;
-  padding: 24rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  border: 2rpx solid transparent;
 }
 
-.symptom-main {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20rpx;
+.action-btn.primary {
+  background: #6BC5D2;
+  color: white;
+  border-color: #6BC5D2;
 }
 
-.symptom-desc {
+.action-btn.secondary {
+  background: #f5f5f5;
+  color: #666;
+  border-color: #e0e0e0;
+}
+
+.action-btn.danger {
+  background: #fff2f0;
+  color: #ff6b6b;
+  border-color: #ffccc7;
+}
+
+/* 卡片内容 */
+.card-content {
+  padding: 0 32rpx 32rpx;
+}
+
+.symptom-content {
+  min-height: 120rpx;
+}
+
+.symptom-list-container {
+  margin-bottom: 24rpx;
+}
+
+.symptom-list-text {
   font-size: 30rpx;
   color: #333;
-  font-weight: 500;
-  flex: 1;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
 }
 
-.symptom-severity {
-  margin-left: 20rpx;
-}
-
-.severity-level {
-  font-size: 24rpx;
-  padding: 8rpx 16rpx;
-  border-radius: 12rpx;
-  font-weight: 500;
-}
-
-.level-1 { background: #e8f5e8; color: #4caf50; }
-.level-2 { background: #fff3e0; color: #ff9800; }
-.level-3 { background: #ffebee; color: #f44336; }
-
-.symptom-details {
-  display: flex;
-  gap: 40rpx;
-  margin-bottom: 24rpx;
-  padding-bottom: 20rpx;
-  border-bottom: 1rpx solid #e0e0e0;
-}
-
-.detail-item {
-  display: flex;
-  align-items: center;
-}
-
-.detail-label {
+.record-time {
   font-size: 26rpx;
-  color: #666;
+  color: #999;
 }
 
-.detail-value {
-  font-size: 26rpx;
-  color: #333;
-  font-weight: 500;
-  margin-left: 8rpx;
+.empty-tip {
+  font-size: 28rpx;
+  color: #ccc;
+  text-align: center;
+  padding: 40rpx 0;
 }
 
-/* 查看全部记录样式 */
+/* 查看全部记录 */
 .view-all-records {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 16rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #f0f0f0;
 }
 
-.record-count {
+.record-hint {
   font-size: 26rpx;
-  color: #6BC5D2;
+  color: #999;
 }
 
 .arrow {
@@ -152,76 +146,30 @@
   color: #6BC5D2;
 }
 
-/* 无记录状态 */
-.no-records {
-  text-align: center;
-  padding: 60rpx 0;
-  color: #999;
+/* 使用提示卡片 */
+.tip-list {
+  padding: 8rpx 0;
 }
 
-.no-data-text {
-  display: block;
-  font-size: 28rpx;
-  margin-bottom: 16rpx;
-}
-
-.no-data-hint {
-  display: block;
-  font-size: 24rpx;
-  color: #ccc;
-}
-
-/* 饮食情况网格 */
-.status-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24rpx;
-}
-
-.status-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8rpx;
-}
-
-.item-label {
-  font-size: 24rpx;
-  color: #666;
-}
-
-.item-value {
-  font-size: 26rpx;
-  color: #333;
-  font-weight: 500;
-}
-
-/* 底部操作 */
-.quick-actions {
-  padding: 32rpx;
-  background: white;
-  border-top: 1rpx solid #f0f0f0;
-}
-
-.action-btn {
+.tip-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16rpx;
-  padding: 28rpx;
-  border-radius: 50rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f8f8f8;
+}
+
+.tip-item:last-child {
+  border-bottom: none;
+}
+
+.tip-icon {
   font-size: 32rpx;
-  font-weight: bold;
+  margin-right: 20rpx;
+  width: 48rpx;
 }
 
-.action-btn.primary {
-  background: #6BC5D2;
-  color: white;
-}
-
-.btn-icon {
-  font-size: 36rpx;
-}
-
-.btn-text {
-  font-size: 30rpx;
+.tip-text {
+  font-size: 28rpx;
+  color: #666;
+  flex: 1;
 }

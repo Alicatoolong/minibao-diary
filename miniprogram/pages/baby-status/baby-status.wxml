@@ -1,100 +1,66 @@
-<!-- 顶部状态概览 -->
-<view class="status-header">
-  <view class="baby-info">
-    <text class="name">乐乐</text>
-    <text class="age">1岁2个月</text>
-  </view>
-  <view class="last-update">最后更新: {{lastUpdate || '暂无记录'}}</view>
-</view>
-
-<!-- 健康指标卡片 -->
-<view class="indicators-container">
- <!-- 情况指标卡片 -->
-<view class="indicator-card">
-  <view class="card-header">
-    <text class="card-title">🗣️ 情况表现</text>
-    <view class="card-actions">
-      <view class="edit-btn" bindtap="editSymptom">编辑</view>
+<view class="baby-status-page">
+  <!-- 顶部状态概览 -->
+  <view class="status-header">
+    <view class="baby-info">
+      <text class="name">乐乐</text>
+      <text class="age">1岁2个月</text>
     </view>
+    <view class="last-update">最后更新: {{lastUpdate || '暂无记录'}}</view>
   </view>
-  
-  <view class="card-content">
-    <!-- 有情况记录时显示最新记录 -->
-    <block wx:if="{{hasSymptomRecords && latestSymptom}}">
-      <view class="symptom-item">
-        <view class="symptom-main">
-          <view class="symptom-desc">{{latestSymptom.description || '暂无描述'}}</view>
-          <view class="symptom-severity">
-            <text class="severity-level level-{{latestSymptom.severity}}">
-              {{getSeverityText(latestSymptom.severity)}}
-            </text>
-          </view>
+
+  <!-- 健康指标卡片 -->
+  <view class="indicators-container">
+    
+    <!-- 情况表现 -->
+    <view class="indicator-card">
+      <view class="card-header">
+        <text class="card-title">🗣️ 情况表现</text>
+        <view class="card-actions">
+          <view class="action-btn primary" bindtap="editSymptom">编辑</view>
+          <view class="action-btn secondary" bindtap="forceRefreshAll">刷新</view>
+          <view class="action-btn danger" bindtap="clearAllSymptoms">清除</view>
+        </view>
+      </view>
+
+      <view class="card-content symptom-content">
+        <!-- 症状列表显示 -->
+        <view class="symptom-list-container">
+          <view class="symptom-list-text">{{symptomListText || '暂无症状记录'}}</view>
+          <!-- 记录时间 -->
+          <view class="record-time" wx:if="{{recordTime}}">{{recordTime}}</view>
+          <view class="empty-tip" wx:else>记录宝宝的情况，更好地了解健康状况</view>
         </view>
         
-        <view class="symptom-details">
-          <view class="detail-item" wx:if="{{latestSymptom.frequency}}">
-            <text class="detail-label">频率：</text>
-            <text class="detail-value">{{latestSymptom.frequency}}次/天</text>
-          </view>
-          <view class="detail-item" wx:if="{{latestSymptom.duration}}">
-            <text class="detail-label">时长：</text>
-            <text class="detail-value">{{latestSymptom.duration}}分钟</text>
-          </view>
-        </view>
-        
-        <!-- 查看全部记录入口 -->
+        <!-- 底部提示 -->
         <view class="view-all-records" bindtap="viewSymptomHistory">
-          <text class="record-count">查看全部{{symptomRecords.length}}条记录</text>
+          <text class="record-hint">查看更多内容请点击查看全部记录</text>
           <text class="arrow">→</text>
         </view>
       </view>
-    </block>
-    
-    <!-- 无记录时显示 -->
-    <block wx:else>
-      <view class="no-records">
-        <text class="no-data-text">暂无情况记录</text>
-        <text class="no-data-hint">点击编辑添加情况记录</text>
-      </view>
-    </block>
-  </view>
-</view>
-
-  <!-- 饮食情况卡片 -->
-  <view class="indicator-card">
-    <view class="card-header">
-      <text class="card-title">🍽️ 饮食情况</text>
-      <view class="edit-btn" bindtap="editDiet">编辑</view>
     </view>
-    <view class="card-content">
-      <view class="status-grid">
-        <view class="status-item">
-          <text class="item-label">早餐</text>
-          <text class="item-value">{{dietData.breakfast || '未记录'}}</text>
-        </view>
-        <view class="status-item">
-          <text class="item-label">午餐</text>
-          <text class="item-value">{{dietData.lunch || '未记录'}}</text>
-        </view>
-        <view class="status-item">
-          <text class="item-label">晚餐</text>
-          <text class="item-value">{{dietData.dinner || '未记录'}}</text>
-        </view>
-        <view class="status-item">
-          <text class="item-label">加餐</text>
-          <text class="item-value">{{dietData.snack || '未记录'}}</text>
+
+    <!-- 使用引导卡片 -->
+    <view class="indicator-card">
+      <view class="card-header">
+        <text class="card-title">💡 使用提示</text>
+      </view>
+      <view class="card-content">
+        <view class="tip-list">
+          <view class="tip-item">
+            <text class="tip-icon">📝</text>
+            <text class="tip-text">点击"编辑"记录宝宝的症状情况</text>
+          </view>
+          <view class="tip-item">
+            <text class="tip-icon">🔄</text>
+            <text class="tip-text">点击"刷新"同步最新记录</text>
+          </view>
+          <view class="tip-item">
+            <text class="tip-icon">📚</text>
+            <text class="tip-text">查看全部记录了解历史趋势</text>
+          </view>
         </view>
       </view>
     </view>
-  </view>
 
-  <!-- 可以继续添加其他卡片，比如睡眠、运动等 -->
-</view>
-
-<!-- 底部操作 -->
-<view class="quick-actions">
-  <view class="action-btn primary" bindtap="saveAllData">
-    <text class="btn-icon">💾</text>
-    <text class="btn-text">保存所有数据</text>
   </view>
 </view>

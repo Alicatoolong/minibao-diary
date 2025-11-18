@@ -1,0 +1,51 @@
+<view class="mood-square">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input 
+      class="search-input" 
+      placeholder="搜索心情日记..." 
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+    />
+    <text class="search-icon">🔍</text>
+  </view>
+
+  <!-- 心情日记列表 - 使用正确的滚动视图 -->
+  <scroll-view class="mood-list" scroll-y>
+    <block wx:for="{{moodList}}" wx:key="id">
+      <view class="mood-card">
+        <view class="card-header">
+          <text class="author">{{item.author}}</text>
+          <text class="date">{{item.date}}</text>
+        </view>
+        
+        <view class="mood-indicator">
+          <text class="mood-icon">{{item.moodIcon}}</text>
+          <text class="mood-type">{{item.moodType}}</text>
+        </view>
+        
+        <view class="card-content">
+          <text class="mood-text">{{item.content}}</text>
+        </view>
+        
+        <view class="card-tags" wx:if="{{item.tags && item.tags.length}}">
+          <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+        </view>
+        
+        <view class="card-actions">
+          <view class="hug-action" bindtap="sendHug" data-id="{{item.id}}">
+            <text class="hug-icon">🤗</text>
+            <text class="hug-count">抱抱 {{item.hugCount || 0}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{moodList.length === 0}}">
+    <text class="empty-icon">💭</text>
+    <text class="empty-title">还没有公开的心情日记</text>
+    <text class="empty-desc">去写第一篇心情日记吧</text>
+  </view>
+</view>

@@ -11,37 +11,35 @@
     </view>
   </view>
 
+  <!-- 加载状态 -->
+  <view class="loading-state" wx:if="{{isLoading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
   <!-- 情况记录列表 -->
-  <view class="history-list">
+  <view class="history-list" wx:else>
     <block wx:if="{{symptomRecords.length > 0}}">
       <view class="history-item" wx:for="{{symptomRecords}}" wx:key="id">
         <view class="item-header">
           <text class="symptom-desc">{{item.description}}</text>
           <view class="severity-badge level-{{item.severity}}">
-            <block wx:if="{{item.severity === 1}}">轻微</block>
-            <block wx:elif="{{item.severity === 2}}">中等</block>
-            <block wx:elif="{{item.severity === 3}}">严重</block>
-            <block wx:else>未知</block>
+            {{item.severityText || '未知'}}
           </view>
         </view>
         
         <view class="item-details">
           <view class="detail-row">
             <text class="detail-label">记录时间：</text>
-            <text class="detail-value">{{item.time || '未知时间'}}</text>
+            <text class="detail-value">{{item.formattedTime || item.timestamp || item.date || '未知时间'}}</text>
           </view>
-          <view class="detail-row" wx:if="{{item.frequency}}">
-            <text class="detail-label">频率：</text>
-            <text class="detail-value">{{item.frequency}}次/天</text>
-          </view>
-          <view class="detail-row" wx:if="{{item.duration}}">
-            <text class="detail-label">时长：</text>
-            <text class="detail-value">{{item.duration}}分钟</text>
+          <view class="detail-row" wx:if="{{item.symptomCount && item.symptomCount > 1}}">
+            <text class="detail-label">症状数量：</text>
+            <text class="detail-value">{{item.symptomCount}}个症状</text>
           </view>
         </view>
         
+        <!-- 移除编辑按钮，只保留删除按钮 -->
         <view class="item-actions">
-          <text class="action-btn" bindtap="editRecord" data-id="{{item.id}}">编辑</text>
           <text class="action-btn delete" bindtap="deleteRecord" data-id="{{item.id}}">删除</text>
         </view>
       </view>
@@ -51,9 +49,16 @@
       <view class="empty-state">
         <text class="empty-icon">📝</text>
         <text class="empty-text">暂无情况记录</text>
-        <text class="empty-tip">快去记录宝宝的情况吧</text>
-        <view class="empty-btn" bindtap="goToEdit">记录情况</view>
+        <text class="empty-tip">还没有记录过宝宝的情况哦</text>
       </view>
     </block>
+  </view>
+
+  <!-- 固定在底部的添加记录按钮 -->
+  <view class="add-record-btn-container">
+    <view class="add-record-btn" bindtap="goToEdit">
+      <text class="add-icon">+</text>
+      <text class="add-text">添加记录</text>
+    </view>
   </view>
 </view>

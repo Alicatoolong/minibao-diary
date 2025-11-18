@@ -14,7 +14,9 @@
     "pages/diet-history/diet-history",
     "pages/experience-detail/experience-detail",
     "pages/experience-list/experience-list",
-    "pages/experience-edit/experience-edit"
+    "pages/experience-edit/experience-edit",
+    "pages/quick-record-history/quick-record-history",
+    "pages/mood-square/mood-square"
   ],
   "window": {
     "backgroundTextStyle": "light",

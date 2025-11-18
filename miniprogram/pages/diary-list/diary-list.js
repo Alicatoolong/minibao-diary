@@ -7,6 +7,11 @@ Page({
     this.loadDiaryList();
   },
 
+  onShow: function() {
+    // 关键：添加这行代码，每次页面显示时刷新数据
+    this.loadDiaryList();
+  },
+
   onPullDownRefresh: function() {
     this.loadDiaryList();
     wx.stopPullDownRefresh();
@@ -69,10 +74,6 @@ Page({
   },
 
   onReady: function() {
-
-  },
-
-  onShow: function() {
 
   },
 

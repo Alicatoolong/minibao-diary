@@ -1,128 +1,157 @@
-/* 页面容器 */
-.page-container {
-  padding: 30rpx;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-  min-height: 100vh;
-}
-
-/* 宝宝信息概览卡片 */
-.status-overview {
+/* 优化后的个人信息卡片 */
+.user-info-card {
   background: linear-gradient(135deg, #87CEEB, #4682B4);
   border-radius: 24rpx;
-  padding: 40rpx 30rpx;
+  padding: 32rpx;
   margin: 30rpx;
   box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
   color: white;
 }
 
-/* 宝宝信息行 */
+/* 宝宝信息 - 重点突出 */
 .baby-info {
   display: flex;
   align-items: center;
-  margin-bottom: 40rpx;
+  margin-bottom: 24rpx;
 }
 
-/* 头像圆形设计 */
+.avatar-section {
+  margin-right: 20rpx;
+}
+
 .avatar {
-  width: 120rpx;
-  height: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
-  border: 4rpx solid rgba(255, 255, 255, 0.3);
-  margin-right: 24rpx;
+  border: 3rpx solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 信息文字 */
-.info-text {
+.avatar-text {
+  font-size: 36rpx;
+  color: white;
+  font-weight: bold;
+}
+
+.baby-details {
   flex: 1;
 }
 
-.name {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: white;
-  display: block;
-  margin-bottom: 12rpx;
-}
-
-.mood {
-  font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.9);
-  display: block;
-}
-/* 姓名区域样式 */
 .name-section {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 8rpx;
 }
 
-.name {
-  font-size: 36rpx;
+.baby-name {
+  font-size: 38rpx;
   font-weight: bold;
-  color: white;
-  flex: 1;
+  margin-right: 8rpx;
+}
+
+.baby-age {
+  font-size: 30rpx;
+  opacity: 0.9;
+  margin-right: 16rpx;
 }
 
 .edit-icon {
-  font-size: 28rpx;
-  margin-left: 20rpx;
+  font-size: 24rpx;
+  opacity: 0.7;
   padding: 8rpx;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.3s;
 }
 
-.edit-icon:active {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(0.9);
+/* 妈妈能量 - 弱化显示 */
+.mom-energy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24rpx;
+  padding: 16rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12rpx;
 }
-/* 签到区域 */
+
+.energy-label {
+  font-size: 24rpx;
+  opacity: 0.7;
+  margin-right: 12rpx;
+}
+
+.stars-container {
+  display: flex;
+  margin-right: 12rpx;
+}
+
+.star {
+  font-size: 26rpx;
+  margin-right: 4rpx;
+}
+
+.energy-desc {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* 签到区域 - 修复布局 */
 .checkin-section {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-}
-
-.checkin-stats {
-  font-size: 28rpx;
-  color: white;
-}
-
-.days {
-  display: flex;
-  align-items: center;
-}
-
-/* 图标按钮区域 */
-.actions {
-  display: flex;
-  gap: 40rpx;
-}
-
-.action-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 20rpx;
-  transition: all 0.3s;
+  padding: 24rpx 32rpx;
 }
 
-.action-icon:active {
-  background: rgba(255, 255, 255, 0.2);
+/* 签到按钮 */
+.checkin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50rpx;
+  padding: 20rpx 36rpx;
+  min-width: 180rpx;
+  transition: all 0.3s;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.checkin-btn:active {
+  background: rgba(255, 255, 255, 0.8);
   transform: scale(0.95);
 }
 
-.action-icon .icon {
-  font-size: 44rpx;
-  margin-bottom: 8rpx;
+.btn-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
 }
 
-.action-icon .icon-text {
-  font-size: 22rpx;
-  color: white;
+.btn-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #4682B4;
+}
+
+/* 签到天数 */
+.checkin-stats {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.stats-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+  opacity: 0.8;
+}
+
+.stats-text {
+  font-size: 26rpx;
+  opacity: 0.9;
+  white-space: nowrap;
 }
 
 /* 关心宝贝功能区 */
@@ -174,7 +203,7 @@
   color: #666;
 }
 
-/* 健康趋势图表样式 */
+/* 状态评分图表区域 */
 .chart-section {
   background: #fff;
   border-radius: 16rpx;
@@ -182,7 +211,8 @@
   margin: 20rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
 }
-/* 图表占位符样式 */
+
+/* 图表占位符样式（目前基本不用了，先保留） */
 .chart-placeholder {
   height: 200rpx;
   display: flex;
@@ -204,6 +234,7 @@
   font-size: 24rpx;
   color: #999;
 }
+
 .chart-header {
   display: flex;
   justify-content: space-between;
@@ -237,7 +268,7 @@
   background: #f0f7ff;
 }
 
-/* 健康等级指示器 */
+/* 健康等级指示器（现在没用到，可以未来扩展） */
 .health-levels {
   display: flex;
   justify-content: space-between;
@@ -331,17 +362,9 @@
 .grid-horizontal:nth-child(4) { top: 60%; }
 .grid-horizontal:nth-child(5) { top: 80%; }
 
-/* 折线路径 - 简化版本 */
-.line-path {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to top, rgba(74, 144, 226, 0.2), rgba(74, 144, 226, 0.05));
-}
 
-/* 数据点 */
+
+/* 数据点：统一圆点颜色 */
 .data-point {
   position: absolute;
   width: 20rpx;
@@ -349,39 +372,45 @@
   background: #4a90e2;
   border: 3rpx solid #fff;
   border-radius: 50%;
-  transform: translate(-50%, 50%);
-  box-shadow: 0 2rpx 8rpx rgba(74, 144, 226, 0.3);
-  transition: all 0.3s;
+  transform: translate(-50%, 0); 
+  box-shadow: 0 2rpx 6rpx rgba(74, 144, 226, 0.35);
+  transition: all 0.2s;
   z-index: 2;
 }
 
+/* 当前日期的点：不改颜色，只加光晕 */
 .data-point.active {
-  background: #ff6b6b;
-  width: 24rpx;
-  height: 24rpx;
+  box-shadow: 0 0 0 8rpx rgba(74, 144, 226, 0.16);
   z-index: 3;
 }
 
-/* 数据点提示 */
-.point-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8rpx 12rpx;
-  border-radius: 6rpx;
-  font-size: 20rpx;
-  white-space: nowrap;
-  margin-bottom: 12rpx;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
+/* 低分点（<60）：变红 */
+.data-point.low-point {
+  background: #F44336;
+  box-shadow: 0 2rpx 6rpx rgba(244, 67, 54, 0.35);
 }
 
-.data-point:active .point-tooltip {
-  opacity: 1;
+/* 既低分又是今天：红色光晕 */
+.data-point.low-point.active {
+  box-shadow: 0 0 0 8rpx rgba(244, 67, 54, 0.2);
+}
+
+/* 分数标签：常驻在圆点上方 */
+.point-label {
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20rpx;
+  color: #666666;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* 低分标签：红色、稍微加粗 */
+.point-label.low-score {
+  color: #F44336;
+  font-weight: 600;
 }
 
 /* X轴样式 */
@@ -399,61 +428,110 @@
   text-align: center;
 }
 
-/* 今日快速记录 */
+/* 今日快速记录模块 */
 .quick-record-section {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 30rpx;
-  margin: 20rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  margin: 30rpx;
+  padding: 32rpx;
+  background: white;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
 }
 
-.record-title {
+.section-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 30rpx;
-  display: flex;
-  align-items: center;
+  color: #333;
+  margin-bottom: 32rpx;
 }
 
-.record-title::before {
-  content: '';
-  display: inline-block;
-  width: 6rpx;
-  height: 30rpx;
-  background: #4a90e2;
-  border-radius: 3rpx;
-  margin-right: 15rpx;
-}
-
+/* 快速记录入口 */
 .quick-actions {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  gap: 20rpx;
 }
 
 .action-item {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20rpx;
-  border-radius: 12rpx;
-  transition: all 0.3s;
+  padding: 32rpx 20rpx;
+  background: white;
+  border-radius: 16rpx;
+  border: 2rpx solid #f0f0f0;
+  transition: all 0.3s ease;
+  min-height: 160rpx;
 }
 
-.action-item:active {
-  background: #f5f7fa;
-  transform: scale(0.95);
+.action-item.recorded {
+  border-color: #4dabf7;
+  background: #f8f9fa;
+  transform: translateY(-2rpx);
 }
 
 .action-icon {
-  font-size: 50rpx;
-  margin-bottom: 10rpx;
+  font-size: 56rpx;
+  margin-bottom: 16rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .action-text {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+
+.action-desc {
   font-size: 24rpx;
   color: #666;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.action-placeholder {
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+}
+/* 快速记录模块标题行 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 历史记录入口 */
+.history-entry {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  border: 1rpx solid #e9ecef;
+}
+
+.history-text {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 8rpx;
+}
+
+.history-icon {
+  font-size: 28rpx;
+  color: #999;
+  font-weight: bold;
 }
 
 /* 经验交流模块 */
@@ -590,7 +668,6 @@
   color: #999;
 }
 
-
 /* ===== 和我聊聊模块 ===== */
 .chat-section {
   margin: 24rpx;
@@ -724,4 +801,254 @@
   font-size: 28rpx;
   color: #ffffff;
   background-color: #6A8BFF;
+}
+/* 快速记录弹窗样式 */
+.quick-record-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.quick-record-modal .modal-mask {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.quick-record-modal .modal-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 40rpx;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.quick-record-modal .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.quick-record-modal .panel-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.quick-record-modal .panel-close {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+/* 情绪选项样式 */
+.quick-record-modal .emotion-options {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40rpx;
+}
+
+.quick-record-modal .emotion-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #f0f0f0;
+  transition: all 0.3s;
+  min-width: 120rpx;
+}
+
+.quick-record-modal .emotion-option.selected {
+  border-color: #6BC5D2;
+  background: #f0f9fb;
+  transform: scale(1.05);
+}
+
+.quick-record-modal .emotion-icon {
+  font-size: 60rpx;
+  margin-bottom: 16rpx;
+}
+
+.quick-record-modal .emotion-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.quick-record-modal .emotion-option.selected .emotion-text {
+  color: #6BC5D2;
+  font-weight: 500;
+}
+
+/* 运动选项样式 */
+.quick-record-modal .exercise-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.quick-record-modal .exercise-option {
+  flex: 1;
+  min-width: 120rpx;
+  padding: 24rpx 16rpx;
+  text-align: center;
+  border: 2rpx solid #f0f0f0;
+  border-radius: 12rpx;
+  transition: all 0.3s;
+  background: white;
+}
+
+.quick-record-modal .exercise-option.selected {
+  border-color: #6BC5D2;
+  background: #f0f9fb;
+  color: #6BC5D2;
+  font-weight: 500;
+  transform: scale(1.05);
+}
+
+.quick-record-modal .exercise-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* 弹窗按钮样式 */
+.quick-record-modal .modal-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.quick-record-modal .btn-cancel,
+.quick-record-modal .btn-confirm {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.quick-record-modal .btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.quick-record-modal .btn-confirm {
+  background: #6BC5D2;
+  color: white;
+}
+
+/* 今日状态显示样式 */
+.today-status {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  flex-wrap: wrap;
+}
+
+.status-item {
+  font-size: 26rpx;
+  color: #666;
+  padding: 8rpx 16rpx;
+  background: white;
+  border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+}
+
+/* 快速记录按钮样式调整 */
+.quick-actions {
+  display: flex;
+  justify-content: space-around;
+  gap: 20rpx;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  background: white;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+  transition: all 0.3s;
+  flex: 1;
+}
+
+.action-item:active {
+  background: #f8f9fa;
+  transform: scale(0.98);
+}
+
+.action-icon {
+  font-size: 48rpx;
+  margin-bottom: 12rpx;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #333;
+  font-weight: 500;
+}
+/* 睡眠选项样式 */
+.quick-record-modal .sleep-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.quick-record-modal .sleep-option {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid #f0f0f0;
+  transition: all 0.3s;
+  background: white;
+}
+
+.quick-record-modal .sleep-option.selected {
+  border-color: #6BC5D2;
+  background: #f0f9fb;
+  transform: scale(1.02);
+}
+
+.quick-record-modal .sleep-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+  width: 60rpx;
+  text-align: center;
+}
+
+.quick-record-modal .sleep-text {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+  flex: 1;
+}
+
+.quick-record-modal .sleep-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 20rpx;
+}
+
+.quick-record-modal .sleep-option.selected .sleep-text {
+  color: #6BC5D2;
+}
+
+.quick-record-modal .sleep-option.selected .sleep-desc {
+  color: #6BC5D2;
 }

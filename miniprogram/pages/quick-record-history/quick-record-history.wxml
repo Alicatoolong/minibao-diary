@@ -1,0 +1,54 @@
+<view class="history-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-back" bindtap="goBack">‹</view>
+    <text class="header-title">记录历史</text>
+  </view>
+
+  <!-- 历史记录列表 -->
+  <view class="history-list">
+    <block wx:for="{{recordHistory}}" wx:key="date">
+      <view class="history-item">
+        <view class="date-section">
+          <text class="date">{{item.displayDate}}</text>
+          <text class="weekday">{{item.weekday}}</text>
+        </view>
+        
+        <view class="record-content">
+          <view class="record-item" wx:if="{{item.emotion}}">
+            <text class="record-label">情绪:</text>
+            <text class="record-value">{{item.emotion}}</text>
+            <text class="record-emoji">
+              <text wx:if="{{item.emotionLevel === 1}}">😊</text>
+              <text wx:if="{{item.emotionLevel === 2}}">😐</text>
+              <text wx:if="{{item.emotionLevel === 3}}">😢</text>
+            </text>
+          </view>
+          
+          <view class="record-item" wx:if="{{item.exerciseMinutes}}">
+            <text class="record-label">运动:</text>
+            <text class="record-value">{{item.exerciseMinutes}}分钟</text>
+            <text class="record-emoji">🏃</text>
+          </view>
+          
+          <view class="record-item" wx:if="{{item.sleep}}">
+            <text class="record-label">睡眠:</text>
+            <text class="record-value">{{item.sleep}}</text>
+            <text class="record-emoji">
+              <text wx:if="{{item.sleepLevel === 1}}">😴</text>
+              <text wx:if="{{item.sleepLevel === 2}}">😊</text>
+              <text wx:if="{{item.sleepLevel === 3}}">🤩</text>
+            </text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{recordHistory.length === 0}}">
+    <text class="empty-icon">📝</text>
+    <text class="empty-title">还没有记录历史</text>
+    <text class="empty-desc">快去首页记录今日状态吧</text>
+  </view>
+</view>

@@ -1,124 +1,93 @@
+<!-- symptom.wxml -->
 <view class="edit-container">
-  <!-- 情况选择部分 -->
-  <view class="form-section">
-    <text class="section-title">选择情况类型</text>
-    <view class="symptom-options">
-      <block wx:for="{{symptomOptions}}" wx:key="value">
-        <view 
-          class="symptom-option {{selectedSymptom === item.value ? 'selected' : ''}}"
-          bindtap="selectSymptom"
-          data-value="{{item.value}}"
-        >
-          <text class="option-text">{{item.label}}</text>
-          <text class="option-desc">{{item.desc}}</text>
-        </view>
-      </block>
-    </view>
-  </view>
 
-  <!-- 在情况选择区域添加分类提示 -->
-  <view 
-    class="symptom-category-hint" 
-    wx:if="{{selectedSymptom != 'asymptomatic' && selectedSymptom != 'other'}}"
-  >
+<!-- 症状选择 -->
+<view class="form-section">
+  <text class="section-title">选择症状</text>
+  <view class="symptom-options">
     <block wx:for="{{symptomOptions}}" wx:key="value">
-      <block wx:if="{{item.value === selectedSymptom}}">
-        <view 
-          class="category-tag" 
-          style="background: {{categoryInfo[item.category].color}}20; border-color: {{categoryInfo[item.category].color}}"
-        >
-          <text 
-            class="category-name" 
-            style="color: {{categoryInfo[item.category].color}}"
-          >
-            {{categoryInfo[item.category].name}}
-          </text>
-          <text class="weight-badge">权重{{item.weight}}</text>
-        </view>
-        <text class="category-desc">
-          {{categoryInfo[item.category].desc}}
-        </text>
-      </block>
+      <view
+        class="symptom-option {{selectedSymptom === item.value ? 'selected' : ''}}"
+        bindtap="selectSymptom"
+        data-value="{{item.value}}"
+      >
+        <text class="option-text">{{item.label}}</text>
+      </view>
     </block>
   </view>
-    
-  <!-- 其他情况输入 -->
-  <view wx:if="{{showOtherInput}}" class="other-input-container">
-    <input 
+
+  <!-- 其他症状输入框 -->
+  <view class="other-input-container" wx:if="{{showOtherInput}}">
+    <input
       class="other-input"
+      placeholder="请输入症状描述..."
       value="{{otherSymptomText}}"
-      placeholder="请输入其他情况描述"
       bindinput="onOtherSymptomInput"
     />
   </view>
-
-  <!-- 严重程度部分 -->
-  <view class="form-section">
-    <text class="section-title">严重程度</text>
-    <view class="severity-options">
-      <block wx:for="{{severityLevels}}" wx:key="level">
-        <view 
-          class="severity-option {{severityData.level === item.level ? 'selected' : ''}}"
-          bindtap="selectSeverity"
-          data-level="{{item.level}}"
-        >
-          <text class="severity-icon">{{item.icon}}</text>
-          <text class="severity-label">{{item.label}}</text>
-          <text class="severity-desc">{{item.desc}}</text>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <!-- 情况详情部分 -->
-  <view class="form-section">
-    <text class="section-title">情况详情</text>
-    <view class="input-group">
-      <view class="input-item">
-        <text class="input-label">发作频率</text>
-        <input 
-          class="input-field"
-          value="{{severityData.frequency}}"
-          placeholder="如：每天3-5次"
-          bindinput="onFrequencyInput"
-        />
-      </view>
-      <view class="input-item">
-        <text class="input-label">持续时间</text>
-        <input 
-          class="input-field"
-          value="{{severityData.duration}}"
-          placeholder="如：每次几秒钟"
-          bindinput="onDurationInput"
-        />
-      </view>
-    </view>
-  </view>
-
-  <!-- 情况描述部分 -->
-  <view class="form-section">
-    <text class="section-title">情况描述</text>
-    <textarea 
-      class="description-input"
-      value="{{severityData.description}}"
-      placeholder="请详细描述情况表现..."
-      bindinput="onDescriptionInput"
-      maxlength="200"
-    ></textarea>
-    <view class="char-count">
-  {{severityData.description ? severityData.description.length : 0}}/200
 </view>
-  </view>
 
-  <!-- 自动保存提示 -->
-  <view class="auto-save-hint">
-    <text class="hint-icon">💾</text>
-    <text class="hint-text">修改后自动保存</text>
+<!-- 严重程度选择 - 始终显示 -->
+<view class="form-section">
+  <text class="section-title">严重程度</text>
+  <view class="severity-options">
+    <block wx:for="{{severityLevels}}" wx:key="level">
+      <view
+        class="severity-option {{selectedSeverity === item.level ? 'selected' : ''}} {{selectedSymptom === 'asymptomatic' ? 'disabled' : ''}}"
+        bindtap="{{selectedSymptom === 'asymptomatic' ? '' : 'selectSeverity'}}"
+        data-level="{{item.level}}"
+      >
+        <text class="severity-icon">{{item.icon}}</text>
+        <text class="severity-label">{{item.label}}</text>
+      </view>
+    </block>
   </view>
+</view>
 
-  <!-- 操作按钮 -->
-  <view class="action-buttons">
-    <view class="btn secondary" bindtap="cancelEdit">取消</view>
-    <view class="btn primary" bindtap="saveSymptom">保存记录</view>
+<!-- 添加按钮 - 始终显示 -->
+<view class="form-section">
+  <view 
+    class="btn primary add-btn {{(selectedSymptom === 'asymptomatic' || (selectedSymptom !== 'asymptomatic' && selectedSeverity)) ? '' : 'disabled'}}" 
+    bindtap="{{(selectedSymptom === 'asymptomatic' || (selectedSymptom !== 'asymptomatic' && selectedSeverity)) ? 'confirmSymptom' : ''}}"
+  >
+    <text class="btn-icon">+</text>
+    添加此症状
   </view>
+</view>
+
+<!-- 已选症状列表 - 固定位置 -->
+<view class="form-section selected-list-section">
+  <text class="section-title">已选症状</text>
+  <view class="selected-list">
+    <block wx:for="{{confirmedSymptoms}}" wx:key="id">
+      <view class="selected-item">
+        <text class="selected-name">{{item.symptomName}}</text>
+        <text class="selected-severity {{item.severityLevel === 1 ? 'mild' : item.severityLevel === 2 ? 'moderate' : 'severe'}}">
+          {{item.severity}}
+        </text>
+        <text class="delete-btn" bindtap="deleteSymptom" data-index="{{index}}">×</text>
+      </view>
+    </block>
+    <view class="empty-tip" wx:if="{{confirmedSymptoms.length === 0}}">
+      <text>暂无已选症状</text>
+    </view>
+  </view>
+</view>
+
+<!-- 温馨提示 -->
+<view class="warm-tip">
+  <text>记录症状有助于了解宝宝情况，妈妈们要多对孩子微笑和拥抱 💕</text>
+</view>
+
+<!-- 最终确认按钮 -->
+<view class="final-confirm-section" wx:if="{{confirmedSymptoms.length > 0}}">
+  <view class="final-summary">
+    <text class="summary-count">{{confirmedSymptoms.length}}</text>
+    <text class="summary-text">个症状已添加</text>
+  </view>
+  <view class="btn complete final-confirm-btn" bindtap="completeSelection">
+    确认提交
+  </view>
+</view>
+
 </view>

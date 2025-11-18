@@ -68,36 +68,6 @@
   margin-top: 5px;
 }
 
-/* 标签样式 */
-.tag-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.tag-option {
-  background: #f0f0f0;
-  color: #666;
-  padding: 8px 12px;
-  border-radius: 15px;
-  font-size: 14px;
-  transition: all 0.3s;
-}
-
-.tag-option.selected {
-  background: #87CEEB;
-  color: white;
-}
-
-.custom-tag-input {
-  width: 100%;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 10px 12px;
-  box-sizing: border-box;
-}
-
 /* 隐私设置样式 */
 .privacy-setting {
   display: flex;

@@ -29,29 +29,6 @@
     <view class="char-count">{{diaryContent.length}}/1000</view>
   </view>
 
-  <!-- 标签 -->
-  <view class="form-section">
-    <view class="section-title">🏷️ 标签</view>
-    <view class="tag-options">
-      <view 
-        class="tag-option {{selectedTags.includes(item) ? 'selected' : ''}}"
-        wx:for="{{tagOptions}}" 
-        wx:key="*this"
-        bindtap="toggleTag"
-        data-tag="{{item}}"
-      >
-        {{item}}
-      </view>
-    </view>
-    <input 
-      class="custom-tag-input" 
-      placeholder="自定义标签..."
-      value="{{customTag}}"
-      bindinput="onCustomTagInput"
-      bindconfirm="addCustomTag"
-    />
-  </view>
-
   <!-- 隐私设置 -->
   <view class="form-section">
     <view class="section-title">🔒 隐私设置</view>

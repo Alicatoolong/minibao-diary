@@ -1,6 +1,30 @@
-// 健康趋势计算函数（你原有的重要逻辑，完全保留）
+// 创建测试用的公开心情日记
+const testDiaries = [
+  {
+    id: 1,
+    author: '乐乐妈妈',
+    mood: 1, // 开心
+    content: '今天宝宝第一次笑出声，心都化了！',
+    tags: ['成长', '开心'],
+    isPublic: true,
+    createTime: new Date().toISOString(),
+    hugCount: 12
+  },
+  {
+    id: 2, 
+    author: '辰辰妈妈',
+    mood: 3, // 不开心
+    content: '宝宝最近总摇头，有点担心',
+    tags: ['担忧', '症状'],
+    isPublic: true,
+    createTime: new Date().toISOString(),
+    hugCount: 8
+  }
+];
+
+wx.setStorageSync('diaryRecords', testDiaries);
+console.log('测试数据创建成功！');// 健康趋势计算
 const HEALTH_CALCULATION = {
-  // 情况权重映射
   SYMPTOM_WEIGHTS: {
     'blink': 1.0, 'nose': 1.0, 'eyebrow': 1.0, 'mouth': 1.0, 'head': 1.0, 'shoulder': 1.0,
     'neck': 1.5, 'belly': 1.5, 'wrist': 1.5, 'ankle': 1.5, 'jump': 1.5, 'touch': 1.5,
@@ -11,11 +35,9 @@ const HEALTH_CALCULATION = {
     'asymptomatic': 0
   },
 
-  // 严重程度系数
   SEVERITY_FACTORS: { 1: 1.0, 2: 1.5, 3: 2.0 },
 
-  // 计算频率影响因子
-  calculateFrequencyFactor: function(frequency) {
+  calculateFrequencyFactor(frequency) {
     if (!frequency) return 1.0;
     const freq = parseInt(frequency) || 0;
     if (freq <= 10) return 1.0;
@@ -25,8 +47,7 @@ const HEALTH_CALCULATION = {
     return 2.0;
   },
 
-  // 计算单日健康指数
-  calculateDailyHealthIndex: function(symptoms) {
+  calculateDailyHealthIndex(symptoms) {
     if (!symptoms || symptoms.length === 0) return 100;
 
     let totalImpact = 0;
@@ -34,578 +55,537 @@ const HEALTH_CALCULATION = {
 
     symptoms.forEach(symptom => {
       if (symptom.type === 'asymptomatic') return;
-      
+
       const weight = this.SYMPTOM_WEIGHTS[symptom.type] || 1.0;
       const severityFactor = this.SEVERITY_FACTORS[symptom.level] || 1.0;
       const frequencyFactor = this.calculateFrequencyFactor(symptom.frequency);
-      
-      const impact = weight * severityFactor * frequencyFactor;
-      totalImpact += impact;
+
+      totalImpact += weight * severityFactor * frequencyFactor;
       symptomCount++;
     });
 
-    // 如果有情况，计算健康指数
     if (symptomCount > 0) {
       const avgImpact = totalImpact / symptomCount;
-      const healthIndex = Math.max(0, 100 - (avgImpact * 8));
-      return Math.round(healthIndex);
+      return Math.max(0, Math.round(100 - avgImpact * 8));
     }
 
     return 100;
   },
 
-  // 生成最近5天的健康趋势数据
-  generateHealthTrendData: function(symptoms) {
+  generateHealthTrendData(symptoms) {
     const trendData = [];
     const today = new Date();
-    
-    // 生成最近5天的日期
+
     for (let i = 4; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-      const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
-      const fullDateString = date.toISOString().split('T')[0];
-      
-      // 获取当天的情况记录
-      const dailySymptoms = symptoms.filter(symptom => {
-        if (!symptom.date) return false;
-        const symptomDate = new Date(symptom.date);
-        return symptomDate.toDateString() === date.toDateString();
+
+      const dailySymptoms = symptoms.filter(s => {
+        if (!s.date) return false;
+        return new Date(s.date).toDateString() === date.toDateString();
       });
-      
-      const healthIndex = this.calculateDailyHealthIndex(dailySymptoms);
-      
+
       trendData.push({
-        date: fullDateString,
-        displayDate: dateString,
-        healthIndex: healthIndex,
+        date: date.toISOString().split('T')[0],
+        displayDate: `${date.getMonth() + 1}/${date.getDate()}`,
+        healthIndex: this.calculateDailyHealthIndex(dailySymptoms),
         symptomCount: dailySymptoms.length,
         hasSymptoms: dailySymptoms.length > 0
       });
     }
-    
+
     return trendData;
   }
-};
+}
 
-// 数据存储工具（新增的持久化功能）
+// 数据存储
 const StorageManager = {
-  // 保存所有记录数据
   saveAllRecords(records) {
-    try {
-      wx.setStorageSync('symptomRecords', records);
-      console.log('数据保存成功', records);
-      return true;
-    } catch (e) {
-      console.error('数据保存失败:', e);
-      return false;
-    }
+    try { wx.setStorageSync('symptomRecords', records); return true; }
+    catch (e) { return false; }
   },
-
-  // 读取所有记录数据
   getAllRecords() {
-    try {
-      return wx.getStorageSync('symptomRecords') || [];
-    } catch (e) {
-      console.error('数据读取失败:', e);
-      return [];
-    }
+    try { return wx.getStorageSync('symptomRecords') || []; }
+    catch (e) { return []; }
   },
-
-  // 保存宝宝信息
-  saveBabyInfo(babyInfo) {
-    try {
-      wx.setStorageSync('babyBasicInfo', babyInfo);
-      console.log('宝宝信息保存成功', babyInfo);
-      return true;
-    } catch (e) {
-      console.error('宝宝信息保存失败:', e);
-      return false;
-    }
+  saveBabyInfo(info) {
+    try { wx.setStorageSync('babyBasicInfo', info); return true; }
+    catch (e) { return false; }
   },
-
-  // 读取宝宝信息
   getBabyInfo() {
-    try {
-      return wx.getStorageSync('babyBasicInfo') || {};
-    } catch (e) {
-      console.error('宝宝信息读取失败:', e);
-      return {};
-    }
+    try { return wx.getStorageSync('babyBasicInfo') || {}; }
+    catch (e) { return {}; }
+  },
+  // 新增：保存情绪运动记录
+saveEmotionExerciseRecord(record) {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const existingRecords = wx.getStorageSync('emotionExerciseRecords') || {};
+    
+    // 每日覆盖，只保留最新记录
+    existingRecords[today] = {
+      ...record,
+      date: today,
+      timestamp: new Date().toISOString()
+    };
+    
+    wx.setStorageSync('emotionExerciseRecords', existingRecords);
+    return true;
+  } catch (e) {
+    console.error('保存情绪运动记录失败:', e);
+    return false;
   }
+},
+
+// 新增：获取今日情绪运动记录（放在 StorageManager 内部）
+getTodayEmotionExercise() {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const records = wx.getStorageSync('emotionExerciseRecords') || {};
+    return records[today] || null;
+  } catch (e) {
+    return null;
+  }
+}
 };
 
 Page({
   data: {
-    symptomRecords: [],
-    hasSymptomRecords: false,
-    latestSymptom: null,
     babyInfo: {
       name: '',
       age: '',
+      birthday: '',
       healthStatus: '',
-      healthRating: 0,
-      birthday: ''
+      healthRating: 0
     },
+
+    // 新增：快速记录弹窗相关
+    showQuickRecordModal: false,
+    quickRecordType: '', // 'emotion' 或 'exercise'
+    selectedEmotion: 1, // 1:开心 2:平静 3:不开心
+    selectedExercise: 60, // 运动分钟数
+    selectedSleep: 2, // 1:低于8小时 2:8-10小时 3:10小时以上
+    todayEmotion: null, // 今日情绪状态
+    todayExercise: null, // 今日运动状态
+    todaySleep: null, // 今日睡眠状态
+
+    healthTrendData: [],
+    currentHealthIndex: 100,
+    trendLines: [],
+
     hotPosts: [
-      {
-        id: 1,
-        author: '乐乐妈妈',
-        title: '孩子总清嗓子，我是怎么办的',
-        content: '乐乐前阵子总清嗓子，我是这样排查的：先观察是否有感冒、再留意是否吃了容易刺激的食物，最后配合雾化和饮食调整，目前明显好了很多。',
-        likes: 12,
-        cheers: 5
+      { 
+        id: 1, 
+        author: '乐乐妈妈', 
+        title: '孩子总清嗓子，我是怎么办的', 
+        likes: 12, 
+        cheers: 5,
+        content: '我家孩子之前总是清嗓子，后来发现是过敏性鼻炎引起的...',
+        tags: ['清嗓子', '过敏性鼻炎', '经验分享']
       },
-      {
-        id: 2,
-        author: '辰辰妈妈',
-        title: '睡前总眨眼怎么办？',
-        content: '我们家辰辰睡前总眨眼，后来发现是白天看屏幕时间太长了，现在控制每天看屏幕不超过30分钟，好了很多。',
-        likes: 8,
-        cheers: 3
+      { 
+        id: 2, 
+        author: '辰辰妈妈', 
+        title: '睡前总眨眼怎么办？', 
+        likes: 8, 
+        cheers: 3,
+        content: '孩子睡前眨眼频繁，经过一段时间的调理现在好多了...',
+        tags: ['眨眼', '睡前', '调理']
       },
-      {
-        id: 3,
-        author: '果果妈妈',
-        title: '饮食调整后，白天抽动变少了',
-        content: '最近把含糖零食和加工肉类都停掉，多换成水果、坚果和优质蛋白，感觉白天抽动次数少了一些，分享给大家参考。',
-        likes: 15,
-        cheers: 9
+      { 
+        id: 3, 
+        author: '果果妈妈', 
+        title: '饮食调整后抽动减少', 
+        likes: 15, 
+        cheers: 9,
+        content: '通过调整饮食结构，孩子的抽动症状明显改善...',
+        tags: ['饮食', '抽动', '改善']
       }
     ],
-    healthTrendData: [],
-    currentHealthIndex: 88,
-    healthChartVisible: true,
 
-    // 👇 新增：和我聊聊弹层开关（一定要写在 data 里面）
     showChatModal: false
   },
 
-  onLoad: function(options) {
-    console.log('🚀 首页开始加载');
-    
-    // 使用StorageManager加载宝宝信息
-    const savedBabyInfo = StorageManager.getBabyInfo();
-    console.log('📥 加载的宝宝信息:', savedBabyInfo);
-    if (savedBabyInfo && savedBabyInfo.name) {
-      this.setData({
-        babyInfo: {
-          ...this.data.babyInfo,
-          ...savedBabyInfo
-        }
-      });
-    }
-    
-    // 检查情况记录
-    const symptoms = StorageManager.getAllRecords();
-    console.log('📋 情况记录数量:', symptoms.length);
-    console.log('📋 情况记录内容:', symptoms);
-    
-    // 计算并设置年龄
+  onLoad() {
+    this.loadBabyInfo();
     this.calculateAge();
     this.calculateHealthTrend();
+    this.loadTodayEmotionExercise(); // 新增
   },
 
-  onShow: function() {
-    // 每次页面显示时重新计算年龄和健康趋势
+  onShow() {
     this.calculateAge();
     this.calculateHealthTrend();
+    this.loadTodayEmotionExercise(); // 新增
   },
 
-  // 计算健康趋势
-  calculateHealthTrend: function() {
-    try {
-      const symptoms = StorageManager.getAllRecords();
-      console.log('📊 开始计算健康趋势，情况记录数:', symptoms.length);
-      
-      // 如果没有情况记录，使用默认数据
-      if (symptoms.length === 0) {
-        console.log('📝 没有情况记录，使用默认数据');
-        const defaultData = this.generateDefaultTrendData();
-        this.setData({
-          healthTrendData: defaultData,
-          currentHealthIndex: defaultData[defaultData.length - 1].healthIndex
-        });
-        return;
-      }
-      
-      const trendData = HEALTH_CALCULATION.generateHealthTrendData(symptoms);
-      console.log('📈 生成的趋势数据:', trendData);
-      
-      // 计算当前健康指数（今天的数据）
-      const todayHealth = trendData.length > 0 ? trendData[trendData.length - 1].healthIndex : 100;
-      
-      this.setData({
-        healthTrendData: trendData,
-        currentHealthIndex: todayHealth
-      });
-      
-    } catch (error) {
-      console.error('💥 计算健康趋势时出错:', error);
-      // 出错时使用默认数据
-      const defaultData = this.generateDefaultTrendData();
-      this.setData({
-        healthTrendData: defaultData,
-        currentHealthIndex: 88
-      });
+  // ---------------------------------------
+  // 加载宝宝信息
+  // ---------------------------------------
+  loadBabyInfo() {
+    const info = StorageManager.getBabyInfo();
+    if (info && info.name) {
+      this.setData({ babyInfo: { ...this.data.babyInfo, ...info } });
     }
   },
 
-  // 生成默认趋势数据
-  generateDefaultTrendData: function() {
+  // ---------------------------------------
+  // 计算年龄
+  // ---------------------------------------
+  calculateAge() {
+    const birthday = this.data.babyInfo.birthday;
+    if (!birthday) return;
+
+    const birth = new Date(birthday);
     const today = new Date();
-    const trendData = [];
-    
-    // 生成最近5天的默认数据
+
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+
+    if (months < 0) { years--; months += 12; }
+    if (today.getDate() < birth.getDate()) { months--; if (months < 0) { years--; months += 12; } }
+
+    const ageStr =
+      years > 0 ? `${years}岁${months}个月` :
+      months > 0 ? `${months}个月` : "新生儿";
+
+    this.setData({ "babyInfo.age": ageStr });
+  },
+
+  // ---------------------------------------
+  // 计算趋势 & 折线
+  // ---------------------------------------
+  calculateHealthTrend() {
+    const symptoms = StorageManager.getAllRecords();
+
+    let trendData = [];
+    if (symptoms.length === 0) {
+      trendData = this.generateDefaultTrendData();
+    } else {
+      trendData = HEALTH_CALCULATION.generateHealthTrendData(symptoms);
+    }
+
+    const todayScore = trendData[trendData.length - 1].healthIndex;
+
+    this.setData({
+      healthTrendData: trendData,
+      currentHealthIndex: todayScore
+    });
+
+    this.updateTrendLines(trendData);
+  },
+
+  // 默认数据（无记录时）
+  generateDefaultTrendData() {
+    const today = new Date();
+    const arr = [];
     for (let i = 4; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
-      
-      // 生成随机但合理的健康指数（85-95之间）
-      const healthIndex = 85 + Math.floor(Math.random() * 11);
-      
-      trendData.push({
-        date: date.toISOString().split('T')[0],
-        displayDate: dateString,
-        healthIndex: healthIndex,
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      arr.push({
+        date: d.toISOString().split("T")[0],
+        displayDate: `${d.getMonth() + 1}/${d.getDate()}`,
+        healthIndex: 85 + Math.floor(Math.random() * 11),
         symptomCount: 0,
         hasSymptoms: false
       });
     }
-    
-    return trendData;
+    return arr;
   },
 
-  // 计算年龄方法
-  calculateAge: function() {
-    const birthday = this.data.babyInfo.birthday;
-    if (!birthday) {
-      console.log('没有生日数据');
+  // ⭐ 正确的折线计算（点连点）
+  updateTrendLines(trendData) {
+    if (!trendData || trendData.length < 2) {
+      this.setData({ trendLines: [] });
       return;
     }
-    
-    const birthDate = new Date(birthday);
-    const today = new Date();
-    
-    // 验证日期是否有效
-    if (isNaN(birthDate.getTime())) {
-      console.error('无效的生日日期:', birthday);
-      return;
+
+    const lines = [];
+    const total = trendData.length - 1;
+    const stepX = 100 / total;
+
+    for (let i = 0; i < total; i++) {
+      const p1 = trendData[i];
+      const p2 = trendData[i + 1];
+
+      const x1 = stepX * i;
+      const x2 = stepX * (i + 1);
+      const y1 = p1.healthIndex;
+      const y2 = p2.healthIndex;
+
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+
+      lines.push({
+        left: x1,
+        bottom: y1,
+        length: Math.sqrt(dx * dx + dy * dy),
+        angle: Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI
+      });
     }
-    
-    let years = today.getFullYear() - birthDate.getFullYear();
-    let months = today.getMonth() - birthDate.getMonth();
-    
-    // 如果当前月份小于出生月份，年份减1，月份加12
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-    
-    // 如果当前日期小于出生日期，月份减1
-    if (today.getDate() < birthDate.getDate()) {
-      months--;
-      // 如果月份变成负数，年份减1，月份加12
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
-    }
-    
-    // 确保月份在合理范围内
-    if (months < 0) months = 0;
-    if (months > 11) months = 11;
-    
-    // 构建年龄显示字符串
-    let ageString = '';
-    if (years > 0) {
-      ageString += `${years}岁`;
-    }
-    if (months > 0) {
-      if (ageString) ageString += '';
-      ageString += `${months}个月`;
-    }
-    if (!ageString) {
-      ageString = '新生儿';
-    }
-    
-    // 更新数据
-    this.setData({
-      'babyInfo.age': ageString
-    });
+
+    this.setData({ trendLines: lines });
   },
 
-  // 获取健康等级标签
-  getHealthLabel: function(healthIndex) {
-    if (healthIndex >= 90) return '优秀';
-    if (healthIndex >= 80) return '良好';
-    if (healthIndex >= 70) return '一般';
-    if (healthIndex >= 60) return '关注';
-    return '需重视';
-  },
-
-  // 获取健康等级颜色
-  getHealthColor: function(healthIndex) {
-    if (healthIndex >= 90) return '#4CAF50';
-    if (healthIndex >= 80) return '#8BC34A';
-    if (healthIndex >= 70) return '#FFC107';
-    if (healthIndex >= 60) return '#FF9800';
-    return '#F44336';
-  },
-
-  // 刷新健康数据
-  refreshHealthData: function() {
+  refreshHealthData() {
     this.calculateHealthTrend();
-    wx.showToast({
-      title: '数据已更新',
-      icon: 'success'
-    });
+    wx.showToast({ title: "已更新", icon: "success" });
   },
 
-  // 数据点点击事件
-  onDataPointTap: function(e) {
+  onDataPointTap(e) {
     const item = e.currentTarget.dataset.item;
-    const index = e.currentTarget.dataset.index;
-    console.log('点击数据点:', item, index);
-    
-    // 显示详细数据
     wx.showModal({
-      title: `${item.displayDate} 健康详情`,
-      content: `健康评分: ${item.healthIndex}分\n情况记录: ${item.symptomCount}条`,
-      showCancel: false,
-      confirmText: '知道了'
-    });
-  },
-// 跳转到经验广场页面
-  goToExperienceList: function() {
-    wx.navigateTo({
-      url: '/pages/experience-list/experience-list'
-    });
-  },
-  // 显示健康详情
-  showHealthDetail: function(e) {
-    const { date, score } = e.currentTarget.dataset;
-    wx.showModal({
-      title: `${date} 健康详情`,
-      content: `健康评分: ${score}`,
+      title: `${item.displayDate} 状态详情`,
+      content: `状态分：${item.healthIndex}分\n记录：${item.symptomCount}条`,
       showCancel: false
     });
   },
-  // 首页：点击某一条经验 → 跳转到经验详情页
-  onPostPreviewTap: function(e) {
-    const id = e.currentTarget.dataset.id;
-    const post = this.data.hotPosts.find(p => p.id === id);
-    if (!post) return;
 
-    wx.navigateTo({
-      url: '/pages/experience-detail/experience-detail',
-      success: function(res) {
-        // 通过 eventChannel 向详情页传递这条帖子的完整数据
-        if (res.eventChannel) {
-          res.eventChannel.emit('postData', post);
-        }
-      },
-      fail: function(err) {
-        console.error('❌ 跳转经验详情失败:', err);
-        wx.showToast({
-          title: '无法打开经验详情',
-          icon: 'none'
-        });
-      }
+  // ---------------------------------------
+  // 核心导航功能
+  // ---------------------------------------
+  navToBabyStatus() {
+    wx.navigateTo({ url: "/pages/baby-status/baby-status" });
+  },
+
+  navToDietRecord() {
+    wx.navigateTo({ url: "/pages/diet-record/diet-record" });
+  },
+
+  navToDiary() {
+    wx.navigateTo({ url: "/pages/diary-list/diary-list" });
+  },
+
+// 跳转到心情广场
+navToMap() {
+  wx.navigateTo({ 
+    url: "/pages/mood-square/mood-square" });
+},
+  
+// 跳转到快速记录历史页面
+navToQuickRecordHistory() {
+  console.log('跳转到快速记录历史页面');
+  wx.navigateTo({ 
+    url: "/pages/quick-record-history/quick-record-history" 
+  });
+},
+  // ---------------------------------------
+  // 经验交流相关跳转
+  // ---------------------------------------
+  
+  // 修复：添加缺失的 goToExperienceList 方法
+  goToExperienceList() {
+    console.log('跳转到经验列表页面');
+    wx.navigateTo({ 
+      url: "/pages/experience-list/experience-list" 
     });
   },
-  // 快速记录点击事件
-  quickRecord: function(e) {
-    const type = e.currentTarget.dataset.type;
-    console.log('快速记录类型:', type);
+
+  // 跳转到帖子详情
+  navToPostDetail(e) {
+    const postId = e.currentTarget.dataset.id;
+    const post = this.data.hotPosts.find(p => p.id === postId);
     
-    // 这里可以弹出对应的记录模态框
-    wx.showModal({
-      title: '记录' + this.getTypeName(type),
-      content: '记录' + this.getTypeName(type) + '信息',
-      success: (res) => {
-        if (res.confirm) {
-          wx.showToast({
-            title: '记录成功',
-            icon: 'success'
-          });
-        }
-      }
-    });
-  },
-
-  getTypeName: function(type) {
-    const names = {
-      'mood': '情绪',
-      'diet': '饮食', 
-      'sleep': '睡眠',
-      'exercise': '运动',
-      'special': '特殊情况'
-    };
-    return names[type] || type;
-  },
-
-  // 编辑宝宝信息
-  editBabyInfo: function() {
-    console.log('点击编辑宝宝信息');
-    
-    // 构建要传递的数据
-    const babyInfo = {
-      name: this.data.babyInfo.name,
-      birthday: this.data.babyInfo.birthday,
-      status: this.data.babyInfo.healthStatus,
-      rating: this.data.babyInfo.healthRating
-    };
-    
-    wx.navigateTo({
-      url: `/pages/edit-baby-info/edit-baby-info?babyInfo=${encodeURIComponent(JSON.stringify(babyInfo))}`,
-      success: function(res) {
-        console.log('跳转到编辑页面成功');
-      },
-      fail: function(err) {
-        console.error('跳转到编辑页面失败:', err);
-        wx.showToast({
-          title: '无法打开编辑页面',
-          icon: 'none'
-        });
-      }
-    });
-  },
-
-  // 更新宝宝信息（供编辑页面回调）
-  updateBabyInfo: function(newData) {
-    // 保存到存储
-    StorageManager.saveBabyInfo(newData);
-    // 更新页面数据
-    this.setData({
-      babyInfo: {
-        ...this.data.babyInfo,
-        ...newData
-      }
-    });
-    // 重新计算年龄
-    this.calculateAge();
-  },
-
-  navToBabyStatus: function() {
-    console.log('跳转到我宝情况页面');
-    wx.redirectTo({
-      url: '/pages/baby-status/baby-status',
-      success: function(res) {
-        console.log('跳转成功', res);
-      },
-      fail: function(err) {
-        console.error('跳转失败', err);
-        wx.reLaunch({
-          url: '/pages/baby-status/baby-status'
-        });
-      }
-    });
-  },
-// 跳转到饮食记录页面
-navToDietRecord: function() {
-  console.log('跳转到饮食记录页面');
-  wx.navigateTo({
-    url: '/pages/diet-record/diet-record',
-    success: function(res) {
-      console.log('跳转成功', res);
-    },
-    fail: function(err) {
-      console.error('跳转失败', err);
-      wx.showToast({
-        title: '无法打开饮食记录',
-        icon: 'none'
+    if (post) {
+      wx.navigateTo({
+        url: `/pages/experience-detail/experience-detail?id=${postId}`
       });
     }
+  },
+
+  // 查看全部经验帖子
+  viewAllPosts() {
+    this.goToExperienceList();
+  },
+
+  // 点赞帖子
+  likePost(e) {
+    e.stopPropagation();
+    const postId = e.currentTarget.dataset.id;
+    const posts = this.data.hotPosts.map(post => {
+      if (post.id === postId) {
+        return { ...post, likes: post.likes + 1 };
+      }
+      return post;
+    });
+    
+    this.setData({ hotPosts: posts });
+    wx.showToast({ title: '点赞成功', icon: 'success' });
+  },
+
+  // 鼓励帖子
+  cheerPost(e) {
+    e.stopPropagation();
+    const postId = e.currentTarget.dataset.id;
+    const posts = this.data.hotPosts.map(post => {
+      if (post.id === postId) {
+        return { ...post, cheers: post.cheers + 1 };
+      }
+      return post;
+    });
+    
+    this.setData({ hotPosts: posts });
+    wx.showToast({ title: '鼓励成功', icon: 'success' });
+  },
+
+  // ---------------------------------------
+  // 其他功能
+  // ---------------------------------------
+  
+  // 聊天弹窗
+  openChatModal() { 
+    this.setData({ showChatModal: true }); 
+  },
+  
+  closeChatModal() { 
+    this.setData({ showChatModal: false }); 
+  },  // ← 这里需要加逗号！这是问题所在
+  
+
+  handleShare() {
+    wx.showShareMenu({ 
+      withShareTicket: true, 
+      menus: ['shareAppMessage', 'shareTimeline'] 
+    });
+  },  // ← 这个逗号是正确的
+
+  
+  quickRecord(e) {
+    const type = e.currentTarget.dataset.type;
+    console.log('点击快速记录:', type);
+    
+    // 情绪记录
+    if (type === 'mood') {
+      this.setData({
+        showQuickRecordModal: true,
+        quickRecordType: 'emotion',
+        selectedEmotion: this.data.todayEmotion || 1
+      });
+      return;
+    }
+    
+    // 运动记录  
+    if (type === 'exercise') {
+      this.setData({
+        showQuickRecordModal: true,
+        quickRecordType: 'exercise',
+        selectedExercise: this.data.todayExercise || 60
+      });
+      return;
+    }
+    
+    // 睡眠记录 - 弹出选择窗口
+    if (type === 'sleep') {
+      this.setData({
+        showQuickRecordModal: true,
+        quickRecordType: 'sleep',
+        selectedSleep: this.data.todaySleep || 2
+      });
+      return;
+    }
+    
+    // 其他类型
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none'
+    });
+  },
+
+// 情绪选择
+selectEmotion(e) {
+  const level = parseInt(e.currentTarget.dataset.level);
+  this.setData({
+    selectedEmotion: level
   });
 },
-  // 跳转到心情日记页面  
-  navToDiary: function() {
-    console.log('跳转到心情日记页面');
-    wx.redirectTo({
-      url: '/pages/diary-list/diary-list',
-      success: function(res) {
-        console.log('跳转成功', res);
-      },
-      fail: function(err) {
-        console.error('跳转失败', err);
-        wx.reLaunch({
-          url: '/pages/diary-list/diary-list'
-        });
-      }
-    });
-  },
 
-  // 跳转到看看周围页面
-  navToMap: function() {
-    console.log('跳转到看看周围页面');
-    wx.redirectTo({
-      url: '/pages/map/map',
-      success: function(res) {
-        console.log('跳转成功', res);
-      },
-      fail: function(err) {
-        console.error('跳转失败', err);
-        wx.reLaunch({
-          url: '/pages/map/map'
-        });
-      }
-    });
-  },
+// 运动时长选择
+selectExercise(e) {
+  const minutes = parseInt(e.currentTarget.dataset.minutes);
+  this.setData({
+    selectedExercise: minutes
+  });
+},
+// 睡眠时长选择
+selectSleep(e) {
+  const level = parseInt(e.currentTarget.dataset.level);
+  this.setData({
+    selectedSleep: level
+  });
+},
 
-  // 开始聊天功能
-  startChat: function() {
-    console.log('开始聊天');
-    wx.redirectTo({
-      url: '/pages/chat/chat',
-      success: function(res) {
-        console.log('跳转成功', res);
-      },
-      fail: function(err) {
-        console.error('跳转失败', err);
-        wx.reLaunch({
-          url: '/pages/chat/chat'
-        });
-      }
-    });
-  },
+// 睡眠文本转换
+getSleepText(level) {
+  const sleepOptions = { 
+    1: '低于8小时', 
+    2: '8-10小时', 
+    3: '10小时以上' 
+  };
+  return sleepOptions[level] || '8-10小时';
+},
+// 保存快速记录
+saveQuickRecord() {
+  const { quickRecordType, selectedEmotion, selectedExercise, selectedSleep } = this.data;
+  
+  const record = {
+    emotion: this.getEmotionText(selectedEmotion),
+    emotionLevel: selectedEmotion,
+    exerciseMinutes: selectedExercise,
+    sleep: this.getSleepText(selectedSleep),
+    sleepLevel: selectedSleep
+  };
 
-  // 签到功能
-  handleCheckin: function() {
+  if (StorageManager.saveEmotionExerciseRecord(record)) {
+    // 更新首页显示
+    this.loadTodayEmotionExercise();
+    
     wx.showToast({
-      title: '签到成功！',
+      title: '记录成功',
       icon: 'success'
     });
-  },
-// 👇 新增：打开“和我聊聊”弹层
-openChatModal: function () {
-  console.log('openChatModal 点击了'); // 方便你在控制台看
-  this.setData({
-    showChatModal: true
-  });
-},
-
-// 👇 新增：关闭“和我聊聊”弹层
-closeChatModal: function () {
-  this.setData({
-    showChatModal: false
-  });
-},
-  // 分享功能
-  handleShare: function() {
-    wx.showShareMenu({
-      withShareTicket: true,
-      menus: ['shareAppMessage', 'shareTimeline']
+    
+    this.closeQuickRecordModal();
+  } else {
+    wx.showToast({
+      title: '记录失败',
+      icon: 'none'
     });
-  },
-
-  // 获取评分星星
-  getRatingStars: function(rating) {
-    const stars = ['☆', '☆', '☆', '☆', '☆'];
-    for (let i = 0; i < rating; i++) {
-      stars[i] = '★';
-    }
-    return stars.join('');
   }
-});
+},
+
+// 关闭弹窗
+closeQuickRecordModal() {
+  // 先隐藏内容，再隐藏整个弹窗
+  this.setData({
+    showQuickRecordModal: false
+  });
+  
+  // 延迟重置数据，避免 DOM 操作冲突
+  setTimeout(() => {
+    this.setData({
+      quickRecordType: '',
+      selectedEmotion: 1,
+      selectedExercise: 60,
+      selectedSleep: 2
+    });
+  }, 300);
+},
+
+// 加载今日情绪运动睡眠状态
+loadTodayEmotionExercise() {
+  const todayRecord = StorageManager.getTodayEmotionExercise();
+  if (todayRecord) {
+    this.setData({
+      todayEmotion: todayRecord.emotionLevel,
+      todayExercise: todayRecord.exerciseMinutes,
+      todaySleep: todayRecord.sleepLevel
+    });
+  }
+},
+
+// 情绪文本转换
+getEmotionText(level) {
+  const emotions = { 1: '开心', 2: '平静', 3: '不开心' };
+  return emotions[level] || '平静';
+}
+}); 

@@ -1,32 +1,42 @@
-<!-- 第1段：宝宝信息横幅 -->
-<view class="status-overview">
+<!-- 第1段：优化后的个人信息区域 -->
+<view class="user-info-card">
+  <!-- 宝宝信息 - 重点突出 -->
   <view class="baby-info">
-    <!-- 头像区域，点击可编辑 -->
-    <view class="avatar" bindtap="editBabyInfo">
-      <text class="avatar-text">{{babyInfo.name ? babyInfo.name.substring(0,2) : '宝宝'}}</text>
+    <view class="avatar-section">
+      <view class="avatar">
+        <text class="avatar-text">{{babyInfo.name ? babyInfo.name.substring(0,1) : '宝'}}</text>
+      </view>
     </view>
-    <view class="info-text">
-      <!-- 姓名和编辑图标 -->
+    <view class="baby-details">
       <view class="name-section">
-        <text class="name">{{babyInfo.name || '宝宝'}} · {{babyInfo.age || '0岁0个月'}}</text>
+        <text class="baby-name">{{babyInfo.name || '宝宝'}}</text>
+        <text class="baby-age">· {{babyInfo.age || '0岁0个月'}}</text>
         <text class="edit-icon" bindtap="editBabyInfo">✏️</text>
       </view>
-      <text class="mood">{{babyInfo.healthStatus || '点击设置宝宝信息'}}</text>
     </view>
   </view>
-  <view class="checkin-section">
-    <view class="checkin-stats">
-      <text class="days">健康评分 {{babyInfo.healthRating || 0}}分</text>
+  
+  <!-- 妈妈能量 - 弱化显示 -->
+  <view class="mom-energy">
+    <text class="energy-label">妈妈能量</text>
+    <view class="stars-container">
+      <text class="star active" wx:for="{{5}}" wx:key="index">⭐️</text>
     </view>
-    <view class="actions">
-      <view class="action-icon" bindtap="handleCheckin">
-        <view class="icon">📅</view>
-        <text class="icon-text">签到</text>
-      </view>
-      <view class="action-icon" bindtap="handleShare">
-        <view class="icon">↗️</view>
-        <text class="icon-text">分享</text>
-      </view>
+    <text class="energy-desc">能量满满</text>
+  </view>
+  
+  <!-- 签到区域 - 修复布局 -->
+  <view class="checkin-section">
+    <!-- 签到按钮 -->
+    <view class="checkin-btn" bindtap="handleCheckin">
+      <text class="btn-icon">✨</text>
+      <text class="btn-text">今日签到</text>
+    </view>
+    
+    <!-- 签到天数 -->
+    <view class="checkin-stats">
+      <text class="stats-icon">📅</text>
+      <text class="stats-text">已坚持记录 {{checkinDays || 0}} 天</text>
     </view>
   </view>
 </view>
@@ -39,15 +49,17 @@
       <view class="function-icon">📊</view>
       <text class="function-text">我宝情况</text>
     </view>
-    <!-- 在这里添加饮食记录 -->
+
     <view class="function-item" bindtap="navToDietRecord">
       <view class="function-icon">🍽️</view>
       <text class="function-text">饮食记录</text>
     </view>
+
     <view class="function-item" bindtap="navToMap">
       <view class="function-icon">🗺️</view>
       <text class="function-text">看看周围</text>
     </view>
+
     <view class="function-item" bindtap="navToDiary">
       <view class="function-icon">📔</view>
       <text class="function-text">心情日记</text>
@@ -55,11 +67,11 @@
   </view>
 </view>
 
-<!-- 第3段：健康趋势图表 -->
-<view class="chart-section">
+<!-- 第3段：状态评分 -->
+<view class="chart-section" bindtap="navToBabyStatus">
   <view class="chart-header">
     <view class="header-left">
-      <text class="chart-title">健康趋势</text>
+      <text class="chart-title">状态评分</text>
       <text class="chart-desc">基于最近情况数据计算 · 当前评分: {{currentHealthIndex}}</text>
     </view>
     <view class="header-right">
@@ -67,32 +79,10 @@
     </view>
   </view>
 
-  <view class="health-levels">
-    <view class="level-item {{currentHealthIndex >= 90 ? 'active' : ''}}">
-      <text class="level-text">优秀</text>
-      <text class="level-range">90-100</text>
-    </view>
-    <view class="level-item {{currentHealthIndex >= 80 && currentHealthIndex < 90 ? 'active' : ''}}">
-      <text class="level-text">良好</text>
-      <text class="level-range">80-89</text>
-    </view>
-    <view class="level-item {{currentHealthIndex >= 70 && currentHealthIndex < 80 ? 'active' : ''}}">
-      <text class="level-text">一般</text>
-      <text class="level-range">70-79</text>
-    </view>
-    <view class="level-item {{currentHealthIndex >= 60 && currentHealthIndex < 70 ? 'active' : ''}}">
-      <text class="level-text">关注</text>
-      <text class="level-range">60-69</text>
-    </view>
-    <view class="level-item {{currentHealthIndex < 60 ? 'active' : ''}}">
-      <text class="level-text">需重视</text>
-      <text class="level-range">&lt;60</text>
-    </view>
-  </view>
-
   <!-- 折线图容器 -->
   <view class="line-chart-container">
     <view class="chart-bg">
+
       <!-- Y轴标签 -->
       <view class="y-axis">
         <text class="y-label">100</text>
@@ -102,69 +92,90 @@
         <text class="y-label">20</text>
         <text class="y-label">0</text>
       </view>
-      
-      <!-- 图表区域 -->
+
+      <!-- 主图表区域 -->
       <view class="chart-area">
+
         <!-- 网格线 -->
         <view class="grid-horizontal"></view>
         <view class="grid-horizontal"></view>
         <view class="grid-horizontal"></view>
         <view class="grid-horizontal"></view>
         <view class="grid-horizontal"></view>
-        
-        <!-- 折线路径 - 移除复杂的clip-path -->
-        <view class="line-path"></view>
-        
+
+      
+
         <!-- 数据点 -->
         <block wx:for="{{healthTrendData}}" wx:key="date">
           <view 
-            class="data-point {{currentHealthIndex === item.healthIndex ? 'active' : ''}}" 
+            class="data-point {{item.healthIndex < 60 ? 'low-point' : ''}} {{currentHealthIndex === item.healthIndex ? 'active' : ''}}" 
             style="left: {{(100 / (healthTrendData.length - 1)) * index}}%; bottom: {{item.healthIndex}}%;"
-            bindtap="onDataPointTap"
+            catchtap="onDataPointTap"
             data-index="{{index}}"
             data-item="{{item}}"
           >
-            <view class="point-tooltip">{{item.displayDate}}: {{item.healthIndex}}分</view>
+            <text class="point-label">{{item.healthIndex}}分</text>
           </view>
         </block>
+
       </view>
     </view>
-    
+
     <!-- X轴日期 -->
     <view class="x-axis">
       <block wx:for="{{healthTrendData}}" wx:key="date">
         <text class="x-label">{{item.displayDate}}</text>
       </block>
     </view>
+
   </view>
 </view>
 
-<!-- 第4段：其他内容 -->
+<!-- 第4段：今日快速记录 - 添加历史入口 -->
 <view class="quick-record-section">
-  <view class="section-title">📝 今日快速记录</view>
+  <view class="section-header">
+    <view class="section-title">📝 今日快速记录</view>
+    <view class="history-entry" bindtap="navToQuickRecordHistory">
+      <text class="history-text">历史记录</text>
+      <text class="history-icon">›</text>
+    </view>
+  </view>
+  
+  <!-- 快速记录入口 -->
   <view class="quick-actions">
-    <view class="action-item" bindtap="quickRecord" data-type="mood">
-      <view class="action-icon">😊</view>
+    <view class="action-item {{todayEmotion ? 'recorded' : ''}}" bindtap="quickRecord" data-type="mood">
+      <view class="action-icon">
+        <text wx:if="{{todayEmotion === 1}}">😊</text>
+        <text wx:if="{{todayEmotion === 2}}">😐</text>
+        <text wx:if="{{todayEmotion === 3}}">😢</text>
+        <text wx:if="{{!todayEmotion}}">😊</text>
+      </view>
       <text class="action-text">情绪</text>
+      <text class="action-desc" wx:if="{{todayEmotion}}">{{getEmotionText(todayEmotion)}}</text>
+      <text class="action-placeholder" wx:else>点击记录</text>
     </view>
-    <view class="action-item" bindtap="quickRecord" data-type="diet">
-      <view class="action-icon">🍽️</view>
-      <text class="action-text">饮食</text>
-    </view>
-    <view class="action-item" bindtap="quickRecord" data-type="sleep">
-      <view class="action-icon">😴</view>
-      <text class="action-text">睡眠</text>
-    </view>
-    <view class="action-item" bindtap="quickRecord" data-type="exercise">
+    
+    <view class="action-item {{todayExercise ? 'recorded' : ''}}" bindtap="quickRecord" data-type="exercise">
       <view class="action-icon">🏃</view>
       <text class="action-text">运动</text>
+      <text class="action-desc" wx:if="{{todayExercise}}">{{todayExercise}}分钟</text>
+      <text class="action-placeholder" wx:else>点击记录</text>
     </view>
-    <view class="action-item" bindtap="quickRecord" data-type="special">
-      <view class="action-icon">🆘</view>
-      <text class="action-text">特殊</text>
+    
+    <view class="action-item {{todaySleep ? 'recorded' : ''}}" bindtap="quickRecord" data-type="sleep">
+      <view class="action-icon">
+        <text wx:if="{{todaySleep === 1}}">😴</text>
+        <text wx:if="{{todaySleep === 2}}">😊</text>
+        <text wx:if="{{todaySleep === 3}}">🤩</text>
+        <text wx:if="{{!todaySleep}}">😴</text>
+      </view>
+      <text class="action-text">睡眠</text>
+      <text class="action-desc" wx:if="{{todaySleep}}">{{getSleepText(todaySleep)}}</text>
+      <text class="action-placeholder" wx:else>点击记录</text>
     </view>
   </view>
 </view>
+
 <!-- 第5段：经验交流预览（美化版） -->
 <view class="experience-section">
   <!-- 头部 -->
@@ -186,9 +197,9 @@
   <!-- 有帖子时：展示几条热门经验 -->
   <block wx:if="{{hotPosts && hotPosts.length}}">
     <block wx:for="{{hotPosts}}" wx:key="id">
-  <view class="experience-card" bindtap="goToExperienceList">
-    <view class="card-title-row">
-      <text class="card-title">{{item.title}}</text>
+      <view class="experience-card" bindtap="goToExperienceList">
+        <view class="card-title-row">
+          <text class="card-title">{{item.title}}</text>
         </view>
 
         <view class="card-meta-row">
@@ -216,7 +227,7 @@
       <text class="empty-text">可以在「经验交流」里发布第一条经验～</text>
     </view>
   </block>
-</view> <!-- 这里是经验交流卡片的结尾 -->
+</view>
 
 <!-- 和我聊聊 -->
 <view class="chat-section">
@@ -236,6 +247,7 @@
     </view>
   </view>
 </view>
+
 <!-- 企业微信二维码弹层 -->
 <view 
   class="chat-modal-mask" 
@@ -253,7 +265,7 @@
         截图 / 保存后，用企业微信扫一扫添加我为好友。
       </text>
 
-      <!-- 🎨 这里是代替二维码的色块 -->
+      <!-- 这里是代替二维码的色块 -->
       <view class="qrcode-placeholder">
         <text class="qrcode-placeholder-text">企业微信二维码占位</text>
       </view>
@@ -262,5 +274,145 @@
     <button class="chat-modal-btn" bindtap="closeChatModal">
       我知道了
     </button>
+  </view>
+</view>
+<!-- 快速记录弹窗 -->
+<view class="quick-record-modal" wx:if="{{showQuickRecordModal}}">
+  <view class="modal-mask" bindtap="closeQuickRecordModal"></view>
+  <view class="modal-content">
+    
+    <!-- 情绪记录 -->
+    <view class="record-panel" wx:if="{{quickRecordType === 'emotion'}}">
+      <view class="panel-header">
+        <text class="panel-title">今日情绪</text>
+        <text class="panel-close" bindtap="closeQuickRecordModal">✕</text>
+      </view>
+      
+      <view class="emotion-options">
+        <view 
+          class="emotion-option {{selectedEmotion === 1 ? 'selected' : ''}}" 
+          bindtap="selectEmotion" 
+          data-level="1"
+        >
+          <text class="emotion-icon">😊</text>
+          <text class="emotion-text">开心</text>
+        </view>
+        
+        <view 
+          class="emotion-option {{selectedEmotion === 2 ? 'selected' : ''}}" 
+          bindtap="selectEmotion" 
+          data-level="2"
+        >
+          <text class="emotion-icon">😐</text>
+          <text class="emotion-text">平静</text>
+        </view>
+        
+        <view 
+          class="emotion-option {{selectedEmotion === 3 ? 'selected' : ''}}" 
+          bindtap="selectEmotion" 
+          data-level="3"
+        >
+          <text class="emotion-icon">😢</text>
+          <text class="emotion-text">不开心</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 运动记录 -->
+    <view class="record-panel" wx:elif="{{quickRecordType === 'exercise'}}">
+      <view class="panel-header">
+        <text class="panel-title">运动时长</text>
+        <text class="panel-close" bindtap="closeQuickRecordModal">✕</text>
+      </view>
+      
+      <view class="exercise-options">
+        <view 
+          class="exercise-option {{selectedExercise === 30 ? 'selected' : ''}}" 
+          bindtap="selectExercise" 
+          data-minutes="30"
+        >
+          <text class="exercise-text">30分钟</text>
+        </view>
+        
+        <view 
+          class="exercise-option {{selectedExercise === 60 ? 'selected' : ''}}" 
+          bindtap="selectExercise" 
+          data-minutes="60"
+        >
+          <text class="exercise-text">1小时</text>
+        </view>
+        
+        <view 
+          class="exercise-option {{selectedExercise === 90 ? 'selected' : ''}}" 
+          bindtap="selectExercise" 
+          data-minutes="90"
+        >
+          <text class="exercise-text">1.5小时</text>
+        </view>
+        
+        <view 
+          class="exercise-option {{selectedExercise === 120 ? 'selected' : ''}}" 
+          bindtap="selectExercise" 
+          data-minutes="120"
+        >
+          <text class="exercise-text">2小时</text>
+        </view>
+        
+        <view 
+          class="exercise-option {{selectedExercise === 180 ? 'selected' : ''}}" 
+          bindtap="selectExercise" 
+          data-minutes="180"
+        >
+          <text class="exercise-text">更多</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 睡眠记录 -->
+    <view class="record-panel" wx:elif="{{quickRecordType === 'sleep'}}">
+      <view class="panel-header">
+        <text class="panel-title">睡眠时长</text>
+        <text class="panel-close" bindtap="closeQuickRecordModal">✕</text>
+      </view>
+      
+      <view class="sleep-options">
+        <view 
+          class="sleep-option {{selectedSleep === 1 ? 'selected' : ''}}" 
+          bindtap="selectSleep" 
+          data-level="1"
+        >
+          <text class="sleep-icon">😴</text>
+          <text class="sleep-text">低于8小时</text>
+          <text class="sleep-desc">睡眠不足</text>
+        </view>
+        
+        <view 
+          class="sleep-option {{selectedSleep === 2 ? 'selected' : ''}}" 
+          bindtap="selectSleep" 
+          data-level="2"
+        >
+          <text class="sleep-icon">😊</text>
+          <text class="sleep-text">8-10小时</text>
+          <text class="sleep-desc">充足睡眠</text>
+        </view>
+        
+        <view 
+          class="sleep-option {{selectedSleep === 3 ? 'selected' : ''}}" 
+          bindtap="selectSleep" 
+          data-level="3"
+        >
+          <text class="sleep-icon">🤩</text>
+          <text class="sleep-text">10小时以上</text>
+          <text class="sleep-desc">优质睡眠</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 按钮区域 -->
+    <view class="modal-actions">
+      <button class="btn-cancel" bindtap="closeQuickRecordModal">取消</button>
+      <button class="btn-confirm" bindtap="saveQuickRecord">确定</button>
+    </view>
+    
   </view>
 </view>
