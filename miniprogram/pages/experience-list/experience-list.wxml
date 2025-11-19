@@ -60,22 +60,23 @@
           </view>
 
           <view class="post-bottom">
-            <view class="stat">
-              <text class="stat-icon">👍</text>
-              <text class="stat-text">{{item.likes || 0}}</text>
-            </view>
-            <view class="stat">
-              <text class="stat-icon">💪</text>
-              <text class="stat-text">{{item.cheers || 0}}</text>
-            </view>
+  <view class="stat">
+    <text class="stat-icon">👍</text>
+    <text class="stat-text">{{item.likes || 0}}</text>
+  </view>
+  <view class="stat">
+    <text class="stat-icon">💪</text>
+    <text class="stat-text">{{item.cheers || 0}}</text>
+  </view>
 
-            <view
-              class="mine-tag"
-              wx:if="{{item.isMine}}"
-            >
-              我发布的
-            </view>
-          </view>
+  <view class="post-actions" wx:if="{{item.isMine}}">
+    <view class="mine-tag">我发布的</view>
+    <view class="delete-btn" bindtap="onDeletePost" data-id="{{item.id}}" catchtap>
+      <text class="delete-icon">🗑️</text>
+      <text class="delete-text">删除</text>
+    </view>
+  </view>
+</view>
         </view>
       </block>
     </block>

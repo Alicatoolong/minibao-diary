@@ -12,22 +12,47 @@
   border-bottom: 1rpx solid #eee;
 }
 
-.back-btn {
-  font-size: 36rpx;
-  margin-right: 20rpx;
-  color: #6A8BFF;
-}
-
 .page-title {
   font-size: 34rpx;
   font-weight: 600;
   color: #333;
   flex: 1;
+  text-align: center;
 }
 
 .post-btn {
   font-size: 26rpx;
   color: #6A8BFF;
+}
+
+/* 返回按钮样式 */
+.header-back-btn {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+  margin-right: 24rpx;
+  transition: all 0.3s ease;
+}
+
+.header-back-btn:active {
+  background: #f0f0f0;
+  transform: scale(0.98);
+}
+
+.back-icon {
+  font-size: 36rpx;
+  color: #333;
+  margin-right: 8rpx;
+  line-height: 1;
+}
+
+.back-text {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
 }
 
 /* 作用范围 tabs：全部 / 我发布的 */
@@ -70,35 +95,7 @@
   color: #4b63ff;
   font-weight: 600;
 }
-/* 返回按钮样式 */
-.header-back-btn {
-  display: flex;
-  align-items: center;
-  padding: 16rpx 24rpx;
-  background: #f8f9fa;
-  border-radius: 20rpx;
-  border: 1rpx solid #e8e8e8;
-  margin-right: 24rpx;
-  transition: all 0.3s ease;
-}
 
-.header-back-btn:active {
-  background: #f0f0f0;
-  transform: scale(0.98);
-}
-
-.back-icon {
-  font-size: 36rpx;
-  color: #333;
-  margin-right: 8rpx;
-  line-height: 1;
-}
-
-.back-text {
-  font-size: 28rpx;
-  color: #333;
-  font-weight: 500;
-}
 /* 列表 */
 .page-content {
   padding: 20rpx 30rpx 40rpx;
@@ -155,13 +152,47 @@
   margin-right: 4rpx;
 }
 
-.mine-tag {
+/* 帖子操作区域 */
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
   margin-left: auto;
+}
+
+.mine-tag {
   padding: 2rpx 12rpx;
   border-radius: 999rpx;
   font-size: 22rpx;
   color: #9faaf3;
   background: #eef2ff;
+}
+
+/* 删除按钮 */
+.delete-btn {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  background: #fff5f5;
+  border: 1rpx solid #ffccc7;
+  border-radius: 16rpx;
+  color: #ff4d4f;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:active {
+  background: #ffccc7;
+  transform: scale(0.95);
+}
+
+.delete-icon {
+  font-size: 24rpx;
+  margin-right: 8rpx;
+}
+
+.delete-text {
+  font-size: 24rpx;
+  font-weight: 500;
 }
 
 /* 空状态 */
