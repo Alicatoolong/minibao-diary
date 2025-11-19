@@ -264,10 +264,8 @@
         截图 / 保存后，扫一扫添加好友。
       </text>
 
-      <!-- 这里是代替二维码的色块 -->
-      <view class="qrcode-placeholder">
-        <text class="qrcode-placeholder-text">二维码占位</text>
-      </view>
+      <!-- 替换为二维码图片 -->
+  <image src="/images/contact-qrcode.jpg" mode="aspectFit" class="qrcode-image"></image>
     </view>
 
     <button class="chat-modal-btn" bindtap="closeChatModal">

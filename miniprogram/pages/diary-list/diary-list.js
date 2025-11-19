@@ -8,13 +8,66 @@ Page({
   },
 
   onShow: function() {
-    // 关键：添加这行代码，每次页面显示时刷新数据
     this.loadDiaryList();
   },
 
   onPullDownRefresh: function() {
     this.loadDiaryList();
     wx.stopPullDownRefresh();
+  },
+
+  // 删除日记
+  deleteDiary: function(e) {
+    const diaryId = e.currentTarget.dataset.id;
+    const diary = this.data.diaryList.find(item => item.id === diaryId);
+    
+    if (!diary) return;
+    
+    // 确认删除弹窗
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这篇日记吗？删除后无法恢复',
+      confirmColor: '#ff6b6b',
+      success: (res) => {
+        if (res.confirm) {
+          this.performDeleteDiary(diaryId);
+        }
+      }
+    });
+    
+    // 注意：这里不需要 e.stopPropagation()，因为使用了 catchtap
+  },
+
+  // 执行删除操作 - 修复存储键名不一致的问题
+  performDeleteDiary: function(diaryId) {
+    try {
+      // 修复：统一使用 'babyDiaryList' 作为存储键名
+      let allDiaries = wx.getStorageSync('babyDiaryList') || [];
+      
+      // 过滤掉要删除的日记
+      const updatedDiaries = allDiaries.filter(diary => diary.id !== diaryId);
+      
+      // 保存更新后的日记列表
+      wx.setStorageSync('babyDiaryList', updatedDiaries);
+      
+      // 更新页面数据
+      this.setData({
+        diaryList: updatedDiaries
+      });
+      
+      wx.showToast({
+        title: '删除成功',
+        icon: 'success',
+        duration: 1500
+      });
+      
+    } catch (error) {
+      console.error('删除日记失败:', error);
+      wx.showToast({
+        title: '删除失败',
+        icon: 'none'
+      });
+    }
   },
 
   // 加载日记列表
@@ -71,6 +124,8 @@ Page({
       title: '设置成功',
       icon: 'success'
     });
+    
+    // 注意：这里不需要 e.stopPropagation()，因为使用了 catchtap
   },
 
   onReady: function() {

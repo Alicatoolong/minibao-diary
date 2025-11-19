@@ -16,7 +16,7 @@
     >
       <view class="diary-header">
         <view class="diary-date">{{item.createTime}}</view>
-        <view class="diary-privacy">
+        <view class="diary-privacy {{item.isPublic ? 'public' : 'private'}}">
           {{item.isPublic ? '公开' : '私密'}}
         </view>
       </view>
@@ -30,13 +30,19 @@
       </view>
       
       <view class="diary-footer">
-        <view class="diary-tags">
+        <view class="diary-tags" wx:if="{{item.tags && item.tags.length > 0}}">
           <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
         </view>
         <view class="diary-actions">
-          <text class="action-btn" bindtap="togglePrivacy" data-id="{{item.id}}" catchtap>
-            {{item.isPublic ? '设为私密' : '设为公开'}}
-          </text>
+          <!-- 使用 catchtap 阻止事件冒泡 -->
+          <view class="action-btn delete" catchtap="deleteDiary" data-id="{{item.id}}">
+            <text class="action-icon">🗑️</text>
+            <text>删除</text>
+          </view>
+          <view class="action-btn privacy" catchtap="togglePrivacy" data-id="{{item.id}}">
+            <text class="action-icon">{{item.isPublic ? '🔒' : '🌐'}}</text>
+            <text>{{item.isPublic ? '私密' : '公开'}}</text>
+          </view>
         </view>
       </view>
     </view>

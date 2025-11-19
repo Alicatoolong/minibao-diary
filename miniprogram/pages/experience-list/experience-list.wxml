@@ -1,10 +1,12 @@
 <view class="exp-list-page">
   <!-- 头部 -->
   <view class="page-header">
-    <text class="back-btn" bindtap="goBack">←</text>
-    <text class="page-title">经验交流</text>
-    <text class="post-btn" bindtap="goToPostEdit">＋ 发经验</text>
+  <view class="header-back-btn" bindtap="goBack">
+    <text class="back-icon">‹</text>
+    <text class="back-text">返回</text>
   </view>
+  <text class="post-btn" bindtap="goToPostEdit">＋ 发经验</text>
+</view>
 
   <!-- 顶部筛选：全部 / 我发布的 -->
   <view class="scope-tabs">

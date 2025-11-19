@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "情况历史记录",
-  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#87CEEB",
+  "navigationBarTextStyle": "white",
   "backgroundColor": "#f8f8f8",
   "enablePullDownRefresh": true
 }

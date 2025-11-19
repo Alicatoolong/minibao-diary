@@ -1,163 +1,232 @@
-.diary-container {
-  padding: 20px;
-  background: #f8f9fa;
-  min-height: 100vh;
+page {
+  background-color: #f5f7fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
+/* 修复宽度问题 */
+.diary-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+
+/* 写新日记按钮 - 修复宽度 */
 .new-diary-btn {
-  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  background: linear-gradient(135deg, #87CEEB, #4a6fa5);
   color: white;
-  padding: 15px 20px;
-  border-radius: 15px;
+  border-radius: 16rpx;
+  padding: 28rpx 32rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+  margin-bottom: 40rpx;
+  box-shadow: 0 8rpx 24rpx rgba(106, 141, 255, 0.3);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.new-diary-btn:active {
+  transform: translateY(4rpx);
+  box-shadow: 0 4rpx 12rpx rgba(106, 141, 255, 0.3);
 }
 
 .btn-icon {
-  margin-right: 10px;
-  font-size: 18px;
+  font-size: 36rpx;
+  margin-right: 16rpx;
 }
 
 .btn-text {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 32rpx;
+  font-weight: 500;
 }
 
-.diary-list {
-  space-y: 15px;
-}
-
+/* 日记项样式 - 修复宽度 */
 .diary-item {
   background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.diary-item.public {
-  border-left: 4px solid #87CEEB;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  border-left: 8rpx solid #87CEEB;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diary-item.private {
-  border-left: 4px solid #FF6B6B;
+  border-left-color: #ff6b6b;
 }
 
+/* 日记头部 */
 .diary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 24rpx;
+  width: 100%;
 }
 
 .diary-date {
+  font-size: 28rpx;
   color: #666;
-  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
 }
 
 .diary-privacy {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 10px;
+  font-size: 24rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+  flex-shrink: 0;
 }
 
-.diary-item.public .diary-privacy {
-  background: rgba(135, 206, 235, 0.1);
+.diary-privacy.public {
+  background: rgba(106, 141, 255, 0.1);
   color: #87CEEB;
 }
 
-.diary-item.private .diary-privacy {
+.diary-privacy.private {
   background: rgba(255, 107, 107, 0.1);
-  color: #FF6B6B;
+  color: #ff6b6b;
 }
 
+/* 日记内容 - 修复文本溢出 */
 .diary-content {
-  margin-bottom: 15px;
+  margin-bottom: 24rpx;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .diary-text {
-  color: #333;
+  font-size: 30rpx;
   line-height: 1.6;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+  color: #333;
+  display: block;
+  margin-bottom: 16rpx;
+  width: 100%;
+  word-break: break-word;
 }
 
 .diary-mood {
   display: flex;
   align-items: center;
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: #f8f9fa;
-  border-radius: 10px;
+  font-size: 26rpx;
+  color: #888;
 }
 
 .mood-icon {
-  margin-right: 8px;
-  font-size: 16px;
+  margin-right: 8rpx;
 }
 
-.mood-text {
-  color: #666;
-  font-size: 14px;
-}
-
+/* 日记底部 - 修复布局 */
 .diary-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 15px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 16rpx;
 }
 
 .diary-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  flex: 1;
+  min-width: 0; /* 重要：防止flex项目溢出 */
 }
 
 .tag {
-  background: #f0f0f0;
-  color: #666;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 12px;
+  display: inline-block;
+  background: #f0f4ff;
+  color: #87CEEB;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  margin-right: 12rpx;
+  margin-bottom: 8rpx;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
+/* 操作按钮 - 修复布局 */
 .diary-actions {
   display: flex;
-  gap: 10px;
+  gap: 16rpx;
+  flex-shrink: 0;
 }
 
 .action-btn {
-  color: #87CEEB;
-  font-size: 12px;
-  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  border: 2rpx solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn.delete {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.2);
+}
+
+.action-btn.privacy {
+  background: rgba(106, 141, 255, 0.1);
+  color: #87CEEB;
+  border-color: rgba(106, 141, 255, 0.2);
+}
+
+.action-icon {
+  margin-right: 6rpx;
+  font-size: 26rpx;
+}
+
+/* 空状态 */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 120rpx 40rpx;
   color: #999;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .empty-icon {
-  font-size: 50px;
+  font-size: 120rpx;
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 32rpx;
 }
 
 .empty-text {
+  font-size: 32rpx;
   display: block;
-  font-size: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 16rpx;
+  color: #666;
 }
 
 .empty-subtext {
+  font-size: 26rpx;
   display: block;
-  font-size: 14px;
-  color: #ccc;
+  color: #999;
+}
+
+/* 响应式调整 */
+@media (max-width: 600rpx) {
+  .diary-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .diary-tags {
+    margin-right: 0;
+    margin-bottom: 16rpx;
+  }
+  
+  .diary-actions {
+    justify-content: flex-start;
+  }
 }

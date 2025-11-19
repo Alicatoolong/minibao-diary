@@ -1,8 +1,10 @@
 <view class="history-page">
   <!-- 头部 -->
   <view class="header">
-    <view class="header-back" bindtap="goBack">‹</view>
-    <text class="header-title">记录历史</text>
+    <view class="header-back-btn" bindtap="goBack">
+  <text class="back-icon">‹</text>
+  <text class="back-text">返回</text>
+</view>
   </view>
 
   <!-- 历史记录列表 -->
@@ -49,6 +51,6 @@
   <view class="empty-state" wx:if="{{recordHistory.length === 0}}">
     <text class="empty-icon">📝</text>
     <text class="empty-title">还没有记录历史</text>
-    <text class="empty-desc">快去首页记录今日状态吧</text>
+    <text class="empty-desc">点击返回，到首页[今日快速记录]记录状态吧</text>
   </view>
 </view>
