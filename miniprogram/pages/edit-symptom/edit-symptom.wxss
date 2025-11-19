@@ -22,7 +22,7 @@
   display: block;
 }
 
-/* 症状选项 */
+/* 状况选项 */
 .symptom-options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -56,7 +56,7 @@
   font-weight: 600;
 }
 
-/* 其他症状输入 */
+/* 其他状况输入 */
 .other-input-container {
   margin-top: 12px;
   padding-top: 12px;
@@ -137,7 +137,7 @@
   font-weight: bold;
 }
 
-/* 已选症状列表 */
+/* 已选状况列表 */
 .selected-list-section {
   min-height: 120px;
 }

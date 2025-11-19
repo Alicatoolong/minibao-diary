@@ -11,7 +11,7 @@
       <text class="label">标题</text>
       <input
         class="input"
-        placeholder="一句话概括你的经验，如“孩子总清嗓子，我是这样做的”"
+        placeholder="如“孩子不爱吃饭，我是这样做的”"
         value="{{title}}"
         bindinput="onTitleInput"
         maxlength="40"
@@ -22,7 +22,7 @@
       <text class="label">内容</text>
       <textarea
         class="textarea"
-        placeholder="详细说说你观察到的情况、尝试过的方法以及效果..."
+        placeholder="详细说说你观察到的情况、尝试过的方法以及成果..."
         value="{{content}}"
         bindinput="onContentInput"
         maxlength="500"
@@ -33,7 +33,7 @@
     <view class="hint-box">
       <text class="hint-title">小提示</text>
       <text class="hint-text">
-        尽量描述具体一些，例如：从什么时候开始、一天大概多少次、有没有和饮食/睡眠/情绪相关。
+        尽量描述具体一些。
       </text>
     </view>
 

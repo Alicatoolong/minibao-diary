@@ -1,47 +1,62 @@
 <view class="edit-container">
+  <!-- 头像上传区域 -->
+  <view class="avatar-section">
+    <view class="section-title">👶 宝宝头像</view>
+    <view class="avatar-upload" bindtap="chooseAvatar">
+      <view class="avatar-preview">
+        <image wx:if="{{avatarUrl}}" src="{{avatarUrl}}" class="avatar-image"></image>
+        <text wx:else class="avatar-placeholder">{{babyName ? babyName.substring(0,1) : '宝'}}</text>
+      </view>
+      <text class="avatar-hint">点击更换头像</text>
+    </view>
+  </view>
+
   <view class="form-section">
-    <view class="section-title">👶 宝宝姓名</view>
-    <input 
-      class="input-field" 
-      placeholder="请输入宝宝姓名" 
-      value="{{babyName}}"
-      bindinput="onNameInput"
-    />
+    <view class="section-title">📝 宝宝姓名</view>
+    <view class="input-container">
+      <input 
+        class="input-field" 
+        placeholder="请输入宝宝姓名" 
+        value="{{babyName}}"
+        maxlength="10"
+        bindinput="onNameInput"
+      />
+      <text class="char-count">{{babyName.length}}/10</text>
+    </view>
   </view>
 
   <view class="form-section">
     <view class="section-title">🎂 宝宝生日</view>
-    <picker 
-      mode="date" 
-      value="{{birthday}}"
-      bindchange="onBirthdayChange"
-    >
-      <view class="picker-field">{{birthday}}</view>
-    </picker>
-  </view>
-
-  <view class="form-section">
-    <view class="section-title">❤️ 健康状况</view>
-    <textarea 
-      class="health-input" 
-      placeholder="请输入健康状况"
-      value="{{healthStatus}}"
-      bindinput="onHealthInput"
-    ></textarea>
-  </view>
-
-  <view class="form-section">
-    <view class="section-title">⭐ 健康评分</view>
-    <view class="rating-stars">
-      <view 
-        class="star {{index < healthRating ? 'active' : ''}}"
-        wx:for="{{5}}"
-        wx:key="index"
-        bindtap="setRating"
-        data-rating="{{index + 1}}"
+    <view class="picker-container">
+      <picker 
+        mode="date" 
+        value="{{birthday}}"
+        start="2010-01-01"
+        end="{{today}}"
+        bindchange="onBirthdayChange"
       >
-        ⭐
+        <view class="picker-field {{birthday ? '' : 'placeholder'}}">
+          {{birthday || '请选择宝宝生日'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">🌟 妈妈能量</view>
+    <view class="rating-section">
+      <view class="rating-stars">
+        <view 
+          class="star {{index < energyRating ? 'active' : ''}}"
+          wx:for="{{5}}"
+          wx:key="index"
+          bindtap="setEnergyRating"
+          data-rating="{{index + 1}}"
+        >
+          ⭐
+        </view>
       </view>
+      <text class="rating-text">{{energyTexts[energyRating - 1]}}</text>
     </view>
   </view>
 

@@ -3,35 +3,65 @@
   background: #f8f8f8;
 }
 
-/* 头部样式 */
+/* 头部样式 - 优化版本 */
 .header {
   background: white;
-  padding: 32rpx;
+  padding: 20rpx 0;
   border-bottom: 1rpx solid #f0f0f0;
+  position: relative;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 32rpx;
+  height: 88rpx;
+}
+
+/* 优化返回按钮 */
+.back-btn-area {
+  flex-shrink: 0;
+  padding: 20rpx 0;
+  margin: -20rpx 0;
 }
 
 .back-btn {
   display: flex;
   align-items: center;
-  color: #6BC5D2;
-  font-size: 28rpx;
+  padding: 16rpx 24rpx;
+  background: #f8f9fa;
+  border-radius: 24rpx;
+  transition: all 0.3s ease;
+  min-width: 120rpx;
+  border: 1rpx solid #e9ecef;
+}
+
+.back-btn:active {
+  background: #e9ecef;
+  transform: scale(0.95);
 }
 
 .back-icon {
-  font-size: 32rpx;
+  font-size: 36rpx;
+  color: #6BC5D2;
+  font-weight: bold;
   margin-right: 8rpx;
+}
+
+.back-text {
+  font-size: 28rpx;
+  color: #6BC5D2;
+  font-weight: 500;
 }
 
 .title {
   font-size: 36rpx;
   font-weight: bold;
   color: #333;
+  flex: 1;
+  text-align: center;
+  margin: 0 20rpx;
 }
 
 .placeholder {
@@ -41,6 +71,7 @@
 /* 历史记录列表 */
 .history-list {
   padding: 32rpx;
+  padding-bottom: 140rpx; /* 为底部按钮留出空间 */
 }
 
 .history-item {
@@ -123,7 +154,7 @@
 /* 空状态 */
 .empty-state {
   text-align: center;
-  padding: 120rpx 0;
+  padding: 120rpx 0 200rpx 0; /* 增加底部间距，避免被按钮遮挡 */
 }
 
 .empty-icon {
@@ -155,6 +186,7 @@
   font-size: 28rpx;
   font-weight: 500;
 }
+
 /* 添加加载状态样式 */
 .loading-state {
   text-align: center;
@@ -183,6 +215,7 @@
   margin-left: 8rpx;
   font-weight: bold;
 }
+
 /* 底部添加记录按钮 */
 .add-record-btn-container {
   position: fixed;
@@ -215,16 +248,4 @@
 
 .add-text {
   font-weight: 500;
-}
-
-/* 调整空状态的底部间距 */
-.empty-state {
-  text-align: center;
-  padding: 120rpx 0 200rpx 0; /* 增加底部间距，避免被按钮遮挡 */
-}
-
-/* 调整列表的底部间距 */
-.history-list {
-  padding: 32rpx;
-  padding-bottom: 140rpx; /* 为底部按钮留出空间 */
 }

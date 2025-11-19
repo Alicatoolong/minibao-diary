@@ -43,14 +43,14 @@ Page({
       if (records.length > 0) {
         console.log('📋 第一条记录详情:', records[0]);
         if (records[0].symptoms && records[0].symptoms.length > 0) {
-          console.log('🩺 第一个症状详情:', records[0].symptoms[0]);
+          console.log('🩺 第一个状况详情:', records[0].symptoms[0]);
         }
       }
       
-      // 处理症状数据 - 从 symptoms 数组中提取
+      // 处理状况数据 - 从 symptoms 数组中提取
       const formattedRecords = records.map(record => {
-        // 从 symptoms 数组中获取第一个症状
-        let description = '未知症状';
+        // 从 symptoms 数组中获取第一个状况
+        let description = '未知状况';
         let severity = 0;
         let severityText = '未知';
         
@@ -58,7 +58,7 @@ Page({
           const symptomData = record.symptoms[0];
           
           // 使用 symptomName 字段
-          description = symptomData.symptomName || '未知症状';
+          description = symptomData.symptomName || '未知状况';
           
           // 使用 severityLevel 字段获取数字，severity 字段获取文本
           severity = symptomData.severityLevel || 0;

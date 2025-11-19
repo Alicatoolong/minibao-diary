@@ -2,19 +2,18 @@
   <!-- 顶部状态概览 -->
   <view class="status-header">
     <view class="baby-info">
-      <text class="name">乐乐</text>
-      <text class="age">1岁2个月</text>
+      <text class="name">{{babyInfo.name || '宝宝'}}</text>
+      <text class="age">{{babyInfo.age || '0岁0个月'}}</text>
     </view>
-    <view class="last-update">最后更新: {{lastUpdate || '暂无记录'}}</view>
   </view>
 
   <!-- 健康指标卡片 -->
   <view class="indicators-container">
     
-    <!-- 情况表现 -->
+    <!-- 当前状况 -->
     <view class="indicator-card">
       <view class="card-header">
-        <text class="card-title">🗣️ 情况表现</text>
+        <text class="card-title">🗣️ 当前状况</text>
         <view class="card-actions">
           <view class="action-btn primary" bindtap="editSymptom">编辑</view>
           <view class="action-btn secondary" bindtap="forceRefreshAll">刷新</view>
@@ -23,12 +22,12 @@
       </view>
 
       <view class="card-content symptom-content">
-        <!-- 症状列表显示 -->
+        <!-- 状况列表显示 -->
         <view class="symptom-list-container">
-          <view class="symptom-list-text">{{symptomListText || '暂无症状记录'}}</view>
+          <view class="symptom-list-text">{{symptomListText || '暂无记录'}}</view>
           <!-- 记录时间 -->
           <view class="record-time" wx:if="{{recordTime}}">{{recordTime}}</view>
-          <view class="empty-tip" wx:else>记录宝宝的情况，更好地了解健康状况</view>
+          <view class="empty-tip" wx:else>记录宝宝的状况，更好地了解状况</view>
         </view>
         
         <!-- 底部提示 -->
@@ -48,7 +47,7 @@
         <view class="tip-list">
           <view class="tip-item">
             <text class="tip-icon">📝</text>
-            <text class="tip-text">点击"编辑"记录宝宝的症状情况</text>
+            <text class="tip-text">点击"编辑"记录宝宝的状况</text>
           </view>
           <view class="tip-item">
             <text class="tip-icon">🔄</text>

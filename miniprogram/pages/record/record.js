@@ -18,15 +18,6 @@ Page({
     sleepHours: 8,
     sleepQuality: 3,
     
-    // === 新增：营养补充相关 ===
-    supplementTypes: [
-      '维生素D', '鱼油', '钙剂', '镁剂', 
-      '益生菌', '多维元素', '其他补充剂'
-    ],
-    selectedSupplements: [], // 改为数组，支持多种补充剂
-    supplementDosage: '',
-    supplementTime: '',
-    customSupplement: '', // 自定义补充剂名称
     
     // === 新增：运动相关 ===
     activityTypes: [
@@ -83,39 +74,6 @@ Page({
     });
     console.log('选择严重程度:', severity);
   },
-// === 新增：营养补充相关方法 ===
-  
-  // 切换补充剂选择（可以多选）
-  toggleSupplement: function(e) {
-    console.log('点击补充剂事件:', e);
-    
-    // 确保获取到正确的补充剂名称
-    const supplement = e.currentTarget.dataset.supplement;
-    console.log('点击的补充剂:', supplement);
-    
-    // 创建数组的深拷贝，避免引用问题
-    let currentSupplements = [...this.data.selectedSupplements];
-    console.log('当前已选补充剂:', currentSupplements);
-    
-    const index = currentSupplements.indexOf(supplement);
-    console.log('补充剂位置索引:', index);
-    
-    if (index > -1) {
-      // 如果已经选中，就移除
-      currentSupplements.splice(index, 1);
-      console.log('移除补充剂，更新后:', currentSupplements);
-    } else {
-      // 如果没有选中，就添加
-      currentSupplements.push(supplement);
-      console.log('添加补充剂，更新后:', currentSupplements);
-    }
-    
-    this.setData({
-      selectedSupplements: currentSupplements
-    });
-    
-    console.log('最终选择的补充剂:', this.data.selectedSupplements);
-  },
   // === 新增：运动相关方法 ===
   
   // 选择活动类型
@@ -130,25 +88,37 @@ Page({
   // 改变活动时长
   onActivityDurationChange: function(e) {
     const duration = parseInt(e.detail.value) || 30;
-    this.setData({
-      activityDuration: Math.min(Math.max(duration, 0), 180) // 限制0-180分钟
-    });
-  },debugSupplements: function() {
-    console.log('=== 补充剂调试信息 ===');
-    console.log('当前 selectedSupplements:', this.data.selectedSupplements);
-    console.log('数据类型:', typeof this.data.selectedSupplements);
-    console.log('数组长度:', this.data.selectedSupplements.length);
-    console.log('完整数据:', this.data);
-  },
+  this.setData({
+    activityDuration: Math.min(Math.max(duration, 0), 180) // 限制0-180分钟
+  });
+},
+debugSupplements: function() {
+  console.log('=== 补充剂调试信息 ===');
+  console.log('当前 selectedSupplements:', this.data.selectedSupplements);
+  console.log('数据类型:', typeof this.data.selectedSupplements);
+  console.log('数组长度:', this.data.selectedSupplements.length);
+  console.log('完整数据:', this.data);
+},
 
+saveSymptomRecord: function() {  // ← 添加 function 关键字和逗号
+  // ... 保存逻辑
+    
+    // 触发首页更新
+  if (typeof app !== 'undefined' && app.globalDataUpdateCallback) {
+    app.globalDataUpdateCallback();
+  }
+    
+    // 或者使用全局事件
+  wx.setStorageSync('dataUpdated', Date.now());
+},  // ← 添加逗号
   // 选择活动强度
-  selectActivityIntensity: function(e) {
-    const intensity = parseInt(e.currentTarget.dataset.intensity);
-    this.setData({
-      activityIntensity: intensity
-    });
-    console.log('选择活动强度:', intensity);
-  },
+selectActivityIntensity: function(e) {
+  const intensity = parseInt(e.currentTarget.dataset.intensity);
+  this.setData({
+    activityIntensity: intensity
+  });
+  console.log('选择活动强度:', intensity);
+},
 
   // === 新增：好转日标记方法 ===
   

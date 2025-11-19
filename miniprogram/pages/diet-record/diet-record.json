@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "饮食记录",
-  "backgroundColor": "#f8f9fa",
+  "navigationBarBackgroundColor": "#87CEEB",
+  "navigationBarTextStyle": "white",
   "usingComponents": {}
 }

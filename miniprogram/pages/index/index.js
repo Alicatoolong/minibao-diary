@@ -1,3 +1,4 @@
+const app = getApp();
 // 创建测试用的公开心情日记
 const testDiaries = [
   {
@@ -15,7 +16,7 @@ const testDiaries = [
     author: '辰辰妈妈',
     mood: 3, // 不开心
     content: '宝宝最近总摇头，有点担心',
-    tags: ['担忧', '症状'],
+    tags: ['担忧', '状况'],
     isPublic: true,
     createTime: new Date().toISOString(),
     hugCount: 8
@@ -23,7 +24,9 @@ const testDiaries = [
 ];
 
 wx.setStorageSync('diaryRecords', testDiaries);
-console.log('测试数据创建成功！');// 健康趋势计算
+console.log('测试数据创建成功！');
+
+// 健康趋势计算 - 修正版本
 const HEALTH_CALCULATION = {
   SYMPTOM_WEIGHTS: {
     'blink': 1.0, 'nose': 1.0, 'eyebrow': 1.0, 'mouth': 1.0, 'head': 1.0, 'shoulder': 1.0,
@@ -37,66 +40,94 @@ const HEALTH_CALCULATION = {
 
   SEVERITY_FACTORS: { 1: 1.0, 2: 1.5, 3: 2.0 },
 
-  calculateFrequencyFactor(frequency) {
-    if (!frequency) return 1.0;
-    const freq = parseInt(frequency) || 0;
-    if (freq <= 10) return 1.0;
-    if (freq <= 30) return 1.2;
-    if (freq <= 50) return 1.5;
-    if (freq <= 100) return 1.8;
-    return 2.0;
-  },
-
   calculateDailyHealthIndex(symptoms) {
     if (!symptoms || symptoms.length === 0) return 100;
-
+  
     let totalImpact = 0;
     let symptomCount = 0;
-
+  
+    // 按症状类型分组，避免重复计算同类型症状
+    const symptomGroups = {};
+    
     symptoms.forEach(symptom => {
-      if (symptom.type === 'asymptomatic') return;
+      // 兼容新旧数据结构
+      const symptomType = symptom.type || symptom.symptomType;
+      const severityLevel = symptom.level || symptom.severity;
 
-      const weight = this.SYMPTOM_WEIGHTS[symptom.type] || 1.0;
-      const severityFactor = this.SEVERITY_FACTORS[symptom.level] || 1.0;
-      const frequencyFactor = this.calculateFrequencyFactor(symptom.frequency);
+      if (symptomType === 'asymptomatic') return;
 
-      totalImpact += weight * severityFactor * frequencyFactor;
+      // 如果是新症状类型，初始化
+      if (!symptomGroups[symptomType]) {
+        symptomGroups[symptomType] = {
+          type: symptomType,
+          maxSeverity: severityLevel
+        };
+      }
+      
+      // 记录最严重的程度
+      if (severityLevel > symptomGroups[symptomType].maxSeverity) {
+        symptomGroups[symptomType].maxSeverity = severityLevel;
+      }
+    });
+  
+    // 计算每种症状类型的影响
+    Object.values(symptomGroups).forEach(group => {
+      const weight = this.SYMPTOM_WEIGHTS[group.type] || 1.0;
+      const severityFactor = this.SEVERITY_FACTORS[group.maxSeverity] || 1.0;
+      
+      // 移除频率因子，直接计算影响
+      const impact = weight * severityFactor;
+      totalImpact += impact;
       symptomCount++;
     });
-
+  
     if (symptomCount > 0) {
       const avgImpact = totalImpact / symptomCount;
       return Math.max(0, Math.round(100 - avgImpact * 8));
     }
-
+  
     return 100;
   },
 
   generateHealthTrendData(symptoms) {
     const trendData = [];
     const today = new Date();
-
+  
     for (let i = 4; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-
+      const dateString = date.toISOString().split('T')[0];
+  
+      // 按日期过滤症状
       const dailySymptoms = symptoms.filter(s => {
-        if (!s.date) return false;
-        return new Date(s.date).toDateString() === date.toDateString();
+        if (!s.recordDate) return false;
+        
+        let recordDate;
+        if (s.recordDate.includes('/')) {
+          // 处理 "2025/11/19" 格式
+          recordDate = new Date(s.recordDate).toDateString();
+        } else {
+          // 处理其他日期格式
+          recordDate = new Date(s.recordDate).toDateString();
+        }
+        
+        return recordDate === date.toDateString();
       });
-
+  
+      console.log(`📅 ${dateString} 的症状记录:`, dailySymptoms.length, dailySymptoms);
+  
       trendData.push({
-        date: date.toISOString().split('T')[0],
+        date: dateString,
         displayDate: `${date.getMonth() + 1}/${date.getDate()}`,
         healthIndex: this.calculateDailyHealthIndex(dailySymptoms),
         symptomCount: dailySymptoms.length,
         hasSymptoms: dailySymptoms.length > 0
       });
     }
-
+  
     return trendData;
   }
-}
+};
 
 // 数据存储
 const StorageManager = {
@@ -156,6 +187,7 @@ Page({
       age: '',
       birthday: '',
       healthStatus: '',
+      lastUpdateTime: 0,
       healthRating: 0
     },
 
@@ -172,34 +204,35 @@ Page({
     healthTrendData: [],
     currentHealthIndex: 100,
     trendLines: [],
+// ============ 新增：签到功能相关数据 ============
+checkinDays: 0,           // 签到天数
+showToast: false,         // 是否显示签到成功提示
+isChecked: false,          // 今天是否已签到
 
     hotPosts: [
       { 
         id: 1, 
         author: '乐乐妈妈', 
-        title: '孩子总清嗓子，我是怎么办的', 
+        title: '孩子不爱喝水，我是怎么办的', 
         likes: 12, 
         cheers: 5,
-        content: '我家孩子之前总是清嗓子，后来发现是过敏性鼻炎引起的...',
-        tags: ['清嗓子', '过敏性鼻炎', '经验分享']
+        content: '我家孩子之前总是不爱喝水...',
       },
       { 
         id: 2, 
         author: '辰辰妈妈', 
-        title: '睡前总眨眼怎么办？', 
+        title: '睡前总玩怎么办？', 
         likes: 8, 
         cheers: 3,
-        content: '孩子睡前眨眼频繁，经过一段时间的调理现在好多了...',
-        tags: ['眨眼', '睡前', '调理']
+        content: '孩子睡前总玩怎么办，经过一段现在好多了...',
       },
       { 
         id: 3, 
         author: '果果妈妈', 
-        title: '饮食调整后抽动减少', 
+        title: '多喝水', 
         likes: 15, 
         cheers: 9,
-        content: '通过调整饮食结构，孩子的抽动症状明显改善...',
-        tags: ['饮食', '抽动', '改善']
+        content: '通过调整饮食结构，多喝水...',
       }
     ],
 
@@ -207,18 +240,142 @@ Page({
   },
 
   onLoad() {
-    this.loadBabyInfo();
+    this.initBabyInfo();
     this.calculateAge();
     this.calculateHealthTrend();
-    this.loadTodayEmotionExercise(); // 新增
-  },
-
-  onShow() {
-    this.calculateAge();
+    this.initCheckinData();
+    this.loadTodayEmotionExercise(); 
+    this.setupRealTimeUpdate();
+// 新增：设置全局数据更新监听
+if (app) {
+  app.globalDataUpdateCallback = () => {
+    console.log('🔄 全局回调触发健康评分更新');
     this.calculateHealthTrend();
-    this.loadTodayEmotionExercise(); // 新增
-  },
+    this.loadTodayEmotionExercise();
+  };
+}
+},
 
+// 优化：增强实时更新机制
+setupRealTimeUpdate() {
+// 使用更短的检查间隔
+this.dataUpdateTimer = setInterval(() => {
+  this.checkDataUpdate();
+}, 1000); // 缩短到1秒
+
+// 新增：监听页面显示事件
+wx.onAppShow(() => {
+  console.log('📱 小程序回到前台，更新数据');
+  this.forceRefreshData();
+});
+},
+
+// 新增：强制刷新所有数据
+forceRefreshData() {
+this.calculateHealthTrend();
+this.loadTodayEmotionExercise();
+this.initCheckinData();
+},
+
+// 优化：改进数据更新检查
+checkDataUpdate() {
+const currentRecords = JSON.stringify(StorageManager.getAllRecords());
+const currentTime = new Date().getTime();
+
+// 检查记录变化或超过5秒强制更新
+if (this.lastRecords !== currentRecords || 
+    currentTime - this.data.lastUpdateTime > 5000) {
+  
+  this.lastRecords = currentRecords;
+  this.setData({ lastUpdateTime: currentTime });
+  
+  console.log('🔄 检测到数据变化，更新健康评分');
+  this.calculateHealthTrend();
+  this.loadTodayEmotionExercise();
+}
+},
+
+// 替换首页中现有的 calculateHealthTrend 方法
+calculateHealthTrend() {
+  // 获取所有记录
+  const records = StorageManager.getAllRecords();
+  console.log('📋 原始记录数量:', records.length);
+  console.log('📋 原始记录内容:', records);
+  
+  // 展开所有症状到平级数组
+  const allSymptoms = records.flatMap(record => {
+    if (record.symptoms && Array.isArray(record.symptoms)) {
+      // 为每个症状添加日期信息，用于按日期分组
+      return record.symptoms.map(symptom => ({
+        ...symptom,
+        recordDate: record.date || symptom.timestamp // 使用记录日期
+      }));
+    }
+    return [];
+  });
+  
+  console.log('🔍 展开后的所有症状:', allSymptoms.length, allSymptoms);
+
+  let trendData = [];
+  if (allSymptoms.length === 0) {
+    console.log('📊 无症状记录，使用默认数据（全部100分）');
+    trendData = this.generateDefaultTrendData();
+  } else {
+    console.log('📊 有症状记录，计算趋势数据');
+    trendData = HEALTH_CALCULATION.generateHealthTrendData(allSymptoms);
+    console.log('📈 计算后的趋势数据:', trendData);
+  }
+
+  const todayScore = (trendData[trendData.length - 1] && trendData[trendData.length - 1].healthIndex) || 100;
+  console.log('🎯 今日实时健康指数:', todayScore);
+
+  this.setData({
+    healthTrendData: trendData,
+    currentHealthIndex: todayScore
+  });
+
+  this.updateTrendLines(trendData);
+  
+  // 更新全局状态，供其他页面使用
+  if (app) {
+    app.globalData = {
+      ...app.globalData,
+      currentHealthIndex: todayScore,
+      lastHealthUpdate: new Date().getTime()
+    };
+  }
+},
+onShow() {
+  // 优化：每次显示都强制刷新，确保数据最新
+  console.log('🔄 首页显示，强制刷新数据');
+  this.forceRefreshData();
+  // 立即检查一次数据更新
+  this.checkDataUpdate();
+},
+onUnload() {
+  if (this.dataUpdateTimer) {
+    clearInterval(this.dataUpdateTimer);
+  }
+},
+  // 初始化宝宝信息
+  initBabyInfo() {
+    const babyInfo = wx.getStorageSync('babyInfo') || {};
+    this.setData({
+      babyInfo: {
+        name: babyInfo.name || '宝宝',
+        age: babyInfo.age || '0岁0个月',
+        birthday: babyInfo.birthday || '',
+        avatarUrl: babyInfo.avatarUrl || '',  // 确保头像被加载
+        energyRating: babyInfo.energyRating || 3
+      }
+    });
+  },
+// ============ 新增：编辑宝宝信息方法 ============
+editBabyInfo() {
+  wx.navigateTo({
+    url: '/pages/edit-baby-info/edit-baby-info',
+  })
+},
   // ---------------------------------------
   // 加载宝宝信息
   // ---------------------------------------
@@ -252,46 +409,23 @@ Page({
     this.setData({ "babyInfo.age": ageStr });
   },
 
-  // ---------------------------------------
-  // 计算趋势 & 折线
-  // ---------------------------------------
-  calculateHealthTrend() {
-    const symptoms = StorageManager.getAllRecords();
-
-    let trendData = [];
-    if (symptoms.length === 0) {
-      trendData = this.generateDefaultTrendData();
-    } else {
-      trendData = HEALTH_CALCULATION.generateHealthTrendData(symptoms);
-    }
-
-    const todayScore = trendData[trendData.length - 1].healthIndex;
-
-    this.setData({
-      healthTrendData: trendData,
-      currentHealthIndex: todayScore
+  // 修改默认数据生成方法，让无记录时显示100分
+generateDefaultTrendData() {
+  const today = new Date();
+  const arr = [];
+  for (let i = 4; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    arr.push({
+      date: d.toISOString().split("T")[0],
+      displayDate: `${d.getMonth() + 1}/${d.getDate()}`,
+      healthIndex: 100, // 改为固定100分，而不是随机数
+      symptomCount: 0,
+      hasSymptoms: false
     });
-
-    this.updateTrendLines(trendData);
-  },
-
-  // 默认数据（无记录时）
-  generateDefaultTrendData() {
-    const today = new Date();
-    const arr = [];
-    for (let i = 4; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(today.getDate() - i);
-      arr.push({
-        date: d.toISOString().split("T")[0],
-        displayDate: `${d.getMonth() + 1}/${d.getDate()}`,
-        healthIndex: 85 + Math.floor(Math.random() * 11),
-        symptomCount: 0,
-        hasSymptoms: false
-      });
-    }
-    return arr;
-  },
+  }
+  return arr;
+},
 
   // ⭐ 正确的折线计算（点连点）
   updateTrendLines(trendData) {
@@ -344,10 +478,14 @@ Page({
   // ---------------------------------------
   // 核心导航功能
   // ---------------------------------------
-  navToBabyStatus() {
-    wx.navigateTo({ url: "/pages/baby-status/baby-status" });
-  },
-
+// 保持我宝情况按钮的方法不变
+navToBabyStatus() {
+  wx.navigateTo({ url: "/pages/baby-status/baby-status" });
+},
+// 状态评分区域点击 - 查看历史记录
+navToSymptomHistory() {
+  wx.navigateTo({ url: "/pages/symptom-history/symptom-history" });
+},
   navToDietRecord() {
     wx.navigateTo({ url: "/pages/diet-record/diet-record" });
   },
@@ -380,7 +518,12 @@ navToQuickRecordHistory() {
       url: "/pages/experience-list/experience-list" 
     });
   },
-
+  // 跳转到编辑宝宝信息页面
+  goToEditBabyInfo() {
+    wx.navigateTo({
+      url: '/pages/edit-baby-info/edit-baby-info'
+    })
+  },
   // 跳转到帖子详情
   navToPostDetail(e) {
     const postId = e.currentTarget.dataset.id;
@@ -427,7 +570,108 @@ navToQuickRecordHistory() {
     this.setData({ hotPosts: posts });
     wx.showToast({ title: '鼓励成功', icon: 'success' });
   },
+// 初始化签到数据
+initCheckinData() {
+  const checkinData = wx.getStorageSync('babyCheckinData') || {
+    days: 0,
+    lastCheckin: null
+  };
+  
+  const today = new Date().toDateString();
+  const isChecked = checkinData.lastCheckin === today;
+  
+  this.setData({
+    checkinDays: checkinData.days,
+    isChecked: isChecked
+  });
+},
 
+// 处理签到
+handleCheckin() {
+  if (this.data.isChecked) {
+    wx.showToast({
+      title: '今天已经签到过了',
+      icon: 'none'
+    });
+    return;
+  }
+  
+  const checkinData = wx.getStorageSync('babyCheckinData') || {
+    days: 0,
+    lastCheckin: null
+  };
+  
+  const today = new Date();
+  const todayStr = today.toDateString();
+  
+  // 计算连续签到天数
+  let days = checkinData.days;
+  const lastCheckin = checkinData.lastCheckin ? new Date(checkinData.lastCheckin) : null;
+  
+  if (lastCheckin) {
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    if (lastCheckin.toDateString() === yesterday.toDateString()) {
+      // 连续签到
+      days += 1;
+    } else if (lastCheckin.toDateString() !== todayStr) {
+      // 非连续签到，重置为1
+      days = 1;
+    }
+  } else {
+    // 第一次签到
+    days = 1;
+  }
+  
+  // 更新数据
+  const newData = {
+    days: days,
+    lastCheckin: todayStr
+  };
+  
+  wx.setStorageSync('babyCheckinData', newData);
+  
+  // 更新页面数据
+  this.setData({
+    checkinDays: days,
+    isChecked: true,
+    showToast: true
+  });
+  
+  // 添加按钮动画效果
+  this.animateCheckinButton();
+  
+  // 2秒后隐藏提示
+  setTimeout(() => {
+    this.setData({
+      showToast: false
+    });
+  }, 2000);
+},
+
+// 签到按钮动画
+animateCheckinButton() {
+  // 使用小程序动画API
+  const animation = wx.createAnimation({
+    duration: 200,
+    timingFunction: 'ease'
+  });
+  
+  animation.scale(0.9).step();
+  animation.scale(1).step();
+  
+  // 如果需要应用到具体元素，可以这样使用：
+  // this.animation = animation;
+  // 然后在WXML中使用animation属性绑定
+},
+
+// 隐藏签到成功提示
+hideToast() {
+  this.setData({
+    showToast: false
+  });
+},
   // ---------------------------------------
   // 其他功能
   // ---------------------------------------

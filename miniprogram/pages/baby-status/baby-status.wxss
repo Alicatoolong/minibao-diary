@@ -32,11 +32,6 @@
   border-radius: 20rpx;
 }
 
-.last-update {
-  font-size: 26rpx;
-  color: #999;
-}
-
 /* 卡片容器 */
 .indicators-container {
   padding: 32rpx;

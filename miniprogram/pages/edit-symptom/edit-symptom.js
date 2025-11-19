@@ -8,7 +8,7 @@ Page({
     confirmedSymptoms: [],
     
     symptomOptions: [
-      { value: 'asymptomatic', label: '无症状', desc: '今日无异常情况' },
+      { value: 'asymptomatic', label: '完美', desc: '今日无异常情况' },
       { value: 'blink', label: '眨眼睛', desc: '频繁眨眼' },
       { value: 'nose', label: '抽鼻子', desc: '频繁抽动鼻子' },
       { value: 'eyebrow', label: '抬眉毛', desc: '眉毛不自觉抬起' },
@@ -29,9 +29,8 @@ Page({
       { value: 'repeat', label: '重复词语', desc: '重复说某些词语' },
       { value: 'echo', label: '模仿语言', desc: '模仿他人说话' },
       { value: 'nonsense', label: '无意义短语', desc: '说无意义的话' },
-      { value: 'coprolalia', label: '秽语', desc: '说脏话或不当言语' },
-      { value: 'insult', label: '侮辱性语言', desc: '说侮辱性话语' },
-      { value: 'compulsion', label: '强迫行为', desc: '强迫行为或思维' },
+      { value: 'insult', label: '不文明语言', desc: '说不文明话语或不当言语' },
+      { value: 'compulsion', label: '强制行为', desc: '强制行为或思维' },
       { value: 'other', label: '其他情况', desc: '其他特殊情况' }
     ],
     
@@ -49,12 +48,12 @@ Page({
     return severity ? severity.label : '未知';
   },
 
-  // 辅助方法：获取症状标签
+  // 辅助方法：获取状况标签
   getSymptomLabel: function(selectedSymptom) {
-    if (selectedSymptom === 'asymptomatic') return '无症状';
-    if (selectedSymptom === 'other') return this.data.otherSymptomText || '其他症状';
+    if (selectedSymptom === 'asymptomatic') return '无状况';
+    if (selectedSymptom === 'other') return this.data.otherSymptomText || '其他状况';
     const option = this.data.symptomOptions.find(opt => opt.value === selectedSymptom);
-    return option ? option.label : '未知症状';
+    return option ? option.label : '未知状况';
   },
 
   selectSymptom: function(e) {
@@ -93,34 +92,34 @@ Page({
     // 验证数据
   if (selectedSymptom === 'other' && !otherSymptomText.trim()) {
     wx.showToast({
-      title: '请输入其他症状描述',
+      title: '请输入其他状况描述',
       icon: 'none'
     });
     return;
   }
 
-    // 获取症状名称
+    // 获取状况名称
   let symptomName = '';
   if (selectedSymptom === 'asymptomatic') {
-    symptomName = '无症状';
+    symptomName = '无状况';
   } else if (selectedSymptom === 'other') {
-    symptomName = otherSymptomText || '其他症状';
+    symptomName = otherSymptomText || '其他状况';
   } else {
     const selectedOption = this.data.symptomOptions.find(option => option.value === selectedSymptom);
-    symptomName = selectedOption ? selectedOption.label : '未知症状';
+    symptomName = selectedOption ? selectedOption.label : '未知状况';
   }
 
     // 获取严重程度文本
   const severityText = selectedSymptom === 'asymptomatic' ? '无' : this.getSeverityLabel(selectedSeverity);
 
-  console.log('🔍 生成的症状记录:', {
+  console.log('🔍 生成的状况记录:', {
     symptomName: symptomName,
     severity: severityText,
     severityLevel: selectedSeverity,
     type: selectedSymptom
   });
 
-    // 创建症状记录
+    // 创建状况记录
   const symptomRecord = {
     id: new Date().getTime() + Math.random(),
     symptomName: symptomName,
@@ -140,13 +139,13 @@ Page({
     confirmedSymptoms: updatedSymptoms
   });
 
-  console.log('📝 更新后的已选症状列表:', updatedSymptoms);
+  console.log('📝 更新后的已选状况列表:', updatedSymptoms);
 
     // 重置表单
   this.resetForm();
 
   wx.showToast({
-    title: '已添加症状',
+    title: '已添加状况',
     icon: 'success',
     duration: 1500
   });
@@ -180,11 +179,11 @@ Page({
   completeSelection: function() {
     const { confirmedSymptoms } = this.data;
     
-    console.log('💾 准备保存的症状:', confirmedSymptoms);
+    console.log('💾 准备保存的状况:', confirmedSymptoms);
   
     if (confirmedSymptoms.length === 0) {
       wx.showToast({
-        title: '请至少添加一个症状',
+        title: '请至少添加一个状况',
         icon: 'none'
       });
       return;
@@ -213,7 +212,7 @@ Page({
     key: 'symptomRecords',
     data: existingRecords,
     success: () => {
-      console.log('✅ 所有症状保存成功');
+      console.log('✅ 所有状况保存成功');
       console.log('💾 存储后的所有记录:', wx.getStorageSync('symptomRecords'));
       
       wx.showToast({
@@ -231,7 +230,7 @@ Page({
     }
   });
 },
-// 新增：立即重新加载最新症状数据
+// 新增：立即重新加载最新状况数据
 loadLatestSymptoms: function() {
   try {
     const records = wx.getStorageSync('symptomRecords') || [];
@@ -267,7 +266,7 @@ loadLatestSymptoms: function() {
         
         // 立即更新显示
         this.setData({
-          confirmedSymptoms: latest.symptoms, // 更新为最新症状
+          confirmedSymptoms: latest.symptoms, // 更新为最新状况
           symptomListText: symptomListText,
           recordTime: recordTime
         });
@@ -276,7 +275,7 @@ loadLatestSymptoms: function() {
       }
     }
   } catch (err) {
-    console.error('立即加载症状出错:', err);
+    console.error('立即加载状况出错:', err);
   }
 },  // ← 这里需要逗号
 

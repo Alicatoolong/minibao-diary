@@ -1,9 +1,9 @@
 <!-- symptom.wxml -->
 <view class="edit-container">
 
-<!-- 症状选择 -->
+<!-- 状况选择 -->
 <view class="form-section">
-  <text class="section-title">选择症状</text>
+  <text class="section-title">选择状况</text>
   <view class="symptom-options">
     <block wx:for="{{symptomOptions}}" wx:key="value">
       <view
@@ -16,11 +16,11 @@
     </block>
   </view>
 
-  <!-- 其他症状输入框 -->
+  <!-- 其他状况输入框 -->
   <view class="other-input-container" wx:if="{{showOtherInput}}">
     <input
       class="other-input"
-      placeholder="请输入症状描述..."
+      placeholder="请输入状况描述..."
       value="{{otherSymptomText}}"
       bindinput="onOtherSymptomInput"
     />
@@ -51,13 +51,13 @@
     bindtap="{{(selectedSymptom === 'asymptomatic' || (selectedSymptom !== 'asymptomatic' && selectedSeverity)) ? 'confirmSymptom' : ''}}"
   >
     <text class="btn-icon">+</text>
-    添加此症状
+    添加此状况
   </view>
 </view>
 
-<!-- 已选症状列表 - 固定位置 -->
+<!-- 已选状况列表 - 固定位置 -->
 <view class="form-section selected-list-section">
-  <text class="section-title">已选症状</text>
+  <text class="section-title">已选状况</text>
   <view class="selected-list">
     <block wx:for="{{confirmedSymptoms}}" wx:key="id">
       <view class="selected-item">
@@ -69,21 +69,21 @@
       </view>
     </block>
     <view class="empty-tip" wx:if="{{confirmedSymptoms.length === 0}}">
-      <text>暂无已选症状</text>
+      <text>暂无已选状况</text>
     </view>
   </view>
 </view>
 
 <!-- 温馨提示 -->
 <view class="warm-tip">
-  <text>记录症状有助于了解宝宝情况，妈妈们要多对孩子微笑和拥抱 💕</text>
+  <text>记录状况有助于了解宝宝情况，妈妈们要多对孩子微笑和拥抱 💕</text>
 </view>
 
 <!-- 最终确认按钮 -->
 <view class="final-confirm-section" wx:if="{{confirmedSymptoms.length > 0}}">
   <view class="final-summary">
     <text class="summary-count">{{confirmedSymptoms.length}}</text>
-    <text class="summary-text">个症状已添加</text>
+    <text class="summary-text">个状况已添加</text>
   </view>
   <view class="btn complete final-confirm-btn" bindtap="completeSelection">
     确认提交

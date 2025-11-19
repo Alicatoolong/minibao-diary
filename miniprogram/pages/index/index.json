@@ -1,5 +1,7 @@
 {
   "usingComponents": {},
   "navigationBarTitleText": "敏宝日记",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
   "enablePullDownRefresh": true
 }

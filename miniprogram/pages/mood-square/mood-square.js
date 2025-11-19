@@ -1,7 +1,8 @@
 Page({
   data: {
     searchKeyword: '',
-    moodList: []
+    moodList: [],
+    originalMoodList: [] // 保存原始数据用于搜索
   },
 
   onLoad() {
@@ -29,22 +30,71 @@ Page({
           moodType: this.getMoodType(diary.mood),
           content: diary.content,
           tags: diary.tags || [],
-          hugCount: diary.hugCount || 0
+          hugCount: diary.hugCount || 0,
+          createTime: diary.createTime // 保留原始时间用于排序
         }))
         .sort((a, b) => new Date(b.createTime) - new Date(a.createTime));
       
-      this.setData({ moodList: publicMoods });
+      this.setData({ 
+        moodList: publicMoods,
+        originalMoodList: publicMoods // 保存原始数据
+      });
     } catch (error) {
       console.error('加载心情日记失败:', error);
-      this.setData({ moodList: [] });
+      this.setData({ moodList: [], originalMoodList: [] });
     }
   },
 
   // 搜索输入
   onSearchInput(e) {
-    const keyword = e.detail.value;
+    const keyword = e.detail.value.trim();
     this.setData({ searchKeyword: keyword });
-    // 这里可以添加搜索过滤逻辑
+  },
+
+  // 执行搜索（点击搜索图标时调用）
+  performSearch() {
+    const keyword = this.data.searchKeyword.trim();
+    
+    if (keyword === '') {
+      // 如果搜索关键词为空，显示所有日记
+      this.setData({
+        moodList: this.data.originalMoodList
+      });
+      return;
+    }
+    
+    // 执行模糊搜索
+    const searchResults = this.data.originalMoodList.filter(diary => {
+      const searchContent = keyword.toLowerCase();
+      
+      // 在多个字段中进行模糊匹配
+      return (
+        // 匹配作者名
+        (diary.author && diary.author.toLowerCase().includes(searchContent)) ||
+        // 匹配日记内容
+        (diary.content && diary.content.toLowerCase().includes(searchContent)) ||
+        // 匹配心情类型
+        (diary.moodType && diary.moodType.toLowerCase().includes(searchContent)) ||
+        // 匹配标签
+        (diary.tags && diary.tags.some(tag => 
+          tag.toLowerCase().includes(searchContent)
+        ))
+      );
+    });
+    
+    this.setData({
+      moodList: searchResults
+    });
+    
+    console.log('搜索关键词:', keyword, '结果数量:', searchResults.length);
+  },
+
+  // 清空搜索
+  clearSearch() {
+    this.setData({
+      searchKeyword: '',
+      moodList: this.data.originalMoodList
+    });
   },
 
   // 发送抱抱

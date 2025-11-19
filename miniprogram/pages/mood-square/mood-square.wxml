@@ -1,5 +1,5 @@
 <view class="mood-square">
-  <!-- 搜索栏 -->
+  <!-- 搜索栏 - 修改为包含清空按钮 -->
   <view class="search-bar">
     <input 
       class="search-input" 
@@ -7,10 +7,18 @@
       value="{{searchKeyword}}"
       bindinput="onSearchInput"
     />
-    <text class="search-icon">🔍</text>
+    <view class="search-actions">
+      <text wx:if="{{searchKeyword}}" class="clear-btn" bindtap="clearSearch">×</text>
+      <text class="search-icon" bindtap="performSearch">🔍</text>
+    </view>
   </view>
 
-  <!-- 心情日记列表 - 使用正确的滚动视图 -->
+  <!-- 搜索结果提示 -->
+  <view class="search-result-tip" wx:if="{{searchKeyword}}">
+    <text>搜索"{{searchKeyword}}" · 找到{{moodList.length}}条结果</text>
+  </view>
+
+  <!-- 心情日记列表 -->
   <scroll-view class="mood-list" scroll-y>
     <block wx:for="{{moodList}}" wx:key="id">
       <view class="mood-card">
@@ -45,7 +53,9 @@
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{moodList.length === 0}}">
     <text class="empty-icon">💭</text>
-    <text class="empty-title">还没有公开的心情日记</text>
-    <text class="empty-desc">去写第一篇心情日记吧</text>
+    <text class="empty-title" wx:if="{{searchKeyword}}">没有找到相关的心情日记</text>
+    <text class="empty-title" wx:else>还没有公开的心情日记</text>
+    <text class="empty-desc" wx:if="{{searchKeyword}}">换个关键词试试吧</text>
+    <text class="empty-desc" wx:else>去写第一篇心情日记吧</text>
   </view>
 </view>

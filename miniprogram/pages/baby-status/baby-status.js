@@ -11,11 +11,10 @@ Page({
     latestSymptom: null,
     latestSymptomDisplay: null,
     
-    // 新增：症状列表显示相关
+    // 新增：状况列表显示相关
     symptomListText: '暂无描述',
     symptomListFull: '',
     recordTime: '', // 新增记录时间
-
 
     exerciseData: {
       duration: '2小时',
@@ -28,18 +27,6 @@ Page({
       nightAwakenings: '2',
       quality: '良好',
       naptime: '2小时'
-    },
-
-    supplementData: {
-      list: [
-        { name: '维生素D', dose: '400IU', time: '早晨' },
-        { name: 'DHA', dose: '100mg', time: '午餐后' }
-      ]
-    },
-
-    specialData: {
-      notes: '今天接触了宠物，需观察过敏反应',
-      medications: ''
     },
 
     lastUpdate: '暂无记录'
@@ -60,10 +47,15 @@ Page({
   onLoad: function() {
     this.loadAllData();
     this.loadHistory();
+    this.loadBabyInfo();
+    this.loadSymptoms();
   },
-
+  
   onShow: function() {
-    console.log('🔄 我宝情况页面显示，强制刷新所有数据');
+    // 每次页面显示时重新加载宝宝信息
+    this.loadBabyInfo();
+    this.loadSymptoms();
+    console.log('🔄 我宝状况页面显示，强制刷新所有数据');
     
     // 暴力刷新：每次都重新加载
     this.loadSymptoms();
@@ -79,127 +71,223 @@ Page({
     this.loadOtherData();
   },
 
-  /* 加载情况记录（今天）- 修正版本 */
-loadSymptoms: function() {
-  try {
-    // 强制清除缓存，确保获取最新数据
-    const records = wx.getStorageSync('symptomRecords') || [];
-    
-    console.log('🔍 存储中的记录数量:', records.length);
-    console.log('📋 所有记录详情:', JSON.stringify(records, null, 2));
-
-    // 检查数据一致性
-    if (records.length > 0) {
-      records.forEach((record, index) => {
-        console.log(`📝 记录 ${index}:`, {
-          id: record.id,
-          timestamp: record.timestamp,
-          symptoms: record.symptoms ? record.symptoms.map(s => s.symptomName) : '无症状数组',
-          symptomCount: record.symptomCount
-        });
+  /* ==========================
+     加载宝宝信息
+  ========================== */
+  loadBabyInfo: function() {
+    try {
+      const babyInfo = wx.getStorageSync('babyInfo') || {};
+      console.log('👶 加载宝宝信息:', babyInfo);
+      
+      this.setData({
+        babyInfo: {
+          name: babyInfo.name || '宝宝',
+          age: babyInfo.age || '0岁0个月'
+        }
+      });
+    } catch (err) {
+      console.error('加载宝宝信息出错:', err);
+      this.setData({
+        babyInfo: {
+          name: '宝宝',
+          age: '0岁0个月'
+        }
       });
     }
+  },
 
-    this.setData({
-      symptomRecords: records,
-      hasSymptomRecords: records.length > 0
-    });
-
-    if (records.length > 0) {
-      // 获取最新记录（按时间倒序）
-      const sortedRecords = records.sort((a, b) => {
-        const timeA = a.timestamp ? new Date(a.timestamp.replace('上午', ' ').replace('下午', ' ')) : new Date(a.id || 0);
-        const timeB = b.timestamp ? new Date(b.timestamp.replace('上午', ' ').replace('下午', ' ')) : new Date(b.id || 0);
-        return timeB - timeA;
-      });
-    
-      console.log('🕒 排序后的记录时间顺序:', sortedRecords.map(r => ({
-        timestamp: r.timestamp,
-        id: r.id,
-        symptoms: r.symptoms ? r.symptoms.map(s => s.symptomName) : '无'
-      })));
+  /* ==========================
+     加载状况记录（今天）- 修正版本
+  ========================== */
+  loadSymptoms: function() {
+    try {
+      // 强制清除缓存，确保获取最新数据
+      const records = wx.getStorageSync('symptomRecords') || [];
       
-      const latest = sortedRecords[0];
-      
-      console.log('⭐ 识别为最新的记录ID:', latest.id);
-      console.log('📝 最新记录的症状数组:', latest.symptoms);
+      console.log('🔍 存储中的记录数量:', records.length);
+      console.log('📋 所有记录详情:', JSON.stringify(records, null, 2));
 
-      // 生成症状列表文本
-      let symptomListFull = '';
-      let symptomListText = '';
-      let recordTime = '';
-
-      if (latest.symptoms && latest.symptoms.length > 0) {
-        // 新数据结构：有 symptoms 数组
-        const symptomStrings = latest.symptoms.map(symptom => {
-          console.log('🔍 处理症状:', symptom.symptomName, symptom.severity);
-          return `${symptom.symptomName}·${symptom.severity}`;
+      // 检查数据一致性
+      if (records.length > 0) {
+        records.forEach((record, index) => {
+          console.log(`📝 记录 ${index}:`, {
+            id: record.id,
+            timestamp: record.timestamp,
+            symptoms: record.symptoms ? record.symptoms.map(s => s.symptomName) : '无状况数组',
+            symptomCount: record.symptomCount
+          });
         });
-        
-        symptomListFull = symptomStrings.join('，');
-        symptomListText = symptomListFull;
-      } else {
-        // 其他情况
-        symptomListText = '无有效症状数据';
       }
-
-      // 格式化记录时间
-      if (latest.timestamp) {
-        try {
-          // 修复时间解析
-          let date;
-          if (latest.timestamp.includes('/')) {
-            // 处理 "2025/11/18上午11:56:56" 格式
-            const timestampStr = latest.timestamp.replace('上午', ' ').replace('下午', ' ');
-            date = new Date(timestampStr);
-          } else {
-            date = new Date(latest.timestamp);
-          }
-          if (!isNaN(date.getTime())) {
-            recordTime = `记录时间：${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
-          } else {
-            recordTime = '记录时间：时间格式错误';
-          }
-        } catch (timeErr) {
-          console.error('时间解析错误:', timeErr);
-          recordTime = '记录时间：解析失败';
-        }
-      } else {
-        recordTime = '记录时间：未知';
-      }
-
-      console.log('🎯 最终显示的症状文本:', symptomListText);
-      console.log('⏰ 记录时间:', recordTime);
 
       this.setData({
-        latestSymptom: latest,
-        symptomListText: symptomListText,
-        symptomListFull: symptomListFull,
-        recordTime: recordTime
+        symptomRecords: records,
+        hasSymptomRecords: records.length > 0
       });
 
-    } else {
-      // 无记录情况
-      console.log('❌ 没有找到任何记录');
+      if (records.length > 0) {
+        // 获取最新记录（按时间倒序）
+        const sortedRecords = records.sort((a, b) => {
+          const timeA = a.timestamp ? new Date(a.timestamp.replace('上午', ' ').replace('下午', ' ')) : new Date(a.id || 0);
+          const timeB = b.timestamp ? new Date(b.timestamp.replace('上午', ' ').replace('下午', ' ')) : new Date(b.id || 0);
+          return timeB - timeA;
+        });
+      
+        console.log('🕒 排序后的记录时间顺序:', sortedRecords.map(r => ({
+          timestamp: r.timestamp,
+          id: r.id,
+          symptoms: r.symptoms ? r.symptoms.map(s => s.symptomName) : '无'
+        })));
+        
+        const latest = sortedRecords[0];
+        
+        console.log('⭐ 识别为最新的记录ID:', latest.id);
+        console.log('📝 最新记录的状况数组:', latest.symptoms);
+
+        // 生成状况列表文本
+        let symptomListFull = '';
+        let symptomListText = '';
+        let recordTime = '';
+
+        if (latest.symptoms && latest.symptoms.length > 0) {
+          // 新数据结构：有 symptoms 数组
+          const symptomStrings = latest.symptoms.map(symptom => {
+            console.log('🔍 处理状况:', symptom.symptomName, symptom.severity);
+            return `${symptom.symptomName}·${symptom.severity}`;
+          });
+          
+          symptomListFull = symptomStrings.join('，');
+          symptomListText = symptomListFull;
+        } else {
+          // 其他状况
+          symptomListText = '无有效状况数据';
+        }
+
+        // 格式化记录时间
+        if (latest.timestamp) {
+          try {
+            // 修复时间解析
+            let date;
+            if (latest.timestamp.includes('/')) {
+              // 处理 "2025/11/18上午11:56:56" 格式
+              const timestampStr = latest.timestamp.replace('上午', ' ').replace('下午', ' ');
+              date = new Date(timestampStr);
+            } else {
+              date = new Date(latest.timestamp);
+            }
+            if (!isNaN(date.getTime())) {
+              recordTime = `记录时间：${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+            } else {
+              recordTime = '记录时间：时间格式错误';
+            }
+          } catch (timeErr) {
+            console.error('时间解析错误:', timeErr);
+            recordTime = '记录时间：解析失败';
+          }
+        } else {
+          recordTime = '记录时间：未知';
+        }
+
+        console.log('🎯 最终显示的状况文本:', symptomListText);
+        console.log('⏰ 记录时间:', recordTime);
+
+        this.setData({
+          latestSymptom: latest,
+          symptomListText: symptomListText,
+          symptomListFull: symptomListFull,
+          recordTime: recordTime
+        });
+
+      } else {
+        // 无记录状况
+        console.log('❌ 没有找到任何记录');
+        this.setData({
+          latestSymptom: null,
+          symptomListText: '暂无描述',
+          symptomListFull: '',
+          recordTime: ''
+        });
+      }
+
+    } catch (err) {
+      console.error('加载状况出错:', err);
       this.setData({
-        latestSymptom: null,
-        symptomListText: '暂无描述',
+        symptomListText: '加载失败',
         symptomListFull: '',
         recordTime: ''
       });
     }
+  },
 
-  } catch (err) {
-    console.error('加载情况出错:', err);
-    this.setData({
-      symptomListText: '加载失败',
-      symptomListFull: '',
-      recordTime: ''
-    });
-  }
-},
+  /* ==========================
+     保存状况记录
+  ========================== */
+  saveSymptomRecord: function(record) {
+    try {
+      const records = wx.getStorageSync('symptomRecords') || [];
+      
+      const newRecord = {
+        id: new Date().getTime(),
+        timestamp: new Date().toLocaleString('zh-CN'),
+        date: new Date().toISOString().split('T')[0],
+        ...record
+      };
+      
+      records.push(newRecord);
+      wx.setStorageSync('symptomRecords', records);
+      
+      console.log('✅ 保存成功，当前记录数:', records.length);
+      console.log('📝 最新记录:', newRecord);
+      
+      // 强制触发存储更新（让首页能检测到变化）
+      wx.setStorageSync('symptomRecords', records);
+      
+      // 立即更新页面显示
+      this.loadSymptoms();
+      this.loadHistory();
+      
+      wx.showToast({
+        title: '记录保存成功',
+        icon: 'success'
+      });
+      
+      return true;
+    } catch (err) {
+      console.error('❌ 保存记录失败:', err);
+      wx.showToast({
+        title: '保存失败',
+        icon: 'error'
+      });
+      return false;
+    }
+  },
 
-  /* 加载其他数据 */
+  /* ==========================
+     快速记录状况（简化版）
+  ========================== */
+  quickRecordSymptom: function(e) {
+    const symptomType = e.currentTarget.dataset.type;
+    const symptomName = e.currentTarget.dataset.name;
+    
+    const record = {
+      symptomType: symptomType,
+      symptomName: symptomName,
+      severity: 1, // 默认程度
+      frequency: '偶尔',
+      symptoms: [{
+        symptomName: symptomName,
+        severity: 1
+      }],
+      symptomCount: 1
+    };
+    
+    if (this.saveSymptomRecord(record)) {
+      console.log('✅ 快速记录成功:', symptomName);
+    }
+  },
+
+  /* ==========================
+     加载其他数据
+  ========================== */
   loadOtherData: function() {
     try {
       const saved = wx.getStorageSync('babyHealthData');
@@ -258,7 +346,7 @@ loadSymptoms: function() {
      工具方法（整合两个版本）
   ========================== */
   getSymptomLabel: function(record) {
-    if (!record) return '情况';
+    if (!record) return '状况';
 
     // 1）如果已经存了中文名字
     if (record.label) return record.label;
@@ -280,10 +368,10 @@ loadSymptoms: function() {
       throat: '喉部发声',
       repeat: '重复说话',
       echo: '学别人说话',
-      asymptomatic: '目前无明显情况',
-      other: '其他情况'
+      asymptomatic: '目前无明显状况',
+      other: '其他状况'
     };
-    return map[type] || '情况';
+    return map[type] || '状况';
   },
 
   getSeverityText: function(level) {
@@ -355,7 +443,8 @@ loadSymptoms: function() {
 
     this.setData({ lastUpdate: allData.lastUpdate });
   },
-  // 临时调试方法：清除所有症状数据
+
+  // 临时调试方法：清除所有状况数据
   clearAllSymptoms: function() {
     wx.removeStorageSync('symptomRecords');
     wx.showToast({

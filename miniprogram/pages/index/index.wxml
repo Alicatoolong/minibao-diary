@@ -1,31 +1,45 @@
 <!-- 第1段：优化后的个人信息区域 -->
 <view class="user-info-card">
-  <!-- 宝宝信息 - 重点突出 -->
-  <view class="baby-info">
+  <!-- 宝宝信息 - 紧凑布局 -->
+  <view class="baby-info-compact">
+    <!-- 头像 -->
     <view class="avatar-section">
       <view class="avatar">
-        <text class="avatar-text">{{babyInfo.name ? babyInfo.name.substring(0,1) : '宝'}}</text>
+        <image wx:if="{{babyInfo.avatarUrl}}" src="{{babyInfo.avatarUrl}}" class="avatar-image"></image>
+        <text wx:else class="avatar-text">{{babyInfo.name ? babyInfo.name.substring(0,1) : '宝'}}</text>
       </view>
     </view>
-    <view class="baby-details">
-      <view class="name-section">
-        <text class="baby-name">{{babyInfo.name || '宝宝'}}</text>
-        <text class="baby-age">· {{babyInfo.age || '0岁0个月'}}</text>
-        <text class="edit-icon" bindtap="editBabyInfo">✏️</text>
+    
+    <!-- 宝宝信息和妈妈能量 -->
+    <view class="info-section">
+      <!-- 第一行：宝宝名字和编辑按钮 -->
+      <view class="name-edit-row">
+        <view class="name-age">
+          <text class="baby-name">{{babyInfo.name || '宝宝'}}</text>
+          <text class="baby-age">· {{babyInfo.age || '0岁0个月'}}</text>
+        </view>
+        <view class="edit-btn" bindtap="editBabyInfo">
+          <text class="edit-icon">✏️</text>
+          <text class="edit-text">编辑</text>
+        </view>
+      </view>
+      
+      <!-- 第二行：妈妈能量 -->
+      <view class="energy-row">
+        <text class="energy-label">妈妈能量</text>
+        <view class="energy-stars">
+          <text class="star {{babyInfo.energyRating >= 1 ? 'active' : ''}}">★</text>
+          <text class="star {{babyInfo.energyRating >= 2 ? 'active' : ''}}">★</text>
+          <text class="star {{babyInfo.energyRating >= 3 ? 'active' : ''}}">★</text>
+          <text class="star {{babyInfo.energyRating >= 4 ? 'active' : ''}}">★</text>
+          <text class="star {{babyInfo.energyRating >= 5 ? 'active' : ''}}">★</text>
+        </view>
+        <text class="energy-desc">能量满满</text>
       </view>
     </view>
   </view>
-  
-  <!-- 妈妈能量 - 弱化显示 -->
-  <view class="mom-energy">
-    <text class="energy-label">妈妈能量</text>
-    <view class="stars-container">
-      <text class="star active" wx:for="{{5}}" wx:key="index">⭐️</text>
-    </view>
-    <text class="energy-desc">能量满满</text>
-  </view>
-  
-  <!-- 签到区域 - 修复布局 -->
+
+  <!-- 签到区域 -->
   <view class="checkin-section">
     <!-- 签到按钮 -->
     <view class="checkin-btn" bindtap="handleCheckin">
@@ -36,11 +50,16 @@
     <!-- 签到天数 -->
     <view class="checkin-stats">
       <text class="stats-icon">📅</text>
-      <text class="stats-text">已坚持记录 {{checkinDays || 0}} 天</text>
+      <text class="stats-text">已坚持记录 {{checkinDays}} 天</text>
     </view>
   </view>
 </view>
 
+<!-- 签到成功提示 -->
+<view class="toast-message {{showToast ? 'show' : ''}}">
+  <text class="toast-icon">✅</text>
+  <text class="toast-text">签到成功！+1天</text>
+</view>
 <!-- 第2段：关心宝贝功能区 -->
 <view class="care-section">
   <view class="care-title">❤️ 关心宝贝</view>
@@ -67,71 +86,48 @@
   </view>
 </view>
 
-<!-- 第3段：状态评分 -->
-<view class="chart-section" bindtap="navToBabyStatus">
+<!-- 第3段：状态评分 - 简洁版 -->
+<view class="chart-section" bindtap="navToSymptomHistory">
   <view class="chart-header">
-    <view class="header-left">
-      <text class="chart-title">状态评分</text>
-      <text class="chart-desc">基于最近情况数据计算 · 当前评分: {{currentHealthIndex}}</text>
-    </view>
-    <view class="header-right">
-      <text class="refresh-btn" bindtap="refreshHealthData">刷新</text>
-    </view>
+    <!-- 改为一行显示，标题和描述在同一行 -->
+    <text class="chart-title">📊 状态评分</text>
+    <text class="chart-desc">依据我宝情况·数据仅供参考
+    今日分数: {{currentHealthIndex}}</text>
   </view>
 
-  <!-- 折线图容器 -->
-  <view class="line-chart-container">
-    <view class="chart-bg">
-
-      <!-- Y轴标签 -->
-      <view class="y-axis">
-        <text class="y-label">100</text>
-        <text class="y-label">80</text>
-        <text class="y-label">60</text>
-        <text class="y-label">40</text>
-        <text class="y-label">20</text>
-        <text class="y-label">0</text>
-      </view>
-
-      <!-- 主图表区域 -->
-      <view class="chart-area">
-
-        <!-- 网格线 -->
-        <view class="grid-horizontal"></view>
-        <view class="grid-horizontal"></view>
-        <view class="grid-horizontal"></view>
-        <view class="grid-horizontal"></view>
-        <view class="grid-horizontal"></view>
-
-      
-
-        <!-- 数据点 -->
-        <block wx:for="{{healthTrendData}}" wx:key="date">
-          <view 
-            class="data-point {{item.healthIndex < 60 ? 'low-point' : ''}} {{currentHealthIndex === item.healthIndex ? 'active' : ''}}" 
-            style="left: {{(100 / (healthTrendData.length - 1)) * index}}%; bottom: {{item.healthIndex}}%;"
-            catchtap="onDataPointTap"
-            data-index="{{index}}"
-            data-item="{{item}}"
-          >
-            <text class="point-label">{{item.healthIndex}}分</text>
-          </view>
-        </block>
-
-      </view>
-    </view>
-
-    <!-- X轴日期 -->
-    <view class="x-axis">
+  <!-- 折线图保持不变 -->
+  <view class="compact-chart">
+    <!-- 图表区域 -->
+    <view class="chart-area">
       <block wx:for="{{healthTrendData}}" wx:key="date">
-        <text class="x-label">{{item.displayDate}}</text>
+        <view class="chart-column" style="left: {{(10 + 20 * index)}}%;">
+          <!-- 分数显示在点上方 -->
+          <text class="score-text {{currentHealthIndex === item.healthIndex ? 'current-score' : 'other-score'}}">
+            {{item.healthIndex}}
+          </text>
+          <!-- 数据点 -->
+          <view 
+            class="chart-dot {{item.healthIndex < 60 ? 'low-dot' : ''}} {{currentHealthIndex === item.healthIndex ? 'active-dot' : ''}}" 
+            style="bottom: {{item.healthIndex}}%;">
+          </view>
+        </view>
       </block>
     </view>
-
+    
+    <!-- 日期显示 -->
+    <view class="dates-display">
+      <block wx:for="{{healthTrendData}}" wx:key="date">
+        <view class="date-column" style="left: {{(10 + 20 * index)}}%;">
+          <text class="date-label {{currentHealthIndex === item.healthIndex ? 'current-date' : ''}}">
+            {{item.displayDate}}
+          </text>
+        </view>
+      </block>
+    </view>
   </view>
 </view>
 
-<!-- 第4段：今日快速记录 - 添加历史入口 -->
+<!-- 第4段：今日快速记录 - 添加缺失的容器 -->
 <view class="quick-record-section">
   <view class="section-header">
     <view class="section-title">📝 今日快速记录</view>
@@ -238,12 +234,15 @@
         <text class="chat-title">和我聊聊</text>
       </view>
       <text class="chat-subtitle">
-        有困惑、想问问题，都可以加我企业微信私聊
+        希望「敏宝日记」这个记录工具能帮你：
+        • 更清晰地了解孩子的状况
+        • 更从容地面对每一天
+        • 更科学地记录成长点滴
       </text>
     </view>
 
     <view class="chat-right" bindtap="openChatModal">
-      <text class="chat-btn-text">点我联系</text>
+      <text class="chat-btn-text">和我联系</text>
     </view>
   </view>
 </view>
@@ -256,18 +255,18 @@
 >
   <view class="chat-modal">
     <view class="chat-modal-header">
-      <text class="chat-modal-title">加我企业微信</text>
+      <text class="chat-modal-title">和我联系</text>
       <text class="chat-modal-close" bindtap="closeChatModal">✕</text>
     </view>
 
     <view class="chat-modal-body">
       <text class="chat-modal-desc">
-        截图 / 保存后，用企业微信扫一扫添加我为好友。
+        截图 / 保存后，扫一扫添加好友。
       </text>
 
       <!-- 这里是代替二维码的色块 -->
       <view class="qrcode-placeholder">
-        <text class="qrcode-placeholder-text">企业微信二维码占位</text>
+        <text class="qrcode-placeholder-text">二维码占位</text>
       </view>
     </view>
 

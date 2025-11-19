@@ -1,70 +1,190 @@
 .edit-container {
-  padding: 20px;
-  background: #f8f9fa;
+  padding: 40rpx;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: 100vh;
 }
 
+/* 头像上传区域 */
+.avatar-section {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.avatar-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-preview {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  border: 6rpx solid white;
+  box-shadow: 0 8rpx 25rpx rgba(0, 0, 0, 0.1);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.avatar-placeholder {
+  font-size: 60rpx;
+  color: white;
+  font-weight: bold;
+}
+
+.avatar-hint {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 表单区域 */
 .form-section {
   background: white;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25rpx;
+  display: flex;
+  align-items: center;
 }
 
-.input-field, .picker-field, .health-input {
+.section-title::before {
+  margin-right: 15rpx;
+}
+
+/* 修复输入框样式 - 确保不超出容器 */
+.input-container {
+  position: relative;
+}
+
+.input-field {
   width: 100%;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 12px;
-  box-sizing: border-box;
+  height: 80rpx;
+  padding: 0 25rpx;
+  border: 2rpx solid #e1e5e9;
+  border-radius: 15rpx;
+  font-size: 30rpx;
+  background: #f8f9fa;
+  box-sizing: border-box; /* 重要：确保padding和border包含在宽度内 */
 }
 
-.health-input {
-  height: 80px;
+.input-field:focus {
+  border-color: #4682B4;
+  background: white;
+}
+
+.char-count {
+  font-size: 24rpx;
+  color: #999;
+  text-align: right;
+  margin-top: 10rpx;
+}
+
+/* 修复日期选择器样式 */
+.picker-container {
+  position: relative;
+}
+
+.picker-field {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 25rpx;
+  border: 2rpx solid #e1e5e9;
+  border-radius: 15rpx;
+  font-size: 30rpx;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box; /* 重要：确保padding和border包含在宽度内 */
+}
+
+.picker-field.placeholder {
+  color: #999;
+}
+
+/* 能量评分 */
+.rating-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .rating-stars {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .star {
-  font-size: 30px;
+  font-size: 50rpx;
   opacity: 0.3;
+  transition: all 0.3s ease;
 }
 
 .star.active {
   opacity: 1;
+  transform: scale(1.1);
+  color: #FFD700;
 }
 
+.rating-text {
+  font-size: 26rpx;
+  color: #666;
+  font-style: italic;
+}
+
+/* 按钮样式 */
 .action-buttons {
   display: flex;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 30rpx;
+  margin-top: 60rpx;
 }
 
 .btn {
   flex: 1;
-  padding: 15px;
-  border-radius: 25px;
-  text-align: center;
-  font-weight: bold;
+  height: 90rpx;
+  border-radius: 45rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .btn.secondary {
   background: white;
-  color: #87CEEB;
-  border: 2px solid #87CEEB;
+  color: #666;
+  border: 2rpx solid #e1e5e9;
+}
+
+.btn.secondary:active {
+  background: #f8f9fa;
 }
 
 .btn.primary {
-  background: #87CEEB;
+  background: linear-gradient(135deg, #4682B4 0%, #5F9EA0 100%);
   color: white;
+  box-shadow: 0 6rpx 20rpx rgba(70, 130, 180, 0.3);
+}
+
+.btn.primary:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 4rpx 15rpx rgba(70, 130, 180, 0.4);
 }
