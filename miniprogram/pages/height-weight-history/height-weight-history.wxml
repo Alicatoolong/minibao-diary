@@ -1,0 +1,122 @@
+<view class="history-page">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-back-btn" bindtap="goBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
+    <text class="header-title">身高体重记录</text>
+    <view class="header-right"></view>
+  </view>
+
+  <!-- 趋势图表 -->
+  <view class="chart-section" wx:if="{{historyData.length > 0}}">
+    <view class="chart-tabs">
+      <view class="chart-tab {{currentChart === 'height' ? 'active' : ''}}" bindtap="switchChart" data-type="height">
+        <text class="tab-text">身高趋势</text>
+        <view class="tab-indicator"></view>
+      </view>
+      <view class="chart-tab {{currentChart === 'weight' ? 'active' : ''}}" bindtap="switchChart" data-type="weight">
+        <text class="tab-text">体重趋势</text>
+        <view class="tab-indicator"></view>
+      </view>
+    </view>
+
+    <!-- 图表容器 -->
+    <view class="chart-container">
+      <view class="chart-header">
+        <text class="chart-title">{{currentChart === 'height' ? '身高增长趋势' : '体重增长趋势'}}</text>
+        <text class="chart-unit">{{currentChart === 'height' ? '(cm)' : '(kg)'}}</text>
+        <text class="chart-subtitle">近{{recentDays}}天数据</text>
+      </view>
+      
+      <view class="chart-area">
+        <!-- 图表内容 -->
+        <view class="chart-content">
+          <!-- 图表网格 -->
+          <view class="chart-grid">
+            <view class="grid-line" wx:for="{{5}}" wx:key="index"></view>
+          </view>
+          
+          <!-- 身高图表 -->
+          <view class="chart-line" wx:if="{{currentChart === 'height'}}">
+            <view wx:for="{{recentHeightData}}" wx:key="date" class="chart-point" 
+                  style="left: {{item.position}}%; bottom: {{item.heightPosition}}%;">
+              <text class="point-value">{{item.height}}</text>
+              <view class="point-dot"></view>
+            </view>
+            <view class="chart-line-path height-line" style="height: {{chartLineHeight}}%;"></view>
+          </view>
+          
+          <!-- 体重图表 -->
+          <view class="chart-line" wx:if="{{currentChart === 'weight'}}">
+            <view wx:for="{{recentWeightData}}" wx:key="date" class="chart-point" 
+                  style="left: {{item.position}}%; bottom: {{item.weightPosition}}%;">
+              <text class="point-value">{{item.weight}}</text>
+              <view class="point-dot"></view>
+            </view>
+            <view class="chart-line-path weight-line" style="height: {{chartLineHeight}}%;"></view>
+          </view>
+        </view>
+        
+        <!-- X轴日期 -->
+        <view class="x-axis">
+          <view wx:for="{{currentChart === 'height' ? recentHeightData : recentWeightData}}" 
+                wx:key="date" class="x-axis-label" style="left: {{item.position}}%;">
+            <text class="x-axis-date">{{item.chartDate}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="record-list" wx:if="{{historyData.length > 0}}">
+    <view class="list-header">
+      <text class="list-title">历史记录</text>
+      <text class="list-count">共{{historyData.length}}条记录</text>
+    </view>
+    
+    <view class="record-items">
+      <view wx:for="{{historyData}}" wx:key="date" class="record-item">
+        <view class="record-main">
+          <view class="record-date-info">
+            <text class="date-main">{{item.displayDate}}</text>
+            <text class="date-weekday">{{item.weekday}}</text>
+          </view>
+          
+          <view class="record-stats">
+            <view class="stat-item">
+              <text class="stat-label">身高</text>
+              <text class="stat-value">{{item.height}}<text class="stat-unit">cm</text></text>
+            </view>
+            <view class="stat-divider"></view>
+            <view class="stat-item">
+              <text class="stat-label">体重</text>
+              <text class="stat-value">{{item.weight}}<text class="stat-unit">kg</text></text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="record-actions">
+          <text class="delete-btn" bindtap="deleteRecord" data-date="{{item.date}}">
+            <text class="delete-icon">×</text>
+            删除
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{historyData.length === 0}}">
+    <view class="empty-content">
+      <text class="empty-icon">📏</text>
+      <text class="empty-title">暂无身高体重记录</text>
+      <text class="empty-desc">记录宝宝成长，追踪发育趋势</text>
+      <view class="empty-btn" bindtap="goToEdit">
+        <text class="empty-btn-text">立即记录</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -61,6 +61,86 @@ Page({
     }
   },
 
+  // 新增：处理点赞
+  handleLike() {
+    const post = this.data.post;
+    if (!post) return;
+
+    try {
+      const storedPosts = wx.getStorageSync(STORAGE_KEY) || [];
+      const updatedPosts = storedPosts.map(p => {
+        if (p.id === post.id) {
+          return {
+            ...p,
+            likes: (p.likes || 0) + 1
+          };
+        }
+        return p;
+      });
+
+      // 更新存储
+      wx.setStorageSync(STORAGE_KEY, updatedPosts);
+      
+      // 更新页面数据
+      this.setData({
+        'post.likes': (post.likes || 0) + 1
+      });
+
+      wx.showToast({
+        title: '点赞成功',
+        icon: 'success',
+        duration: 1000
+      });
+
+    } catch (e) {
+      console.error('点赞失败:', e);
+      wx.showToast({
+        title: '点赞失败',
+        icon: 'none'
+      });
+    }
+  },
+
+  // 新增：处理鼓励
+  handleCheer() {
+    const post = this.data.post;
+    if (!post) return;
+
+    try {
+      const storedPosts = wx.getStorageSync(STORAGE_KEY) || [];
+      const updatedPosts = storedPosts.map(p => {
+        if (p.id === post.id) {
+          return {
+            ...p,
+            cheers: (p.cheers || 0) + 1
+          };
+        }
+        return p;
+      });
+
+      // 更新存储
+      wx.setStorageSync(STORAGE_KEY, updatedPosts);
+      
+      // 更新页面数据
+      this.setData({
+        'post.cheers': (post.cheers || 0) + 1
+      });
+
+      wx.showToast({
+        title: '鼓励成功',
+        icon: 'success',
+        duration: 1000
+      });
+
+    } catch (e) {
+      console.error('鼓励失败:', e);
+      wx.showToast({
+        title: '鼓励失败',
+        icon: 'none'
+      });
+    }
+  },
+
   // 上一条
   goPrev() {
     const id = this.data.prevPostId;

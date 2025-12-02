@@ -15,11 +15,42 @@
   display: flex;
   align-items: center;
 }
+/* 页面头部样式 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: white;
+  border-bottom: 1rpx solid #eee;
+}
+/* 返回按钮样式 */
+.header-back-btn {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+  margin-right: 24rpx;
+  transition: all 0.3s ease;
+}
 
-.back-btn {
+.header-back-btn:active {
+  background: #f0f0f0;
+  transform: scale(0.98);
+}
+
+.back-icon {
   font-size: 36rpx;
-  margin-right: 20rpx;
-  color: #87CEEB;
+  color: #333;
+  margin-right: 8rpx;
+  line-height: 1;
+}
+
+.back-text {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
 }
 
 .page-title {
@@ -131,25 +162,46 @@
   margin: 50rpx 0 30rpx;
 }
 
+/* 默认按钮 */
 .submit-btn {
   width: 100%;
-  padding: 35rpx;
-  background: #87CEEB;
-  color: white;
-  border-radius: 20rpx;
+  padding: 36rpx;
   font-size: 32rpx;
-  border: none;
-  font-weight: 500;
+  font-weight: 600;
+  border-radius: 999rpx;
+
+  background: linear-gradient(135deg, #8ed8f8 0%, #62b7e8 100%);
+  color: #ffffff;
+
+  box-shadow: 0 8rpx 22rpx rgba(98, 183, 232, 0.4);
+
+  /* 👈 动画时长从 0.2s 提到 0.5s，让变化看得见 */
+  transition: all 0.5s ease;
+  transform: scale(1);
 }
 
+/* 点击时的效果（明显 + 停留时间长） */
 .submit-btn:active {
-  background: #87CEEB;
+  transform: scale(0.93); /* 👈 变更小一点，明显 */
+  
+  /* 👈 颜色对比明显 */
+  background: linear-gradient(135deg, #6bb8d8 0%, #4fa4d0 100%);
+
+  /* 👈 阴影变弱、贴合背景 */
+  box-shadow: 0 4rpx 10rpx rgba(80, 120, 150, 0.3);
 }
 
-.submit-btn[disabled] {
-  background: #ccc;
-  color: #999;
+/* 禁用状态 */
+.submit-btn.disabled {
+  background: #e5e7eb !important;
+  color: #a3a3a3 !important;
+  box-shadow: none !important;
+  transform: scale(1);
 }
+
+
+
+
 
 .tips-section {
   background: #fff3e0;

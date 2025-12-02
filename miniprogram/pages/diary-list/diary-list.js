@@ -34,23 +34,17 @@ Page({
         }
       }
     });
-    
-    // 注意：这里不需要 e.stopPropagation()，因为使用了 catchtap
   },
 
-  // 执行删除操作 - 修复存储键名不一致的问题
+  // 执行删除操作
   performDeleteDiary: function(diaryId) {
     try {
-      // 修复：统一使用 'babyDiaryList' 作为存储键名
       let allDiaries = wx.getStorageSync('babyDiaryList') || [];
       
-      // 过滤掉要删除的日记
       const updatedDiaries = allDiaries.filter(diary => diary.id !== diaryId);
       
-      // 保存更新后的日记列表
       wx.setStorageSync('babyDiaryList', updatedDiaries);
       
-      // 更新页面数据
       this.setData({
         diaryList: updatedDiaries
       });
@@ -74,12 +68,27 @@ Page({
   loadDiaryList: function() {
     const diaryList = wx.getStorageSync('babyDiaryList') || [];
     
-    // 按时间倒序排列
     diaryList.sort((a, b) => new Date(b.createTime) - new Date(a.createTime));
     
     this.setData({
       diaryList: diaryList
     });
+  },
+
+  goBack: function() {
+    const pages = getCurrentPages();
+    
+    if (pages.length > 1) {
+      // 有上一页，正常返回
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      // 没有上一页，使用 reLaunch 跳转到首页
+      wx.reLaunch({
+        url: '/pages/index/index'
+      });
+    }
   },
 
   // 创建新日记
@@ -112,10 +121,8 @@ Page({
       return diary;
     });
     
-    // 保存到本地存储
     wx.setStorageSync('babyDiaryList', updatedList);
     
-    // 更新页面数据
     this.setData({
       diaryList: updatedList
     });
@@ -124,8 +131,6 @@ Page({
       title: '设置成功',
       icon: 'success'
     });
-    
-    // 注意：这里不需要 e.stopPropagation()，因为使用了 catchtap
   },
 
   onReady: function() {

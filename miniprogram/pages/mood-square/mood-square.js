@@ -139,6 +139,21 @@ Page({
     };
     return moodMap[moodValue] || '😐';
   },
+  goBack: function() {
+    const pages = getCurrentPages();
+    
+    if (pages.length > 1) {
+      // 有上一页，正常返回
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      // 没有上一页，使用 reLaunch 跳转到首页
+      wx.reLaunch({
+        url: '/pages/index/index'
+      });
+    }
+  },
 
   getMoodType(moodValue) {
     const typeMap = {

@@ -1,11 +1,11 @@
 <view class="exp-edit-page">
   <!-- 头部 -->
   <view class="page-header">
-  <view class="header-back-btn" bindtap="goBack">
-    <text class="back-icon">‹</text>
-    <text class="back-text">返回</text>
+    <view class="header-back-btn" bindtap="goBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
   </view>
-</view>
 
   <!-- 表单内容 -->
   <view class="page-content">
@@ -13,7 +13,7 @@
       <text class="label">标题</text>
       <input
         class="input"
-        placeholder="如“孩子不爱吃饭，我是这样做的”"
+        placeholder="如：孩子不爱吃饭，我是这样做的"
         value="{{title}}"
         bindinput="onTitleInput"
         maxlength="40"
@@ -29,13 +29,15 @@
         bindinput="onContentInput"
         maxlength="500"
       ></textarea>
-      <text class="char-count">{{content.length}}/500</text>
+      <view class="char-count-row">
+        <text class="char-count">{{content.length}}/500</text>
+      </view>
     </view>
 
     <view class="hint-box">
       <text class="hint-title">小提示</text>
       <text class="hint-text">
-        尽量描述具体一些。
+        尽量描述具体一些，分享您的宝贵经验～
       </text>
     </view>
 
@@ -44,7 +46,7 @@
       bindtap="submitPost"
       disabled="{{!canSubmit}}"
     >
-      {{canSubmit ? '发布经验' : '填写标题和内容后可发布'}}
+      发布经验
     </button>
   </view>
 </view>

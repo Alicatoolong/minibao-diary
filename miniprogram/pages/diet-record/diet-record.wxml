@@ -1,10 +1,10 @@
 <view class="diet-page">
   <!-- 页面头部 -->
-  <view class="page-header">
-    <view class="header-left">
-      <text class="back-btn" bindtap="goBack">←</text>
-      <text class="page-title">饮食记录</text>
-    </view>
+  <view class="header">
+    <view class="header-back-btn" bindtap="goBack">
+  <text class="back-icon">‹</text>
+  <text class="back-text">返回</text>
+</view>
   </view>
 
   <view class="main-content">
@@ -48,37 +48,28 @@
     </view>
 
     <!-- 饮食内容记录 -->
-    <view class="diet-content-section">
-      <text class="section-label">📝 记录饮食内容</text>
-      <textarea 
-        class="diet-textarea" 
-        placeholder="例如：喝了200ml牛奶，一个鸡蛋，半片面包&#10;或者：米饭、西兰花炒鸡肉、苹果"
-        bindinput="onDietInput"
-        value="{{dietContent}}"
-        maxlength="500"
-        show-confirm-bar="{{false}}"
-      ></textarea>
-      <text class="word-count">{{dietContent.length}}/500</text>
+<view class="diet-content-section">
+  <text class="section-label">📝 记录饮食内容</text>
+  <textarea 
+    class="diet-textarea" 
+    placeholder="例如：喝了200ml牛奶，一个鸡蛋，半片面包&#10;或者：米饭、西兰花炒鸡肉、苹果"
+    bindinput="onDietInput"
+    value="{{dietContent}}"
+    maxlength="500"
+    show-confirm-bar="{{false}}"
+  ></textarea>
+  <text class="word-count">{{dietContent.length}}/500</text>
+</view>
 
-      <!-- 确认按钮 -->
-      <button 
-        class="confirm-btn {{isConfirmed ? 'confirmed' : ''}}"
-        bindtap="confirmDietContent"
-      >
-        {{isConfirmed ? '✅ 已确认这一餐记录' : '✅ 确认这一餐记录'}}
-      </button>
-    </view>
-
-    <!-- 保存按钮 -->
-    <view class="submit-section">
-      <button 
-        class="submit-btn" 
-        bindtap="submitDietRecord" 
-        disabled="{{!canSubmit}}"
-      >
-        {{canSubmit ? '💾 保存记录' : '先确认输入内容'}}
-      </button>
-    </view>
+<!-- 保存按钮 -->
+<view class="submit-section">
+  <button 
+  class="submit-btn"
+  bindtap="submitDietRecord"
+>
+  保存记录
+</button>
+</view>
 
     <!-- 记录提示 -->
     <view class="tips-section">

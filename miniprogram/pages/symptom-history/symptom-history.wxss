@@ -31,27 +31,27 @@
   align-items: center;
   padding: 16rpx 24rpx;
   background: #f8f9fa;
-  border-radius: 24rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+  margin-right: 24rpx;
   transition: all 0.3s ease;
-  min-width: 120rpx;
-  border: 1rpx solid #e9ecef;
 }
 
 .back-btn:active {
-  background: #e9ecef;
-  transform: scale(0.95);
+  background: #f0f0f0;
+  transform: scale(0.98);
 }
 
 .back-icon {
   font-size: 36rpx;
-  color: #6BC5D2;
-  font-weight: bold;
+  color: #333;
   margin-right: 8rpx;
+  line-height: 1;
 }
 
 .back-text {
   font-size: 28rpx;
-  color: #6BC5D2;
+  color: #333;
   font-weight: 500;
 }
 

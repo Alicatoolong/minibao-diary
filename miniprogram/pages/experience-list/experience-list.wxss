@@ -212,3 +212,37 @@
   color: #888;
   text-align: center;
 }
+/* 加载更多按钮样式 */
+.load-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx;
+  margin: 20rpx 0;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  border: 1rpx solid #e8e8e8;
+}
+
+.load-more-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.load-more:active {
+  background: #e9ecef;
+}
+
+/* 没有更多内容提示 */
+.no-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30rpx;
+  margin: 20rpx 0;
+}
+
+.no-more-text {
+  font-size: 26rpx;
+  color: #999;
+}

@@ -1,4 +1,4 @@
-// symptom.js
+// edit-symptom.js
 Page({
   data: {
     selectedSymptom: 'asymptomatic',
@@ -90,66 +90,66 @@ Page({
     });
 
     // 验证数据
-  if (selectedSymptom === 'other' && !otherSymptomText.trim()) {
-    wx.showToast({
-      title: '请输入其他状况描述',
-      icon: 'none'
-    });
-    return;
-  }
+    if (selectedSymptom === 'other' && !otherSymptomText.trim()) {
+      wx.showToast({
+        title: '请输入其他状况描述',
+        icon: 'none'
+      });
+      return;
+    }
 
     // 获取状况名称
-  let symptomName = '';
-  if (selectedSymptom === 'asymptomatic') {
-    symptomName = '无状况';
-  } else if (selectedSymptom === 'other') {
-    symptomName = otherSymptomText || '其他状况';
-  } else {
-    const selectedOption = this.data.symptomOptions.find(option => option.value === selectedSymptom);
-    symptomName = selectedOption ? selectedOption.label : '未知状况';
-  }
+    let symptomName = '';
+    if (selectedSymptom === 'asymptomatic') {
+      symptomName = '无状况';
+    } else if (selectedSymptom === 'other') {
+      symptomName = otherSymptomText || '其他状况';
+    } else {
+      const selectedOption = this.data.symptomOptions.find(option => option.value === selectedSymptom);
+      symptomName = selectedOption ? selectedOption.label : '未知状况';
+    }
 
     // 获取严重程度文本
-  const severityText = selectedSymptom === 'asymptomatic' ? '无' : this.getSeverityLabel(selectedSeverity);
+    const severityText = selectedSymptom === 'asymptomatic' ? '无' : this.getSeverityLabel(selectedSeverity);
 
-  console.log('🔍 生成的状况记录:', {
-    symptomName: symptomName,
-    severity: severityText,
-    severityLevel: selectedSeverity,
-    type: selectedSymptom
-  });
+    console.log('🔍 生成的状况记录:', {
+      symptomName: symptomName,
+      severity: severityText,
+      severityLevel: selectedSeverity,
+      type: selectedSymptom
+    });
 
     // 创建状况记录
-  const symptomRecord = {
-    id: new Date().getTime() + Math.random(),
-    symptomName: symptomName,
-    severity: severityText,
-    severityLevel: selectedSeverity,
-    type: selectedSymptom,
-    otherText: otherSymptomText,
-    timestamp: new Date().toLocaleTimeString('zh-CN', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    })
-  };
+    const symptomRecord = {
+      id: new Date().getTime() + Math.random(),
+      symptomName: symptomName,
+      severity: severityText,
+      severityLevel: selectedSeverity,
+      type: selectedSymptom,
+      otherText: otherSymptomText,
+      timestamp: new Date().toLocaleTimeString('zh-CN', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })
+    };
 
     // 添加到已确认列表
-  const updatedSymptoms = [...this.data.confirmedSymptoms, symptomRecord];
-  this.setData({
-    confirmedSymptoms: updatedSymptoms
-  });
+    const updatedSymptoms = [...this.data.confirmedSymptoms, symptomRecord];
+    this.setData({
+      confirmedSymptoms: updatedSymptoms
+    });
 
-  console.log('📝 更新后的已选状况列表:', updatedSymptoms);
+    console.log('📝 更新后的已选状况列表:', updatedSymptoms);
 
     // 重置表单
-  this.resetForm();
+    this.resetForm();
 
-  wx.showToast({
-    title: '已添加状况',
-    icon: 'success',
-    duration: 1500
-  });
-},
+    wx.showToast({
+      title: '已添加状况',
+      icon: 'success',
+      duration: 1500
+    });
+  },
 
   resetForm: function() {
     this.setData({
@@ -174,6 +174,22 @@ Page({
       icon: 'success',
       duration: 1000
     });
+  },
+
+  goBack: function() {
+    const pages = getCurrentPages();
+    
+    if (pages.length > 1) {
+      // 有上一页，正常返回
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      // 没有上一页，使用 reLaunch 跳转到首页
+      wx.reLaunch({
+        url: '/pages/index/index'
+      });
+    }
   },
 
   completeSelection: function() {
@@ -202,84 +218,134 @@ Page({
     console.log('📤 完整保存记录:', completeRecord);
 
     // 获取现有记录
-  let existingRecords = wx.getStorageSync('symptomRecords') || [];
-  console.log('📂 保存前的现有记录:', existingRecords);
-  
-  existingRecords.push(completeRecord);
-
-  // 保存到缓存
-  wx.setStorage({
-    key: 'symptomRecords',
-    data: existingRecords,
-    success: () => {
-      console.log('✅ 所有状况保存成功');
-      console.log('💾 存储后的所有记录:', wx.getStorageSync('symptomRecords'));
-      
-      wx.showToast({
-        title: '保存成功',
-        icon: 'success',
-        duration: 2000
-      });
-    },
-    fail: (err) => {
-      console.error('❌ 保存失败:', err);
-      wx.showToast({
-        title: '保存失败',
-        icon: 'none'
-      });
-    }
-  });
-},
-// 新增：立即重新加载最新状况数据
-loadLatestSymptoms: function() {
-  try {
-    const records = wx.getStorageSync('symptomRecords') || [];
+    let existingRecords = wx.getStorageSync('symptomRecords') || [];
+    console.log('📂 保存前的现有记录:', existingRecords);
     
-    if (records.length > 0) {
-      // 获取最新记录（按时间倒序）
-      const sortedRecords = records.sort((a, b) => {
-        const timeA = a.timestamp ? new Date(a.timestamp) : new Date(a.id || 0);
-        const timeB = b.timestamp ? new Date(b.timestamp) : new Date(b.id || 0);
-        return timeB - timeA;
-      });
-      
-      const latest = sortedRecords[0];
-      
-      console.log('🔄 立即加载的最新记录:', latest);
-      
-      if (latest.symptoms && latest.symptoms.length > 0) {
-        const symptomStrings = latest.symptoms.map(symptom => {
-          return `${symptom.symptomName}·${symptom.severity}`;
-        });
-        
-        let symptomListText = symptomStrings.join('，');
-        if (symptomStrings.length > 9) {
-          symptomListText = symptomStrings.slice(0, 9).join('，') + '...';
-        }
-        
-        // 格式化记录时间
-        let recordTime = '';
-        if (latest.timestamp) {
-          const date = new Date(latest.timestamp);
-          recordTime = `记录时间：${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
-        }
-        
-        // 立即更新显示
-        this.setData({
-          confirmedSymptoms: latest.symptoms, // 更新为最新状况
-          symptomListText: symptomListText,
-          recordTime: recordTime
-        });
-        
-        console.log('✅ 立即更新显示:', symptomListText);
-      }
-    }
-  } catch (err) {
-    console.error('立即加载状况出错:', err);
-  }
-},  // ← 这里需要逗号
+    existingRecords.push(completeRecord);
 
-cancelEdit: function() {
-  wx.navigateBack();
-}
+    // 保存到缓存
+    wx.setStorage({
+      key: 'symptomRecords',
+      data: existingRecords,
+      success: () => {
+        console.log('✅ 所有状况保存成功');
+        console.log('💾 存储后的所有记录:', wx.getStorageSync('symptomRecords'));
+        
+        // 🆕 重要：触发云备份
+        this.triggerCloudBackup();
+        
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 2000
+        });
+        
+        // 延迟返回，确保备份触发
+        setTimeout(() => {
+          this.goBack();
+        }, 1500);
+      },
+      fail: (err) => {
+        console.error('❌ 保存失败:', err);
+        wx.showToast({
+          title: '保存失败',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
+  // 🆕 触发云备份
+  triggerCloudBackup: function() {
+    try {
+      console.log('💾 症状保存完成，触发云备份...');
+      
+      // 方法1：通过全局回调
+      const app = getApp();
+      if (app && app.globalDataUpdateCallback) {
+        console.log('🔄 通过全局回调触发备份');
+        app.globalDataUpdateCallback();
+      }
+      
+      // 方法2：直接调用首页备份方法
+      const pages = getCurrentPages();
+      const indexPage = pages.find(page => page.route === 'pages/index/index');
+      if (indexPage && indexPage.onSymptomSaved) {
+        console.log('🔄 直接调用首页备份方法');
+        indexPage.onSymptomSaved();
+      } else {
+        console.log('⚠️ 未找到首页备份方法，尝试其他方式');
+        // 方法3：通过存储事件触发
+        this.triggerBackupViaStorage();
+      }
+      
+      console.log('✅ 备份触发完成');
+    } catch (error) {
+      console.error('❌ 触发备份失败:', error);
+    }
+  },
+
+  // 🆕 通过存储事件触发备份
+  triggerBackupViaStorage: function() {
+    try {
+      // 设置一个标记，首页会监听这个标记
+      wx.setStorageSync('need_backup', true);
+      console.log('📝 设置备份标记');
+    } catch (error) {
+      console.error('❌ 设置备份标记失败:', error);
+    }
+  },
+
+  // 新增：立即重新加载最新状况数据
+  loadLatestSymptoms: function() {
+    try {
+      const records = wx.getStorageSync('symptomRecords') || [];
+      
+      if (records.length > 0) {
+        // 获取最新记录（按时间倒序）
+        const sortedRecords = records.sort((a, b) => {
+          const timeA = a.timestamp ? new Date(a.timestamp) : new Date(a.id || 0);
+          const timeB = b.timestamp ? new Date(b.timestamp) : new Date(b.id || 0);
+          return timeB - timeA;
+        });
+        
+        const latest = sortedRecords[0];
+        
+        console.log('🔄 立即加载的最新记录:', latest);
+        
+        if (latest.symptoms && latest.symptoms.length > 0) {
+          const symptomStrings = latest.symptoms.map(symptom => {
+            return `${symptom.symptomName}·${symptom.severity}`;
+          });
+          
+          let symptomListText = symptomStrings.join('，');
+          if (symptomStrings.length > 9) {
+            symptomListText = symptomStrings.slice(0, 9).join('，') + '...';
+          }
+          
+          // 格式化记录时间
+          let recordTime = '';
+          if (latest.timestamp) {
+            const date = new Date(latest.timestamp);
+            recordTime = `记录时间：${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+          }
+          
+          // 立即更新显示
+          this.setData({
+            confirmedSymptoms: latest.symptoms, // 更新为最新状况
+            symptomListText: symptomListText,
+            recordTime: recordTime
+          });
+          
+          console.log('✅ 立即更新显示:', symptomListText);
+        }
+      }
+    } catch (err) {
+      console.error('立即加载状况出错:', err);
+    }
+  },
+
+  cancelEdit: function() {
+    wx.navigateBack();
+  }
 })

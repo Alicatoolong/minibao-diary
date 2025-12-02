@@ -5,38 +5,83 @@ Page({
   data: {
     title: '',
     content: '',
-    canSubmit: false
+    authorName: '',
+    canSubmit: false  // 根据内容是否有文字来控制
+  },
+
+  onLoad() {
+    this.getAuthorName();
+  },
+
+  // 从宝宝信息获取作者名
+  getAuthorName() {
+    try {
+      const babyInfo = wx.getStorageSync('babyInfo') || {};
+      if (babyInfo.name) {
+        this.setData({
+          authorName: `${babyInfo.name}妈妈`
+        });
+        return;
+      }
+      
+      const app = getApp();
+      if (app && app.globalData.userInfo) {
+        this.setData({
+          authorName: app.globalData.userInfo.nickName || '用户'
+        });
+        return;
+      }
+      
+      this.setData({
+        authorName: '宝妈'
+      });
+      
+    } catch (e) {
+      console.error('获取作者名失败:', e);
+      this.setData({
+        authorName: '宝妈'
+      });
+    }
   },
 
   onTitleInput(e) {
     const value = e.detail.value || '';
     this.setData({
-      title: value,
-      canSubmit: !!(value.trim() && this.data.content.trim())
+      title: value
     });
   },
 
   onContentInput(e) {
     const value = e.detail.value || '';
     this.setData({
-      content: value,
-      canSubmit: !!(this.data.title.trim() && value.trim())
+      content: value
+    });
+    // 只要内容有文字，按钮就可点击
+    this.setData({
+      canSubmit: value.trim().length > 0
     });
   },
 
+  // 发布时验证标题
   submitPost() {
-    if (!this.data.canSubmit) return;
-
     const title = this.data.title.trim();
     const content = this.data.content.trim();
+
+    // 验证标题
+    if (title.length === 0) {
+      wx.showToast({
+        title: '请输入标题',
+        icon: 'none'
+      });
+      return;
+    }
 
     try {
       const stored = wx.getStorageSync(STORAGE_KEY) || [];
       const now = new Date();
       const id = Date.now();
 
-      // 👇 这里先写死“乐乐妈妈”，后面可以从宝宝信息里读
-      const authorName = '乐乐妈妈';
+      const authorName = this.data.authorName;
 
       const newPost = {
         id,
@@ -57,13 +102,18 @@ Page({
           .getMinutes()
           .toString()
           .padStart(2, '0')}`,
-
-        // ❗ 标记是当前用户发布的
         isMine: true
       };
 
       const newList = [newPost, ...stored];
       wx.setStorageSync(STORAGE_KEY, newList);
+
+      // 通知经验列表页面更新
+      const pages = getCurrentPages();
+      const prevPage = pages[pages.length - 2];
+      if (prevPage && prevPage.publishNewPost) {
+        prevPage.publishNewPost(newPost);
+      }
 
       wx.showToast({
         title: '发布成功',

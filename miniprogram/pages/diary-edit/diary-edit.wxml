@@ -1,4 +1,10 @@
 <view class="edit-container">
+  <view class="header">
+  <view class="header-back-btn" bindtap="goBack">
+    <text class="back-icon">‹</text>
+    <text class="back-text">返回</text>
+  </view>
+</view>
   <!-- 心情选择 -->
   <view class="form-section">
     <view class="section-title">😊 今天的心情</view>

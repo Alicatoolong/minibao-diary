@@ -55,18 +55,13 @@
   </view>
 </view>
 
-<!-- 签到成功提示 -->
-<view class="toast-message {{showToast ? 'show' : ''}}">
-  <text class="toast-icon">✅</text>
-  <text class="toast-text">签到成功！+1天</text>
-</view>
 <!-- 第2段：关心宝贝功能区 -->
 <view class="care-section">
   <view class="care-title">❤️ 关心宝贝</view>
   <view class="function-grid">
     <view class="function-item" bindtap="navToBabyStatus">
-      <view class="function-icon">📊</view>
-      <text class="function-text">我宝情况</text>
+      <view class="function-icon">👶</view>
+      <text class="function-text">我宝近况</text>
     </view>
 
     <view class="function-item" bindtap="navToDietRecord">
@@ -87,47 +82,47 @@
 </view>
 
 <!-- 第3段：状态评分 - 简洁版 -->
+<!-- 状态评分图表区域 - 移除绿色填充 -->
 <view class="chart-section" bindtap="navToSymptomHistory">
   <view class="chart-header">
-    <!-- 改为一行显示，标题和描述在同一行 -->
-    <text class="chart-title">📊 状态评分</text>
-    <text class="chart-desc">依据我宝情况·数据仅供参考
-    今日分数: {{currentHealthIndex}}</text>
+    <view class="chart-title-row">
+      <text class="chart-title">状态评分</text>
+      <text class="chart-subtitle">数据仅供参考</text>
+    </view>
+    <view class="today-score">
+      <text class="today-score-text">今日分数：{{currentHealthIndex}}</text>
+    </view>
   </view>
 
-  <!-- 折线图保持不变 -->
-  <view class="compact-chart">
-    <!-- 图表区域 -->
-    <view class="chart-area">
-      <block wx:for="{{healthTrendData}}" wx:key="date">
-        <view class="chart-column" style="left: {{(10 + 20 * index)}}%;">
-          <!-- 分数显示在点上方 -->
-          <text class="score-text {{currentHealthIndex === item.healthIndex ? 'current-score' : 'other-score'}}">
-            {{item.healthIndex}}
-          </text>
-          <!-- 数据点 -->
-          <view 
-            class="chart-dot {{item.healthIndex < 60 ? 'low-dot' : ''}} {{currentHealthIndex === item.healthIndex ? 'active-dot' : ''}}" 
-            style="bottom: {{item.healthIndex}}%;">
-          </view>
+  <!-- 图表主体 -->
+  <view class="chart-area">
+    <view class="chart-content">
+      <!-- 图表网格 -->
+      <view class="chart-grid">
+        <view class="grid-line" wx:for="{{5}}" wx:key="index"></view>
+      </view>
+      
+      <!-- 折线图 - 移除 chart-line-path 元素 -->
+      <view class="chart-line">
+        <view wx:for="{{healthTrendData}}" wx:key="date" class="chart-point" 
+              style="left: {{item.position}}%; bottom: {{item.scorePosition}}%;">
+          <text class="point-value">{{item.healthIndex}}</text>
+          <view class="chart-dot {{item.healthIndex < 60 ? 'low-dot' : ''}} {{currentHealthIndex === item.healthIndex ? 'active-dot' : ''}}"></view>
         </view>
-      </block>
+        <!-- 移除这行：<view class="chart-line-path health-line"></view> -->
+      </view>
     </view>
     
-    <!-- 日期显示 -->
-    <view class="dates-display">
-      <block wx:for="{{healthTrendData}}" wx:key="date">
-        <view class="date-column" style="left: {{(10 + 20 * index)}}%;">
-          <text class="date-label {{currentHealthIndex === item.healthIndex ? 'current-date' : ''}}">
-            {{item.displayDate}}
-          </text>
-        </view>
-      </block>
+    <!-- X轴日期 -->
+    <view class="x-axis">
+      <view wx:for="{{healthTrendData}}" wx:key="date" class="x-axis-label" style="left: {{item.position}}%;">
+        <text class="x-axis-date">{{item.displayDate}}</text>
+      </view>
     </view>
   </view>
 </view>
 
-<!-- 第4段：今日快速记录 - 添加缺失的容器 -->
+<!-- 第4段：今日快速记录 - 简化版 -->
 <view class="quick-record-section">
   <view class="section-header">
     <view class="section-title">📝 今日快速记录</view>
@@ -139,7 +134,8 @@
   
   <!-- 快速记录入口 -->
   <view class="quick-actions">
-    <view class="action-item {{todayEmotion ? 'recorded' : ''}}" bindtap="quickRecord" data-type="mood">
+    <!-- 情绪记录 -->
+    <view class="action-item" bindtap="quickRecord" data-type="mood">
       <view class="action-icon">
         <text wx:if="{{todayEmotion === 1}}">😊</text>
         <text wx:if="{{todayEmotion === 2}}">😐</text>
@@ -147,27 +143,41 @@
         <text wx:if="{{!todayEmotion}}">😊</text>
       </view>
       <text class="action-text">情绪</text>
-      <text class="action-desc" wx:if="{{todayEmotion}}">{{getEmotionText(todayEmotion)}}</text>
-      <text class="action-placeholder" wx:else>点击记录</text>
     </view>
     
-    <view class="action-item {{todayExercise ? 'recorded' : ''}}" bindtap="quickRecord" data-type="exercise">
-      <view class="action-icon">🏃</view>
-      <text class="action-text">运动</text>
-      <text class="action-desc" wx:if="{{todayExercise}}">{{todayExercise}}分钟</text>
-      <text class="action-placeholder" wx:else>点击记录</text>
-    </view>
-    
-    <view class="action-item {{todaySleep ? 'recorded' : ''}}" bindtap="quickRecord" data-type="sleep">
+    <!-- 运动记录 - 根据时长显示不同图标 -->
+    <view class="action-item" bindtap="quickRecord" data-type="exercise">
       <view class="action-icon">
-        <text wx:if="{{todaySleep === 1}}">😴</text>
-        <text wx:if="{{todaySleep === 2}}">😊</text>
-        <text wx:if="{{todaySleep === 3}}">🤩</text>
-        <text wx:if="{{!todaySleep}}">😴</text>
+        <text wx:if="{{todayExercise === 'under30'}}">🪑</text>
+        <text wx:elif="{{todayExercise === '30-60'}}">🚶</text>
+        <text wx:elif="{{todayExercise === '1-2'}}">🏃</text>
+        <text wx:elif="{{todayExercise === 'over2'}}">🌟</text>
+        <text wx:else>🚶</text>
+      </view>
+      <text class="action-text">运动</text>
+    </view>
+    
+    <!-- 睡眠记录 - 根据时长显示不同图标 -->
+    <view class="action-item" bindtap="quickRecord" data-type="sleep">
+      <view class="action-icon">
+        <text wx:if="{{todaySleep === 1}}">😫</text>
+        <text wx:elif="{{todaySleep === 2}}">😊</text>
+        <text wx:elif="{{todaySleep === 3}}">🤩</text>
+        <text wx:else>😴</text>
       </view>
       <text class="action-text">睡眠</text>
-      <text class="action-desc" wx:if="{{todaySleep}}">{{getSleepText(todaySleep)}}</text>
-      <text class="action-placeholder" wx:else>点击记录</text>
+    </view>
+    
+    <!-- 电子产品使用记录 - 根据时长显示不同图标 -->
+    <view class="action-item" bindtap="quickRecord" data-type="screentime">
+      <view class="action-icon">
+        <text wx:if="{{todayScreenTime === 0}}">👁️</text>
+        <text wx:elif="{{todayScreenTime === 15}}">👀</text>
+        <text wx:elif="{{todayScreenTime === 45}}">🥺</text>
+        <text wx:elif="{{todayScreenTime === 90}}">😵</text>
+        <text wx:else>📱</text>
+      </view>
+      <text class="action-text">电子产品</text>
     </view>
   </view>
 </view>
@@ -185,35 +195,33 @@
     </view>
 
     <view class="experience-more-wrap" bindtap="goToExperienceList">
-      <text class="experience-more-text">更多</text>
+      <text class="experience-more-text">查看全部</text>
       <text class="experience-more-arrow">›</text>
     </view>
   </view>
 
   <!-- 有帖子时：展示几条热门经验 -->
-  <block wx:if="{{hotPosts && hotPosts.length}}">
-    <block wx:for="{{hotPosts}}" wx:key="id">
-      <view class="experience-card" bindtap="goToExperienceList">
-        <view class="card-title-row">
-          <text class="card-title">{{item.title}}</text>
-        </view>
+  <block wx:if="{{hotPosts && hotPosts.length > 0}}">
+    <view wx:for="{{hotPosts}}" wx:key="id" class="experience-card" bindtap="goToExperienceList" data-id="{{item.id}}">
+      <view class="card-title-row">
+        <text class="card-title">{{item.title}}</text>
+      </view>
 
-        <view class="card-meta-row">
-          <text class="card-author">{{item.author}}</text>
-        </view>
+      <view class="card-meta-row">
+        <text class="card-author">{{item.author}}</text>
+      </view>
 
-        <view class="card-stat-row">
-          <view class="card-stat">
-            <text class="card-stat-icon">👍</text>
-            <text class="card-stat-text">{{item.likes || 0}}</text>
-          </view>
-          <view class="card-stat">
-            <text class="card-stat-icon">💪</text>
-            <text class="card-stat-text">{{item.cheers || 0}}</text>
-          </view>
+      <view class="card-stat-row">
+        <view class="card-stat">
+          <text class="card-stat-icon">👍</text>
+          <text class="card-stat-text">{{item.likes || 0}}</text>
+        </view>
+        <view class="card-stat">
+          <text class="card-stat-icon">💪</text>
+          <text class="card-stat-text">{{item.cheers || 0}}</text>
         </view>
       </view>
-    </block>
+    </view>
   </block>
 
   <!-- 没有帖子时 -->
@@ -247,33 +255,44 @@
   </view>
 </view>
 
-<!-- 企业微信二维码弹层 -->
-<view 
-  class="chat-modal-mask" 
-  wx:if="{{showChatModal}}" 
-  catchtouchmove="true"
->
+<!-- 替换原来的二维码弹窗 -->
+<view class="chat-modal-mask" wx:if="{{showChatModal}}" catchtouchmove="true">
   <view class="chat-modal">
     <view class="chat-modal-header">
-      <text class="chat-modal-title">和我联系</text>
+      <text class="chat-modal-title">给我们留言</text>
       <text class="chat-modal-close" bindtap="closeChatModal">✕</text>
     </view>
 
     <view class="chat-modal-body">
       <text class="chat-modal-desc">
-        截图 / 保存后，扫一扫添加好友。
+        欢迎提出宝贵建议，我们会认真阅读每一条留言
       </text>
-
-      <!-- 替换为二维码图片 -->
-  <image src="/images/contact-qrcode.jpg" mode="aspectFit" class="qrcode-image"></image>
+      
+      <!-- 留言表单 -->
+      <view class="message-form">
+        <textarea 
+          class="message-textarea"
+          placeholder="请输入您的留言"
+          value="{{messageContent}}"
+          bindinput="onMessageInput"
+          maxlength="200"
+          auto-height="false"
+        ></textarea>
+        <text class="char-count">{{messageContent.length}}/200</text>
+      </view>
     </view>
 
-    <button class="chat-modal-btn" bindtap="closeChatModal">
-      我知道了
-    </button>
+    <view class="message-actions">
+      <button class="message-btn message-btn-cancel" bindtap="closeChatModal">
+        取消
+      </button>
+      <button class="message-btn message-btn-submit" bindtap="submitMessage" disabled="{{!messageContent || messageContent.length === 0}}">
+  提交留言
+</button>
+    </view>
   </view>
 </view>
-<!-- 快速记录弹窗 -->
+<!-- 在快速记录弹窗中修改运动选项和添加电子产品选项 -->
 <view class="quick-record-modal" wx:if="{{showQuickRecordModal}}">
   <view class="modal-mask" bindtap="closeQuickRecordModal"></view>
   <view class="modal-content">
@@ -315,8 +334,8 @@
       </view>
     </view>
     
-    <!-- 运动记录 -->
-    <view class="record-panel" wx:elif="{{quickRecordType === 'exercise'}}">
+   <!-- 修改：运动记录面板 -->
+   <view class="record-panel" wx:elif="{{quickRecordType === 'exercise'}}">
       <view class="panel-header">
         <text class="panel-title">运动时长</text>
         <text class="panel-close" bindtap="closeQuickRecordModal">✕</text>
@@ -324,43 +343,35 @@
       
       <view class="exercise-options">
         <view 
-          class="exercise-option {{selectedExercise === 30 ? 'selected' : ''}}" 
+          class="exercise-option {{selectedExercise === 'under30' ? 'selected' : ''}}" 
           bindtap="selectExercise" 
-          data-minutes="30"
+          data-value="under30"
         >
-          <text class="exercise-text">30分钟</text>
+          <text class="exercise-text">低于30分钟</text>
         </view>
         
         <view 
-          class="exercise-option {{selectedExercise === 60 ? 'selected' : ''}}" 
+          class="exercise-option {{selectedExercise === '30-60' ? 'selected' : ''}}" 
           bindtap="selectExercise" 
-          data-minutes="60"
+          data-value="30-60"
         >
-          <text class="exercise-text">1小时</text>
+          <text class="exercise-text">30分钟-1小时</text>
         </view>
         
         <view 
-          class="exercise-option {{selectedExercise === 90 ? 'selected' : ''}}" 
+          class="exercise-option {{selectedExercise === '1-2' ? 'selected' : ''}}" 
           bindtap="selectExercise" 
-          data-minutes="90"
+          data-value="1-2"
         >
-          <text class="exercise-text">1.5小时</text>
+          <text class="exercise-text">1-2小时</text>
         </view>
         
         <view 
-          class="exercise-option {{selectedExercise === 120 ? 'selected' : ''}}" 
+          class="exercise-option {{selectedExercise === 'over2' ? 'selected' : ''}}" 
           bindtap="selectExercise" 
-          data-minutes="120"
+          data-value="over2"
         >
-          <text class="exercise-text">2小时</text>
-        </view>
-        
-        <view 
-          class="exercise-option {{selectedExercise === 180 ? 'selected' : ''}}" 
-          bindtap="selectExercise" 
-          data-minutes="180"
-        >
-          <text class="exercise-text">更多</text>
+          <text class="exercise-text">大于2小时</text>
         </view>
       </view>
     </view>
@@ -404,12 +415,97 @@
         </view>
       </view>
     </view>
+    <!-- 修改：电子产品使用记录面板 -->
+<view class="record-panel" wx:elif="{{quickRecordType === 'screentime'}}">
+  <view class="panel-header">
+    <text class="panel-title">📱 电子产品使用</text>
+    <text class="panel-close" bindtap="closeQuickRecordModal">✕</text>
+  </view>
+  
+  <view class="screentime-options">
+    <view 
+      class="screentime-option {{selectedScreenTime === 0 ? 'selected' : ''}}" 
+      bindtap="selectScreenTime" 
+      data-minutes="0"
+    >
+      <text class="screentime-text">0分钟</text>
+    </view>
+    
+    <view 
+      class="screentime-option {{selectedScreenTime === 15 ? 'selected' : ''}}" 
+      bindtap="selectScreenTime" 
+      data-minutes="15"
+    >
+      <text class="screentime-text">0-15分钟</text>
+    </view>
+    
+    <view 
+      class="screentime-option {{selectedScreenTime === 45 ? 'selected' : ''}}" 
+      bindtap="selectScreenTime" 
+      data-minutes="45"
+    >
+      <text class="screentime-text">15分钟-1小时</text>
+    </view>
+    
+    <view 
+      class="screentime-option {{selectedScreenTime === 90 ? 'selected' : ''}}" 
+      bindtap="selectScreenTime" 
+      data-minutes="90"
+    >
+      <text class="screentime-text">1小时以上</text>
+    </view>
+  </view>
+</view>
     
     <!-- 按钮区域 -->
     <view class="modal-actions">
       <button class="btn-cancel" bindtap="closeQuickRecordModal">取消</button>
       <button class="btn-confirm" bindtap="saveQuickRecord">确定</button>
     </view>
-    
+  </view>
+</view>
+
+<!-- 协议弹窗 -->
+<view class="agreement-modal" wx:if="{{showAgreementModal}}">
+  <view class="agreement-mask" catchtap="closeAgreementModal"></view>
+  
+  <view class="agreement-content">
+    <view class="agreement-header">
+      <text class="agreement-title">用户协议与隐私政策</text>
+      <text class="agreement-subtitle">
+      请阅读并同意以下协议</text>
+    </view>
+
+    <!-- 授权信息区域 -->
+    <view class="auth-info">
+      <view class="info-item">• 记录宝宝成长数据</view>
+      <view class="info-item">• 保存您的使用偏好</view>
+      <view class="info-item">• 提供个性化服务</view>
+    </view>
+
+    <!-- 协议勾选区域 - 只有一个链接 -->
+    <view class="agreement-check">
+      <label class="checkbox-label" bindtap="toggleAgreementCheck">
+        <checkbox 
+          class="agreement-checkbox"
+          checked="{{agreementChecked}}"
+          color="#6A8BFF"
+        />
+        <text class="agreement-text">   我已阅读并同意
+          <text class="link" catchtap="viewFullProtocol">《用户协议与隐私政策》</text>
+        </text>
+      </label>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="agreement-buttons">
+      <button 
+        class="agree-btn {{agreementChecked ? 'active' : ''}}" 
+        bindtap="onAgreeAndLogin" 
+        disabled="{{!agreementChecked}}"
+      >
+        {{agreementChecked ? '同意并继续' : '请先阅读协议'}}
+      </button>
+    </view>
   </view>
 </view>

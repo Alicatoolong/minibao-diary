@@ -1,13 +1,15 @@
 Page({
   data: {
-    // 表单相关
+    // 移除 isConfirmed 和 canSubmit 状态
     selectedMealTime: 'breakfast',
     dietContent: '',
-    isConfirmed: false,
-    canSubmit: false,
+    isEditMode: false,
+    editingId: null,
 
-    // 分析相关
+    // 分析区需要的状态
     hasData: false,
+    showHistory: false,
+    historyRecords: [],
     totalRecords: 0,
     usedRecords: 0,
     latestDate: '',
@@ -17,13 +19,7 @@ Page({
     newFoodsText: '',
     decreasedFoodsText: '',
 
-    // 编辑模式相关
-    isEditMode: false,
-    editingId: null,
-
-    // 记录详情开关 + 数据
-    showHistory: false,
-    historyRecords: [],
+    // 用餐时间映射
     mealTimeMap: {
       breakfast: '早餐',
       lunch: '午餐',
@@ -32,98 +28,23 @@ Page({
     }
   },
 
-  onLoad(options) {
-    console.log('饮食记录页面加载', options);
-
-    // 是否是编辑模式进入
-    if (options && options.mode === 'edit' && options.id) {
-      const id = Number(options.id);
-      try {
-        const records = wx.getStorageSync('dietRecords') || [];
-        const target = records.find(item => Number(item.id) === id);
-
-        if (target) {
-          this.setData({
-            isEditMode: true,
-            editingId: target.id,
-            selectedMealTime: target.mealTime || 'breakfast',
-            dietContent: target.content || '',
-            isConfirmed: false,
-            canSubmit: false
-          });
-        } else {
-          wx.showToast({
-            title: '未找到记录',
-            icon: 'none'
-          });
-        }
-      } catch (e) {
-        console.error('读取记录失败', e);
-      }
-    } else {
-      // 新增模式
-      this.setData({
-        isEditMode: false,
-        editingId: null,
-        selectedMealTime: 'breakfast',
-        dietContent: '',
-        isConfirmed: false,
-        canSubmit: false
-      });
-    }
-
-    this.loadAndAnalyze();
-  },
-
-  onShow() {
-    // 从别的页面返回时，刷新分析数据和历史记录
-    this.loadAndAnalyze();
-  },
-
   // 选择用餐时间
   selectMealTime(e) {
     const mealTime = e.currentTarget.dataset.time;
     this.setData({
       selectedMealTime: mealTime
     });
-    console.log('选择用餐时间:', mealTime);
   },
 
   // 饮食内容输入
   onDietInput(e) {
     const value = e.detail.value || '';
     this.setData({
-      dietContent: value,
-      isConfirmed: false,
-      canSubmit: false
+      dietContent: value
     });
   },
 
-  // 确认本次饮食内容
-  confirmDietContent() {
-    const content = (this.data.dietContent || '').trim();
-
-    if (!content) {
-      wx.showToast({
-        title: '请输入饮食内容',
-        icon: 'none'
-      });
-      return;
-    }
-
-    this.setData({
-      isConfirmed: true,
-      canSubmit: true
-    });
-
-    wx.showToast({
-      title: '已确认，可保存',
-      icon: 'success',
-      duration: 1200
-    });
-  },
-
-  // 提交饮食记录（新增 / 编辑）
+  // 提交饮食记录（简化版）
   submitDietRecord() {
     const content = (this.data.dietContent || '').trim();
 
@@ -135,9 +56,9 @@ Page({
       return;
     }
 
-    if (!this.data.isConfirmed) {
+    if (!this.data.selectedMealTime) {
       wx.showToast({
-        title: '请先确认输入内容',
+        title: '请选择用餐时间',
         icon: 'none'
       });
       return;
@@ -146,7 +67,7 @@ Page({
     const now = new Date();
     const iso = now.toISOString();
 
-    // 编辑模式：更新已有记录
+    // 编辑模式
     if (this.data.isEditMode && this.data.editingId) {
       try {
         const all = wx.getStorageSync('dietRecords') || [];
@@ -163,13 +84,16 @@ Page({
           return item;
         });
         wx.setStorageSync('dietRecords', updated);
-        this.loadAndAnalyze();
 
         wx.showToast({
           title: '修改成功',
           icon: 'success',
           duration: 1500
         });
+
+        setTimeout(() => {
+          wx.navigateBack();
+        }, 1500);
       } catch (e) {
         console.error('更新失败', e);
         wx.showToast({
@@ -180,7 +104,7 @@ Page({
       return;
     }
 
-    // 新增模式：追加记录
+    // 新增模式
     const dietRecord = {
       id: now.getTime(),
       mealTime: this.data.selectedMealTime,
@@ -189,21 +113,22 @@ Page({
       date: iso.split('T')[0]
     };
 
-    this.saveDietRecord(dietRecord);
-    this.loadAndAnalyze();
+    const success = this.saveDietRecord(dietRecord);
+    if (success) {
+      this.loadAndAnalyze();
 
-    // 清空表单
-    this.setData({
-      dietContent: '',
-      isConfirmed: false,
-      canSubmit: false
-    });
+      // 清空表单
+      this.setData({
+        dietContent: '',
+        selectedMealTime: 'breakfast'
+      });
 
-    wx.showToast({
-      title: '记录成功',
-      icon: 'success',
-      duration: 1500
-    });
+      wx.showToast({
+        title: '记录成功',
+        icon: 'success',
+        duration: 1500
+      });
+    }
   },
 
   // 保存饮食记录（仅新增时调用）
@@ -371,11 +296,11 @@ Page({
   },
 
   // 点击“整体统计” → 展开 / 收起记录详情（不再滚动页面）
-toggleHistory() {
-  const show = !this.data.showHistory;
-  this.setData({ showHistory: show });
-  console.log(show ? '📜 展开记录详情列表' : '📜 收起记录详情列表');
-},
+  toggleHistory() {
+    const show = !this.data.showHistory;
+    this.setData({ showHistory: show });
+    console.log(show ? '📜 展开记录详情列表' : '📜 收起记录详情列表');
+  },
 
   // 在本页编辑某条历史记录
   onEditHistory(e) {
@@ -395,11 +320,11 @@ toggleHistory() {
       editingId: target.id,
       selectedMealTime: target.mealTime || 'breakfast',
       dietContent: target.content || '',
+      // 这两个你之前说要移除，这里如果不需要可以删掉
       isConfirmed: false,
       canSubmit: false
     });
 
-    // 滚回顶部，让妈妈直接修改
     wx.pageScrollTo({
       scrollTop: 0,
       duration: 300
@@ -426,7 +351,6 @@ toggleHistory() {
             icon: 'success'
           });
 
-          // 重新分析 + 重新渲染
           this.loadAndAnalyze();
         } catch (err) {
           console.error('删除失败', err);

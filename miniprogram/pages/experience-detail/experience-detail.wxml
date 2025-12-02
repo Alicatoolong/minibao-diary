@@ -13,10 +13,10 @@
     </view>
 
     <view class="post-body">
-      <text class="post-content">
-        {{post.content}}
-      </text>
-    </view>
+  <view class="post-content">
+    {{post.content}}
+  </view>
+</view>
 
     <!-- 点赞 / 鼓励 -->
     <view class="post-actions">

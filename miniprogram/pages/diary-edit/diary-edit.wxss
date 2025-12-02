@@ -50,7 +50,44 @@
   font-size: 12px;
   color: #666;
 }
+/* 页面头部样式 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: white;
+  border-bottom: 1rpx solid #eee;
+}
 
+/* 返回按钮样式 */
+.header-back-btn {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+  margin-right: 24rpx;
+  transition: all 0.3s ease;
+}
+
+.header-back-btn:active {
+  background: #f0f0f0;
+  transform: scale(0.98);
+}
+
+.back-icon {
+  font-size: 36rpx;
+  color: #333;
+  margin-right: 8rpx;
+  line-height: 1;
+}
+
+.back-text {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
 /* 日记内容样式 */
 .diary-content {
   width: 100%;

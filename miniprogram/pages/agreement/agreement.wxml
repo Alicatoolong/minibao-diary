@@ -1,0 +1,62 @@
+<view class="agreement-page">
+  <!-- 头部 -->
+  <view class="agreement-header">
+    <text class="page-title">用户协议与隐私政策</text>
+  </view>
+
+  <!-- 协议内容 -->
+  <scroll-view class="agreement-content" scroll-y>
+    
+    <!-- 用户协议部分 -->
+    <view class="protocol-section">
+      <text class="section-title">用户协议</text>
+      <view class="section-content">
+        <text class="content-text">欢迎使用敏宝日记！请您仔细阅读以下用户协议。</text>
+        
+        <view class="subsection">
+          <text class="subsection-title">一、服务说明</text>
+          <text class="subsection-content">敏宝日记是一款专注于记录宝宝成长、分享育儿经验的亲子社区平台。我们提供日常记录、成长跟踪、经验交流等功能，帮助家长更好地关爱宝宝。</text>
+        </view>
+
+        <view class="subsection">
+          <text class="subsection-title">二、用户行为规范</text>
+          <text class="subsection-content">• 内容健康：请发布积极、健康、有益的育儿内容\n• 尊重隐私：保护宝宝隐私，避免发布敏感信息\n• 真实分享：基于真实经历分享育儿经验\n• 互相尊重：友善交流，营造良好氛围</text>
+        </view>
+
+        <view class="subsection">
+          <text class="subsection-title">三、账号与数据</text>
+          <text class="subsection-content">• 您的账号信息将受到严格保护\n• 宝宝成长数据仅用于为您提供更好的服务\n• 您可以随时导出或删除您的数据</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 隐私政策部分 -->
+    <view class="protocol-section">
+      <text class="section-title">隐私政策</text>
+      <view class="section-content">
+        <text class="content-text">我们高度重视您的隐私保护，请您仔细阅读以下隐私政策。</text>
+        
+        <view class="subsection">
+          <text class="subsection-title">一、信息收集</text>
+          <text class="subsection-content">我们仅收集必要的宝宝成长数据和使用数据，用于提供更好的服务。包括：症状记录、身高体重、饮食记录等健康数据。</text>
+        </view>
+
+        <view class="subsection">
+          <text class="subsection-title">二、数据安全</text>
+          <text class="subsection-content">• 采用加密技术保护您的数据安全\n• 确保数据不被未授权访问\n• 您的数据仅用于为您提供个性化服务\n• 不会用于其他商业用途</text>
+        </view>
+
+        <view class="subsection">
+          <text class="subsection-title">三、您的权利</text>
+          <text class="subsection-content">• 随时查看、修改您的个人信息\n• 要求删除您的账户和数据\n• 了解我们如何使用您的数据\n• 拒绝某些数据收集功能</text>
+        </view>
+      </view>
+    </view>
+
+  </scroll-view>
+
+  <!-- 同意按钮 -->
+  <view class="agreement-actions">
+    <button class="agree-btn" bindtap="agreeProtocol">同意并返回</button>
+  </view>
+</view>

@@ -23,6 +23,7 @@
   font-weight: 600;
   color: #333;
 }
+
 /* 返回按钮样式 */
 .header-back-btn {
   display: flex;
@@ -52,6 +53,7 @@
   color: #333;
   font-weight: 500;
 }
+
 /* 历史列表 */
 .history-list {
   padding: 0 32rpx;
@@ -100,7 +102,7 @@
   font-size: 28rpx;
   color: #666;
   margin-right: 16rpx;
-  width: 120rpx;
+  width: 160rpx; /* 稍微加宽以容纳"电子产品"文字 */
 }
 
 .record-value {
@@ -113,6 +115,13 @@
 .record-emoji {
   font-size: 32rpx;
   margin-left: 16rpx;
+}
+
+/* 可以为电子产品记录添加特殊样式 */
+.record-item:last-child {
+  border-top: 1rpx solid #f5f5f5;
+  padding-top: 16rpx;
+  margin-top: 8rpx;
 }
 
 /* 空状态 */
@@ -138,4 +147,16 @@
 .empty-desc {
   font-size: 28rpx;
   color: #999;
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+  .record-label {
+    width: 140rpx;
+    font-size: 26rpx;
+  }
+  
+  .record-value {
+    font-size: 26rpx;
+  }
 }

@@ -1,0 +1,52 @@
+<view class="edit-height-weight-page">
+  <!-- 移除原来的 header，使用小程序原生导航栏 -->
+  
+  <view class="form-container">
+    <view class="form-title">记录身高体重</view>
+    
+    <!-- 身高输入 -->
+    <view class="input-group">
+      <text class="input-label">身高 (cm)</text>
+      <input 
+        class="input-field" 
+        type="number" 
+        placeholder="请输入身高" 
+        value="{{height}}"
+        bindinput="onHeightInput"
+        focus
+      />
+    </view>
+    
+    <!-- 体重输入 -->
+    <view class="input-group">
+      <text class="input-label">体重 (kg)</text>
+      <input 
+        class="input-field" 
+        type="number" 
+        
+        placeholder="请输入体重" 
+        value="{{weight}}"
+        bindinput="onWeightInput"
+      />
+    </view>
+    
+    <!-- 提示信息 -->
+    <view class="tip-text">
+      <text>💡 正常范围参考：</text>
+      <text>身高：30-200cm，体重：1-100kg</text>
+    </view>
+    
+    <!-- 按钮区域 -->
+    <view class="button-group">
+      <!-- 返回按钮 -->
+      <view class="back-btn" bindtap="goBack">
+        <text class="back-btn-text">取消</text>
+      </view>
+      
+      <!-- 保存按钮 -->
+      <view class="save-btn {{isFormValid ? 'active' : ''}}" bindtap="saveRecord">
+        <text class="save-btn-text">保存记录</text>
+      </view>
+    </view>
+  </view>
+</view>

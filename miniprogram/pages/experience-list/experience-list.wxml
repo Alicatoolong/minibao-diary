@@ -90,4 +90,54 @@
     </block>
   </view>
 </view>
-  
+  <!-- 在帖子列表后面添加加载更多按钮 -->
+<view class="page-content">
+  <!-- 有帖子 -->
+  <block wx:if="{{posts && posts.length}}">
+    <block wx:for="{{posts}}" wx:key="id">
+      <view class="post-item" bindtap="goToDetail" data-id="{{item.id}}">
+        <!-- 您现有的帖子内容 -->
+        <view class="post-top">
+          <text class="post-title">{{item.title}}</text>
+        </view>
+        <view class="post-middle">
+          <text class="post-author">{{item.author}}</text>
+          <text class="post-time">{{item.createdAt}}</text>
+        </view>
+        <view class="post-bottom">
+          <view class="stat">
+            <text class="stat-icon">👍</text>
+            <text class="stat-text">{{item.likes || 0}}</text>
+          </view>
+          <view class="stat">
+            <text class="stat-icon">💪</text>
+            <text class="stat-text">{{item.cheers || 0}}</text>
+          </view>
+          <view class="post-actions" wx:if="{{item.isMine}}">
+            <view class="mine-tag">我发布的</view>
+            <view class="delete-btn" bindtap="onDeletePost" data-id="{{item.id}}" catchtap>
+              <text class="delete-icon">🗑️</text>
+              <text class="delete-text">删除</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 加载更多按钮 -->
+    <view wx:if="{{hasMore}}" class="load-more" bindtap="loadMore">
+      <text class="load-more-text">加载更多</text>
+    </view>
+    <view wx:else class="no-more">
+      <text class="no-more-text">没有更多内容了</text>
+    </view>
+  </block>
+
+  <!-- 没有帖子 -->
+  <block wx:else>
+    <view class="no-posts">
+      <text class="no-posts-title">这里还空空的</text>
+      <text class="no-posts-text">先去发布一条经验，再回来看看吧～</text>
+    </view>
+  </block>
+</view>

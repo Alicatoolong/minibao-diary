@@ -1,3 +1,4 @@
+// symptom-history.js
 Page({
   data: {
     symptomRecords: [],
@@ -160,6 +161,9 @@ Page({
       // 重新加载数据
       this.loadSymptomRecords();
       
+      // 🆕 触发备份到云开发
+      this.triggerBackup();
+      
       wx.showToast({
         title: '删除成功',
         icon: 'success'
@@ -171,5 +175,35 @@ Page({
         icon: 'none'
       });
     }
+  },
+
+  // 🆕 触发备份到云开发
+  triggerBackup: function() {
+    try {
+      console.log('💾 症状记录变更，触发云备份...');
+      
+      // 方法1：通过全局回调
+      const app = getApp();
+      if (app && app.globalDataUpdateCallback) {
+        console.log('🔄 通过全局回调触发备份');
+        app.globalDataUpdateCallback();
+      }
+      
+      // 方法2：直接调用首页备份方法
+      const pages = getCurrentPages();
+      const indexPage = pages.find(page => page.route === 'pages/index/index');
+      if (indexPage && indexPage.onSymptomSaved) {
+        console.log('🔄 直接调用首页备份方法');
+        indexPage.onSymptomSaved();
+      } else {
+        console.log('⚠️ 未找到首页备份方法，尝试其他方式');
+        // 方法3：通过存储事件触发
+        wx.setStorageSync('need_backup', true);
+      }
+      
+      console.log('✅ 备份触发完成');
+    } catch (error) {
+      console.error('❌ 触发备份失败:', error);
+    }
   }
-})
+});

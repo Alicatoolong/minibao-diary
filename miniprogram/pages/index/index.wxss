@@ -1,44 +1,51 @@
-/* 优化后的个人信息卡片 */
+/* 优化后的个人信息卡片 - 更紧凑 */
 .user-info-card {
   background: linear-gradient(135deg, #87CEEB, #4682B4);
-  border-radius: 24rpx;
-  padding: 32rpx;
-  margin: 30rpx;
-  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
+  border-radius: 20rpx; /* 减小圆角 */
+  padding: 24rpx; /* 减少内边距 */
+  margin: 20rpx; /* 减少外边距 */
+  box-shadow: 0 6rpx 24rpx rgba(102, 126, 234, 0.3);
   color: white;
 }
 
-/* 紧凑布局的宝宝信息 */
+/* 更紧凑的宝宝信息布局 */
 .baby-info-compact {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 30rpx;
+  align-items: center; /* 改为居中对齐 */
+  margin-bottom: 20rpx; /* 减少底部间距 */
+}
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  overflow: hidden; /* 重要：防止头像超出 */
+  /* ... 其他样式 */
+}
+
+.avatar image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保持图片比例 */
 }
 
 .avatar-section {
-  margin-right: 25rpx;
+  margin-right: 20rpx;
 }
 
 .avatar {
-  width: 120rpx;
-  height: 120rpx;
+  width: 100rpx; /* 减小头像尺寸 */
+  height: 100rpx;
   border-radius: 50%;
   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 4rpx solid white;
-  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.1);
-}
-
-.avatar-image {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  border: 3rpx solid white; /* 减小边框 */
+  box-shadow: 0 3rpx 12rpx rgba(0, 0, 0, 0.1);
 }
 
 .avatar-text {
-  font-size: 40rpx;
+  font-size: 32rpx; /* 减小字体 */
   color: white;
   font-weight: bold;
 }
@@ -48,15 +55,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 120rpx;
+  min-height: 100rpx; /* 减小最小高度 */
 }
 
-/* 第一行：名字和编辑按钮 */
+/* 第一行：名字和编辑按钮 - 更紧凑 */
 .name-edit-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15rpx;
+  margin-bottom: 8rpx; /* 减少间距 */
 }
 
 .name-age {
@@ -66,68 +73,63 @@
 }
 
 .baby-name {
-  font-size: 36rpx;
+  font-size: 32rpx; /* 减小字体 */
   font-weight: bold;
   color: white;
-  margin-right: 10rpx;
+  margin-right: 8rpx;
   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
 }
 
 .baby-age {
-  font-size: 28rpx;
+  font-size: 24rpx; /* 减小字体 */
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
 }
 
-/* 编辑按钮 - 更明显 */
+/* 编辑按钮 - 更小 */
 .edit-btn {
   display: flex;
   align-items: center;
-  padding: 12rpx 20rpx;
+  padding: 8rpx 16rpx; /* 减小内边距 */
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 25rpx;
+  border-radius: 20rpx; /* 减小圆角 */
   border: 2rpx solid rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease;
 }
 
-.edit-btn:active {
-  background: rgba(255, 255, 255, 0.7);
-  transform: scale(0.95);
-}
-
 .edit-icon {
-  font-size: 24rpx;
-  margin-right: 8rpx;
+  font-size: 20rpx; /* 减小图标 */
+  margin-right: 6rpx;
 }
 
 .edit-text {
-  font-size: 24rpx;
+  font-size: 20rpx; /* 减小字体 */
   color: #4682B4;
   font-weight: 500;
 }
 
-/* 第二行：妈妈能量 */
+/* 第二行：妈妈能量 - 更紧凑 */
 .energy-row {
   display: flex;
   align-items: center;
 }
 
 .energy-label {
-  font-size: 26rpx;
+  font-size: 22rpx; /* 减小字体 */
   color: rgba(255, 255, 255, 0.9);
-  margin-right: 15rpx;
+  margin-right: 12rpx;
   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
 }
 
 .energy-stars {
   display: flex;
-  margin-right: 15rpx;
+  margin-right: 12rpx;
 }
 
 .star {
-  font-size: 28rpx;
+  font-size: 24rpx; /* 减小星星 */
   color: rgba(255, 255, 255, 0.4);
-  margin-right: 5rpx;
+  margin-right: 4rpx;
   transition: all 0.3s ease;
   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
 }
@@ -139,20 +141,20 @@
 }
 
 .energy-desc {
-  font-size: 24rpx;
+  font-size: 20rpx; /* 减小字体 */
   color: rgba(255, 255, 255, 0.8);
   font-style: italic;
   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
 }
 
-/* 签到区域 - 精简版 */
+/* 签到区域 - 更精简 */
 .checkin-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 20rpx;
-  padding: 24rpx 32rpx;
+  border-radius: 16rpx; /* 减小圆角 */
+  padding: 16rpx 24rpx; /* 减少内边距 */
   backdrop-filter: blur(10rpx);
 }
 
@@ -161,25 +163,20 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 50rpx;
-  padding: 20rpx 36rpx;
-  min-width: 180rpx;
+  border-radius: 40rpx; /* 减小圆角 */
+  padding: 16rpx 28rpx; /* 减少内边距 */
+  min-width: 150rpx; /* 减小最小宽度 */
   transition: all 0.3s;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
-}
-
-.checkin-btn:active {
-  background: rgba(255, 255, 255, 0.8);
-  transform: scale(0.95);
+  box-shadow: 0 3rpx 12rpx rgba(0, 0, 0, 0.1);
 }
 
 .btn-icon {
-  font-size: 32rpx;
-  margin-right: 12rpx;
+  font-size: 28rpx; /* 减小图标 */
+  margin-right: 8rpx;
 }
 
 .btn-text {
-  font-size: 28rpx;
+  font-size: 24rpx; /* 减小字体 */
   font-weight: 600;
   color: #4682B4;
 }
@@ -187,53 +184,22 @@
 .checkin-stats {
   display: flex;
   align-items: center;
-  padding: 16rpx 0;
+  padding: 12rpx 0; /* 减少内边距 */
 }
 
 .stats-icon {
-  font-size: 28rpx;
-  margin-right: 12rpx;
+  font-size: 24rpx; /* 减小图标 */
+  margin-right: 8rpx;
   opacity: 0.8;
 }
 
 .stats-text {
-  font-size: 26rpx;
+  font-size: 22rpx; /* 减小字体 */
   opacity: 0.9;
   white-space: nowrap;
 }
-/* 浮动提示样式 */
-.toast-message {
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-20px);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 20rpx 40rpx;
-  border-radius: 50rpx;
-  font-size: 28rpx;
-  display: flex;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 9999;
-}
 
-.toast-message.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
 
-.toast-icon {
-  font-size: 32rpx;
-  margin-right: 12rpx;
-}
-
-.toast-text {
-  font-size: 28rpx;
-}
 /* 关心宝贝功能区 */
 .care-section {
   background: #fff;
@@ -283,60 +249,61 @@
   color: #666;
 }
 
-/* 状态评分图表区域 */
+/* 状态评分图表区域 - 现代化 */
 .chart-section {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 30rpx;
-  margin: 20rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin: 24rpx;
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.08);
+  border: 1rpx solid #f0f4ff;
 }
 
 .chart-header {
   display: flex;
   align-items: center;
-  margin-bottom: 60rpx; /* 从45rpx增加到60rpx，增加图表与标题的间距 */
-  gap: 30rpx; /* 从20rpx增加到30rpx，增加标题与描述的间距 */
-  padding: 0 10rpx; /* 添加内边距让布局更宽松 */
+  margin-bottom: 60rpx;
+  gap: 30rpx;
+  padding: 0 10rpx;
 }
 
 .chart-title {
-  font-size: 34rpx; /* 稍微增大标题 */
-  font-weight: 700; /* 加粗 */
-  color: #1a1a1a;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a1d29;
   white-space: nowrap;
   flex-shrink: 0;
-  letter-spacing: 0.5rpx; /* 字间距 */
+  letter-spacing: 0.5rpx;
 }
 
 .chart-desc {
-  font-size: 26rpx; /* 稍微增大描述文字 */
-  color: #666;
+  font-size: 26rpx;
+  color: #6b7280;
   line-height: 1.5;
   flex: 1;
   text-align: right;
-  padding-left: 20rpx; /* 在描述文字左侧添加内边距 */
-  border-left: 1rpx solid #f0f0f0; /* 添加分隔线 */
+  padding-left: 20rpx;
+  border-left: 1rpx solid #f0f4ff;
+  font-weight: 500;
 }
 
 /* 紧凑图表容器 */
 .compact-chart {
   position: relative;
-  height: 180rpx; /* 稍微增加图表高度 */
+  height: 200rpx;
   display: flex;
   flex-direction: column;
-  margin-top: 10rpx; /* 图表上方额外间距 */
+  margin-top: 10rpx;
+  background: linear-gradient(180deg, #fcfdff 0%, #f8faff 100%);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  border: 1rpx solid #f0f4ff;
 }
 
-/* 图表区域 */
-.chart-area {
-  flex: 1;
-  position: relative;
-  margin: 0 30rpx;
-  background: linear-gradient(to top, rgba(74, 144, 226, 0.05) 0%, transparent 100%);
-  border-radius: 8rpx; /* 稍微增大圆角 */
-  border-bottom: 1rpx solid #e8e8e8; /* 更细的边框 */
-}
+
+
+
+
 
 .chart-column {
   position: absolute;
@@ -353,55 +320,72 @@
 .score-text {
   position: absolute;
   bottom: 100%;
-  margin-bottom: 25rpx; /* 从20rpx增加到25rpx */
+  margin-bottom: 25rpx;
   font-weight: bold;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
+  font-size: 26rpx;
+  color: #667eea;
+  font-weight: 700;
+  background: white;
+  padding: 6rpx 12rpx;
+  border-radius: 8rpx;
+  box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.2);
 }
 
 .current-score {
   font-size: 28rpx;
-  color: #4a90e2;
+  color: #667eea;
   font-weight: 700;
 }
 
 .other-score {
   font-size: 22rpx;
-  color: #666;
+  color: #8a94a6;
   font-weight: 500;
 }
 
-/* 数据点 */
+
+
+.point-value {
+  font-size: 20rpx;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  padding: 4rpx 8rpx;
+  border-radius: 6rpx;
+  box-shadow: 0 2rpx 8rpx rgba(16, 185, 129, 0.3);
+  margin-bottom: 8rpx;
+  min-width: 36rpx;
+  text-align: center;
+}
+
 .chart-dot {
-  position: absolute;
-  width: 14rpx;
-  height: 14rpx;
-  background: #4a90e2;
+  width: 10rpx;
+  height: 10rpx;
+  background: white;
   border-radius: 50%;
-  border: 2rpx solid white;
-  box-shadow: 0 2rpx 6rpx rgba(74, 144, 226, 0.3); /* 增强阴影 */
-  z-index: 2;
+  box-shadow: 0 2rpx 6rpx rgba(16, 185, 129, 0.4);
 }
 
 .chart-dot.low-dot {
-  background: #F44336;
-  box-shadow: 0 2rpx 6rpx rgba(244, 67, 54, 0.3);
+  background: #ef4444;
+  border-color: #ef4444;
 }
 
 .chart-dot.active-dot {
-  width: 18rpx;
-  height: 18rpx;
-  background: #FFD700;
-  box-shadow: 0 3rpx 8rpx rgba(255, 215, 0, 0.5); /* 增强阴影 */
-  z-index: 3;
+  background: #f59e0b;
+  border-color: #f59e0b;
+  width: 14rpx;
+  height: 14rpx;
 }
 
 /* 日期显示 */
 .dates-display {
   position: relative;
   height: 40rpx;
-  margin-top: 25rpx; /* 从20rpx增加到25rpx */
+  margin-top: 25rpx;
   padding: 0 30rpx;
 }
 
@@ -415,18 +399,65 @@
 }
 
 .date-label {
-  font-size: 20rpx;
-  color: #999;
+  font-size: 22rpx;
+  color: #8a94a6;
   text-align: center;
   white-space: nowrap;
-  transform: scale(0.9);
+  font-weight: 500;
+  letter-spacing: 0.3rpx;
 }
 
 .current-date {
-  color: #4a90e2;
-  font-weight: 500;
-  transform: scale(1);
+  color: #667eea;
+  font-weight: 600;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
 }
+/* 健康图表特定样式 */
+.chart-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex: 1;
+}
+
+.chart-subtitle {
+  font-size: 24rpx;
+  color: #8a94a6;
+  font-weight: 500;
+}
+
+.today-score {
+  padding: 8rpx 16rpx;
+  border-radius: 12rpx;
+}
+
+.today-score-text {
+  font-size: 24rpx;
+  color: #8a94a6;
+  font-weight: 600;
+}
+
+/* 健康图表线条颜色 */
+.health-line {
+  background: linear-gradient(to top, 
+    rgba(16, 185, 129, 0.8) 0%, 
+    rgba(16, 185, 129, 0.4) 50%,
+    rgba(16, 185, 129, 0.1) 100%);
+}
+
+/* 健康图表数据点 */
+.chart-line.health-line .point-dot {
+  border-color: #10b981;
+  box-shadow: 0 4rpx 8rpx rgba(16, 185, 129, 0.4);
+}
+
+.chart-line.health-line .point-value {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  box-shadow: 0 4rpx 12rpx rgba(16, 185, 129, 0.3);
+}
+
 
 /* 今日快速记录模块 */
 .quick-record-section {
@@ -437,14 +468,7 @@
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
 }
 
-.section-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 32rpx;
-}
-
-/* 快速记录入口 */
+/* 快速记录入口 - 调整高度 */
 .quick-actions {
   display: flex;
   justify-content: space-between;
@@ -456,58 +480,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32rpx 20rpx;
+  padding: 24rpx 16rpx; /* 减少上下内边距 */
   background: white;
   border-radius: 16rpx;
   border: 2rpx solid #f0f0f0;
   transition: all 0.3s ease;
-  min-height: 160rpx;
+  min-height: 140rpx; /* 降低最小高度 */
+  justify-content: center; /* 内容垂直居中 */
 }
 
-.action-item.recorded {
-  border-color: #4dabf7;
+.action-item:active {
   background: #f8f9fa;
-  transform: translateY(-2rpx);
+  transform: scale(0.98);
 }
 
 .action-icon {
-  font-size: 56rpx;
-  margin-bottom: 16rpx;
-  height: 60rpx;
+  font-size: 48rpx; /* 稍微减小图标大小 */
+  margin-bottom: 12rpx;
+  height: 50rpx; /* 固定图标容器高度 */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .action-text {
-  font-size: 28rpx;
+  font-size: 26rpx; /* 稍微减小文字大小 */
   color: #333;
   font-weight: 500;
-  margin-bottom: 8rpx;
 }
 
-.action-desc {
-  font-size: 24rpx;
-  color: #666;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.action-placeholder {
-  font-size: 24rpx;
-  color: #999;
-  text-align: center;
-}
 /* 快速记录模块标题行 */
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32rpx;
+  margin-bottom: 24rpx; /* 减少底部间距 */
 }
 
 .section-title {
-  font-size: 32rpx;
+  font-size: 30rpx; /* 稍微减小标题大小 */
   font-weight: 600;
   color: #333;
 }
@@ -516,20 +527,20 @@
 .history-entry {
   display: flex;
   align-items: center;
-  padding: 12rpx 20rpx;
+  padding: 10rpx 18rpx; /* 减少内边距 */
   background: #f8f9fa;
-  border-radius: 20rpx;
+  border-radius: 18rpx;
   border: 1rpx solid #e9ecef;
 }
 
 .history-text {
-  font-size: 26rpx;
+  font-size: 24rpx; /* 减小文字大小 */
   color: #666;
-  margin-right: 8rpx;
+  margin-right: 6rpx;
 }
 
 .history-icon {
-  font-size: 28rpx;
+  font-size: 26rpx; /* 减小图标大小 */
   color: #999;
   font-weight: bold;
 }
@@ -582,21 +593,24 @@
 }
 
 .experience-more-wrap {
-  flex-direction: row;
   display: flex;
   align-items: center;
-  padding: 6rpx 4rpx;
+  padding: 12rpx 20rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  border: 1rpx solid #e9ecef;
 }
 
 .experience-more-text {
-  font-size: 24rpx;
-  color: #6A8BFF;
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 8rpx;
 }
 
 .experience-more-arrow {
   font-size: 28rpx;
-  color: #6A8BFF;
-  margin-left: 4rpx;
+  color: #999;
+  font-weight: bold;
 }
 
 /* 卡片列表 */
@@ -711,14 +725,17 @@
 }
 
 .chat-right {
-  padding: 10rpx 24rpx;
-  border-radius: 999rpx;
-  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  border: 1rpx solid #e9ecef;
 }
 
 .chat-btn-text {
-  font-size: 24rpx;
-  color: #4682B4;
+  font-size: 26rpx;
+  color: rgb(21, 72, 129);
 }
 
 /* ===== 和我聊聊弹层 ===== */
@@ -1051,4 +1068,558 @@
 
 .quick-record-modal .sleep-option.selected .sleep-desc {
   color: #6BC5D2;
+}
+/* 留言弹窗样式 */
+.chat-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.chat-modal {
+  width: 600rpx;
+  background: white;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.chat-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.chat-modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.chat-modal-close {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+.chat-modal-body {
+  padding: 30rpx;
+}
+
+.chat-modal-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+  line-height: 1.5;
+}
+
+/* 留言表单样式 */
+.message-form {
+  width: 100%;
+  margin-top: 20px;
+}
+.message-textarea {
+  width: 100%;
+  height: 150px;
+  min-height: 150px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #fff;
+}
+
+.message-input {
+  width: 100%;
+  height: 200rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  border: 1rpx solid #e8e8e8;
+  box-sizing: border-box;
+}
+
+.char-count {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+.message-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+}
+
+.message-btn {
+  flex: 1;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.message-btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.message-btn-submit {
+  background: #6A8BFF;
+  color: white;
+}
+
+.message-btn-submit[disabled] {
+  background: #cccccc;
+  color: #999;
+}
+/* 快速记录弹窗样式 */
+.screentime-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.screentime-option {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s;
+  background: white;
+}
+
+.screentime-option.selected {
+  border-color: #1890ff;
+  background-color: #f0f8ff;
+  color: #1890ff;
+}
+
+.screentime-text {
+  font-size: 16px;
+}
+
+/* 运动选项样式修正 */
+.exercise-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.exercise-option {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s;
+  background: white;
+}
+
+.exercise-option.selected {
+  border-color: #1890ff;
+  background-color: #f0f8ff;
+  color: #1890ff;
+}
+
+.exercise-text {
+  font-size: 16px;
+}
+
+/* 图表容器布局 */
+.chart-container {
+  display: flex;
+  margin-top: 20rpx;
+}
+
+/* 图表主区域 */
+.chart-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 图表区域 - 移除渐变背景 */
+.chart-area {
+  position: relative;
+  background: white; /* 改为纯白色背景 */
+  border-radius: 12rpx;
+  padding: 20rpx 30rpx 50rpx 30rpx;
+  border: 1rpx solid #f0f4ff;
+  margin-top: 20rpx;
+}
+
+.chart-content {
+  position: relative;
+  height: 160rpx;
+  /* 移除 margin-bottom，让X轴紧贴图表 */
+}
+
+/* 图表网格 - 调整左右边距 */
+.chart-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.grid-line {
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent 10%, #eef2ff 50%, transparent 90%);
+  margin: 0 10rpx; /* 网格线也向内缩进 */
+}
+
+/* 折线图 - 调整左右边距 */
+.chart-line {
+  position: absolute;
+  top: 0;
+  left: 10rpx; /* 向左缩进 */
+  right: 10rpx; /* 向右缩进 */
+  bottom: 0;
+}
+
+
+
+
+/* 数据点 - 调整位置计算 */
+.chart-point {
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* X轴日期 - 调整位置 */
+.x-axis {
+  position: relative;
+  height: 40rpx;
+  width: calc(100% - 20rpx); /* 宽度减去左右缩进 */
+  margin: 10rpx 10rpx 0 10rpx; /* 左右各10rpx边距 */
+}
+
+.x-axis-label {
+  position: absolute;
+  transform: translateX(-50%);
+  text-align: center;
+  bottom: 0;
+  width: 60rpx;
+}
+
+.x-axis-date {
+  font-size: 22rpx;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 🔐 优化后的协议弹窗样式 - 现代简约风 */
+.agreement-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.agreement-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10rpx);
+}
+
+.agreement-content {
+  position: relative;
+  width: 90%;
+  max-width: 640rpx;
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+  border-radius: 28rpx;
+  padding: 50rpx 40rpx 40rpx;
+  box-sizing: border-box;
+  box-shadow: 0 24rpx 80rpx rgba(0, 0, 0, 0.15);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+  animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40rpx) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 标题区域 */
+.agreement-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.agreement-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.agreement-subtitle {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* 授权信息区域 */
+.auth-info {
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  padding: 32rpx;
+  border-radius: 20rpx;
+  margin-bottom: 40rpx;
+  border: 1rpx solid rgba(102, 126, 234, 0.1);
+  box-shadow: 0 4rpx 20rpx rgba(102, 126, 234, 0.08);
+}
+
+.info-item {
+  font-size: 28rpx;
+  color: #555;
+  margin-bottom: 20rpx;
+  line-height: 1.6;
+  padding-left: 12rpx;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item::before {
+  content: '•';
+  color: #667eea;
+  font-size: 32rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+  margin-top: -2rpx;
+}
+
+/* 协议勾选区域 */
+.agreement-check {
+  margin-bottom: 40rpx;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.6;
+  padding: 24rpx;
+  background: #f8f9fa;
+  border-radius: 16rpx;
+  border: 1rpx solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.checkbox-label:active {
+  background: #f1f3f4;
+  transform: scale(0.98);
+}
+
+/* 自定义复选框样式 */
+.custom-checkbox {
+  width: 44rpx;
+  height: 44rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 10rpx;
+  margin-right: 24rpx;
+  margin-top: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  background: white;
+  position: relative;
+}
+
+.custom-checkbox.checked {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: transparent;
+  transform: scale(1.05);
+}
+
+.checkbox-icon {
+  color: white;
+  font-size: 26rpx;
+  font-weight: bold;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s ease;
+}
+
+.custom-checkbox.checked .checkbox-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.agreement-text {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  flex: 1;
+  font-weight: 500;
+}
+
+.link {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  bottom: -2rpx;
+  left: 0;
+  width: 0;
+  height: 2rpx;
+  background: #667eea;
+  transition: width 0.3s ease;
+}
+
+.link:active {
+  color: #5a67d8;
+}
+
+.link:active::after {
+  width: 100%;
+}
+
+/* 按钮区域 */
+.agreement-buttons {
+  margin-top: 10rpx;
+}
+
+.agree-btn {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+  color: #a0aec0;
+  border-radius: 24rpx;
+  border: none;
+  font-size: 32rpx;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.agree-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s;
+}
+
+.agree-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 12rpx 32rpx rgba(102, 126, 234, 0.4);
+  transform: translateY(-2rpx);
+}
+
+.agree-btn.active::before {
+  left: 100%;
+}
+
+.agree-btn.active:active {
+  transform: translateY(0);
+  box-shadow: 0 6rpx 20rpx rgba(102, 126, 234, 0.3);
+}
+
+.agree-btn:disabled {
+  background: #f7fafc;
+  color: #cbd5e0;
+  box-shadow: none;
+  transform: none;
+}
+
+/* 链接区域样式 */
+.agreement-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-top: 32rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid #f1f3f4;
+}
+
+.agreement-link {
+  color: #667eea;
+  font-size: 26rpx;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 12rpx 20rpx;
+  border-radius: 12rpx;
+  transition: all 0.3s ease;
+  background: rgba(102, 126, 234, 0.08);
+}
+
+.agreement-link:active {
+  background: rgba(102, 126, 234, 0.15);
+  transform: scale(0.95);
+}
+
+.agreement-link-separator {
+  font-size: 26rpx;
+  color: #cbd5e0;
+  font-weight: 300;
 }

@@ -1,0 +1,62 @@
+<!-- 协议详情页 -->
+<view class="agreement-page">
+  <!-- 头部 -->
+  <view class="agreement-header">
+    <text class="header-title">用户协议</text>
+    <view class="header-placeholder"></view>
+  </view>
+
+  <!-- 协议内容 -->
+  <scroll-view class="agreement-content" scroll-y>
+    <view class="agreement-card">
+      <view class="card-content">
+        <text class="section-title">敏宝日记用户协议</text>
+        
+        <text class="section-subtitle">欢迎使用敏宝日记！</text>
+        <text class="section-text">
+          请您仔细阅读以下协议，这将有助于我们为您提供更好的服务。
+        </text>
+
+        <text class="section-title">一、服务说明</text>
+        <text class="section-text">
+          敏宝日记是一款专注于记录宝宝成长、分享育儿经验的亲子社区平台。
+          我们提供日常记录、成长跟踪、经验交流等功能，帮助家长更好地关爱宝宝。
+        </text>
+
+        <text class="section-title">二、用户行为规范</text>
+        <text class="section-text">
+          1. 内容健康：请发布积极、健康、有益的育儿内容\n
+          2. 尊重隐私：保护宝宝隐私，避免发布敏感信息\n
+          3. 真实分享：基于真实经历分享育儿经验\n
+          4. 互相尊重：友善交流，营造良好氛围\n
+          5. 禁止内容：\n
+             • 违法违规信息\n
+             • 医疗广告、药品推广\n
+             • 商业营销内容\n
+             • 他人隐私信息\n
+             • 不实谣言信息
+        </text>
+
+        <text class="section-title">三、免责声明</text>
+        <text class="section-text">
+          1. 平台内容仅供经验交流参考，不替代专业医疗建议\n
+          2. 用户需对发布内容的真实性、合法性负责\n
+          3. 如遇紧急医疗情况，请及时就医\n
+          4. 我们有权对违规内容进行处理
+        </text>
+
+        <text class="section-title">四、联系方式</text>
+        <text class="section-text">
+          如有问题请联系微信：alica0901
+        </text>
+
+        <text class="update-time">最后更新：2025年11月</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 同意按钮 -->
+  <view class="agreement-actions">
+    <button class="agree-btn primary" bindtap="agreeProtocol">同意协议</button>
+  </view>
+</view>

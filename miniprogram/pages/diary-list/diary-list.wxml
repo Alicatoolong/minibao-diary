@@ -1,3 +1,10 @@
+<view class="header">
+  <view class="header-back-btn" bindtap="goBack">
+    <text class="back-icon">‹</text>
+    <text class="back-text">返回</text>
+  </view>
+</view>
+
 <view class="diary-container">
   <!-- 写新日记按钮 -->
   <view class="new-diary-btn" bindtap="createNewDiary">

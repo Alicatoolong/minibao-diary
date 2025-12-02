@@ -1,12 +1,11 @@
 <view class="baby-status-page">
-  <!-- 顶部状态概览 -->
-  <view class="status-header">
-    <view class="baby-info">
-      <text class="name">{{babyInfo.name || '宝宝'}}</text>
-      <text class="age">{{babyInfo.age || '0岁0个月'}}</text>
+  <view class="header">
+    <view class="header-back-btn" bindtap="goBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
     </view>
   </view>
-
+  
   <!-- 健康指标卡片 -->
   <view class="indicators-container">
     
@@ -16,7 +15,7 @@
         <text class="card-title">🗣️ 当前状况</text>
         <view class="card-actions">
           <view class="action-btn primary" bindtap="editSymptom">编辑</view>
-          <view class="action-btn secondary" bindtap="forceRefreshAll">刷新</view>
+          <!-- 移除刷新按钮 -->
           <view class="action-btn danger" bindtap="clearAllSymptoms">清除</view>
         </view>
       </view>
@@ -38,6 +37,43 @@
       </view>
     </view>
 
+    <!-- 身高体重记录 -->
+    <view class="indicator-card">
+      <view class="card-header">
+        <text class="card-title">📏 身高体重</text>
+        <view class="card-actions">
+          <view class="action-btn primary" bindtap="editHeightWeight">编辑</view>
+          <view class="action-btn danger" bindtap="clearHeightWeight">清除</view>
+        </view>
+      </view>
+
+      <view class="card-content">
+        <!-- 最新记录 -->
+        <view class="height-weight-current" wx:if="{{todayHeight && todayWeight}}">
+          <view class="hw-item">
+            <text class="hw-label">身高：</text>
+            <text class="hw-value">{{todayHeight}} cm</text>
+          </view>
+          <view class="hw-item">
+            <text class="hw-label">体重：</text>
+            <text class="hw-value">{{todayWeight}} kg</text>
+          </view>
+          <!-- 移除"今日记录"文字 -->
+        </view>
+        
+        <!-- 空状态 -->
+        <view class="empty-tip" wx:else>
+          <text>暂无身高体重记录</text>
+        </view>
+        
+        <!-- 底部提示 -->
+        <view class="view-all-records" bindtap="viewHeightWeightHistory">
+          <text class="record-hint">查看更多内容请点击查看全部记录</text>
+          <text class="arrow">→</text>
+        </view>
+      </view>
+    </view>
+
     <!-- 使用引导卡片 -->
     <view class="indicator-card">
       <view class="card-header">
@@ -49,10 +85,7 @@
             <text class="tip-icon">📝</text>
             <text class="tip-text">点击"编辑"记录宝宝的状况</text>
           </view>
-          <view class="tip-item">
-            <text class="tip-icon">🔄</text>
-            <text class="tip-text">点击"刷新"同步最新记录</text>
-          </view>
+          <!-- 移除刷新相关的提示 -->
           <view class="tip-item">
             <text class="tip-icon">📚</text>
             <text class="tip-text">查看全部记录了解历史趋势</text>
@@ -60,6 +93,5 @@
         </view>
       </view>
     </view>
-
   </view>
 </view>

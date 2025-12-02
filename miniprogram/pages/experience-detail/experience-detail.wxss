@@ -28,19 +28,27 @@
 }
 
 .post-header {
-  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+  padding: 0 10rpx;
 }
 
 .post-title {
   font-size: 32rpx;
   font-weight: 600;
   color: #333;
-  margin-bottom: 8rpx;
+  flex: 1;
+  margin-right: 40rpx; /* 增加标题和作者之间的间距 */
 }
 
 .post-author {
   font-size: 24rpx;
   color: #999;
+  white-space: nowrap;
+  min-width: 120rpx;
+  text-align: right;
 }
 
 .post-body {
@@ -49,12 +57,23 @@
   padding: 30rpx;
   box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
   margin-bottom: 24rpx;
+  /* 确保自适应高度 */
+  min-height: 200rpx;
+  /* 允许内容换行和正常显示 */
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .post-content {
   font-size: 28rpx;
   color: #444;
   line-height: 1.7;
+  text-align: left;
+  display: block;
+  /* 确保长文本正常换行 */
+  word-wrap: break-word;
+  white-space: normal;
+  width: 100%;
 }
 
 .post-actions {
@@ -106,6 +125,7 @@
   font-size: 28rpx;
   color: #999;
 }
+
 .detail-nav {
   margin: 40rpx 32rpx 60rpx;
   display: flex;
@@ -127,8 +147,4 @@
   border-color: #6A8BFF;
   color: #ffffff;
   background-color: #6A8BFF;
-}
-
-.nav-btn[disabled] {
-  opacity: 0.4;
 }

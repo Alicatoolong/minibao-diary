@@ -2,9 +2,9 @@
   <!-- 头部 -->
   <view class="header">
     <view class="header-back-btn" bindtap="goBack">
-  <text class="back-icon">‹</text>
-  <text class="back-text">返回</text>
-</view>
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
   </view>
 
   <!-- 历史记录列表 -->
@@ -17,6 +17,7 @@
         </view>
         
         <view class="record-content">
+          <!-- 情绪记录 -->
           <view class="record-item" wx:if="{{item.emotion}}">
             <text class="record-label">情绪:</text>
             <text class="record-value">{{item.emotion}}</text>
@@ -27,19 +28,40 @@
             </text>
           </view>
           
-          <view class="record-item" wx:if="{{item.exerciseMinutes}}">
+          <!-- 运动记录 - 根据运动类型显示对应图标 -->
+          <view class="record-item" wx:if="{{item.exercise}}">
             <text class="record-label">运动:</text>
-            <text class="record-value">{{item.exerciseMinutes}}分钟</text>
-            <text class="record-emoji">🏃</text>
+            <text class="record-value">{{item.exercise}}</text>
+            <text class="record-emoji">
+              <text wx:if="{{item.exercise === '低于30分钟'}}">🪑</text>
+              <text wx:elif="{{item.exercise === '30分钟-1小时'}}">🚶</text>
+              <text wx:elif="{{item.exercise === '1-2小时'}}">🏃</text>
+              <text wx:elif="{{item.exercise === '大于2小时'}}">🌟</text>
+              <text wx:else>🏃</text>
+            </text>
           </view>
           
+          <!-- 睡眠记录 -->
           <view class="record-item" wx:if="{{item.sleep}}">
             <text class="record-label">睡眠:</text>
             <text class="record-value">{{item.sleep}}</text>
             <text class="record-emoji">
-              <text wx:if="{{item.sleepLevel === 1}}">😴</text>
+              <text wx:if="{{item.sleepLevel === 1}}">😫</text>
               <text wx:if="{{item.sleepLevel === 2}}">😊</text>
               <text wx:if="{{item.sleepLevel === 3}}">🤩</text>
+            </text>
+          </view>
+          
+          <!-- 电子产品记录 - 根据时长显示对应图标 -->
+          <view class="record-item" wx:if="{{item.screenTime}}">
+            <text class="record-label">电子产品:</text>
+            <text class="record-value">{{item.screenTime}}分钟</text>
+            <text class="record-emoji">
+              <text wx:if="{{item.screenTime === 0}}">👁️</text>
+              <text wx:elif="{{item.screenTime === 15}}">👀</text>
+              <text wx:elif="{{item.screenTime === 45}}">🥺</text>
+              <text wx:elif="{{item.screenTime === 90}}">😵</text>
+              <text wx:else>📱</text>
             </text>
           </view>
         </view>

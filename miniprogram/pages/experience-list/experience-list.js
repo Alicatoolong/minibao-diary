@@ -1,39 +1,46 @@
 // pages/experience-list/experience-list.js
-const STORAGE_KEY = 'experiencePosts';
 
-// 默认种子数据
+// 添加默认帖子数据定义
 const DEFAULT_POSTS = [
   {
     id: 1,
-    author: '乐乐妈妈',
-    title: '孩子不爱吃饭，我是怎么办的',
-    content: '乐乐前阵子不爱吃饭，我是这样做的。',
-    likes: 12,
-    cheers: 5,
-    createdAt: '2025-11-01 10:00',
-    isMine: false
+    title: "如何保持积极心态？",
+    content: "分享一些保持积极心态的方法和经验...",
+    author: "自学心理的芬芬",
+    date: "2024-01-15",
+    likes: 15,
+    cheers: 3,
+    comments: 5,
+    isMine: false,
+    createdAt: "1月15日"
   },
   {
     id: 2,
-    author: '辰辰妈妈',
-    title: '睡前总想玩怎么办？',
-    content: '我们家辰辰睡前总想玩一会儿。',
-    likes: 8,
-    cheers: 3,
-    createdAt: '2025-11-02 09:30',
-    isMine: false
+    title: "改善睡眠质量的小技巧",
+    content: "良好的睡眠对心理健康非常重要...",
+    author: "爱睡觉的甜甜妈妈", 
+    date: "2024-01-14",
+    likes: 12,
+    cheers: 2,
+    comments: 4,
+    isMine: false,
+    createdAt: "1月14日"
   },
   {
     id: 3,
-    author: '果果妈妈',
-    title: '多喝水',
-    content: '孩子多喝水真的很好。',
-    likes: 15,
-    cheers: 9,
-    createdAt: '2025-11-03 14:20',
-    isMine: false
+    title: "正念冥想入门指南",
+    content: "学习正念冥想，提升心理韧性...",
+    author: "喜欢冥想的乐乐妈妈",
+    date: "2024-01-13",
+    likes: 20,
+    cheers: 5,
+    comments: 8,
+    isMine: false,
+    createdAt: "1月13日"
   }
 ];
+
+const STORAGE_KEY = 'experiencePosts';
 
 Page({
   data: {
@@ -41,7 +48,10 @@ Page({
     posts: [],
     currentSort: 'hot',
     currentScope: 'all',
-    myAuthorName: '' // 初始为空
+    myAuthorName: '',// 初始为空
+    pageSize: 10,      // 每页数量
+    currentPage: 1,    // 当前页码
+    hasMore: true,     // 是否有更多数据
   },
 
   onLoad() {
@@ -63,7 +73,6 @@ Page({
       });
       return;
     }
-    
   },
 
   // 微信登录获取用户信息（可选）
@@ -126,6 +135,9 @@ Page({
     // 重新更新显示列表
     this.updatePosts();
     
+    // 新增：通知首页更新
+    this.notifyHomePageUpdate();
+    
     wx.showToast({
       title: '删除成功',
       icon: 'success'
@@ -141,39 +153,40 @@ Page({
     }
   },
 
-  // 从本地存储加载帖子
-  loadPosts() {
-    try {
-      let stored = wx.getStorageSync(STORAGE_KEY) || [];
-      if (!stored.length) {
-        stored = DEFAULT_POSTS;
-        wx.setStorageSync(STORAGE_KEY, stored);
-      }
-
-      this.setData(
-        {
-          allPosts: stored
-        },
-        () => {
-          this.updatePosts();
-        }
-      );
-    } catch (e) {
-      console.error('加载经验帖子失败:', e);
-      this.setData({ allPosts: [], posts: [] });
+  // 修改 loadPosts 方法，重置分页
+loadPosts() {
+  try {
+    let stored = wx.getStorageSync(STORAGE_KEY) || [];
+    console.log('📂 经验广场加载帖子，数量:', stored.length);
+    if (!stored.length) {
+      console.log('📂 使用默认帖子数据');
+      stored = DEFAULT_POSTS;
+      wx.setStorageSync(STORAGE_KEY, stored);
     }
-  },
+
+    this.setData(
+      {
+        allPosts: stored,
+        currentPage: 1  // 重置为第一页
+      },
+      () => {
+        this.updatePosts();
+      }
+    );
+  } catch (e) {
+    console.error('加载经验帖子失败:', e);
+    this.setData({ allPosts: [], posts: [] });
+  }
+},
 
   // 根据当前筛选 & 排序，生成 posts
   updatePosts() {
-    const { allPosts, currentSort, currentScope, myAuthorName } = this.data;
+    const { allPosts, currentSort, currentScope, myAuthorName, pageSize, currentPage } = this.data;
     let list = allPosts.slice();
 
     // 先按"我发布的"过滤
     if (currentScope === 'mine') {
-      list = list.filter(
-        (p) => p.isMine || p.author === myAuthorName
-      );
+      list = list.filter((p) => p.isMine || p.author === myAuthorName);
     }
 
     // 排序
@@ -184,42 +197,63 @@ Page({
         return scoreB - scoreA;
       });
     } else if (currentSort === 'new') {
-      // 简单用 id 倒序（你是用时间戳当 id 的）
       list.sort((a, b) => b.id - a.id);
     }
 
-    this.setData({ posts: list });
+    // 分页逻辑
+    const startIndex = (currentPage - 1) * pageSize;
+    const paginatedList = list.slice(0, startIndex + pageSize);
+    const hasMore = list.length > startIndex + pageSize;
+
+    this.setData({ 
+      posts: paginatedList,
+      hasMore: hasMore
+    });
+  },
+
+  // 新增加载更多方法
+  loadMore() {
+    if (!this.data.hasMore) return;
+    
+    this.setData({
+      currentPage: this.data.currentPage + 1
+    }, () => {
+      this.updatePosts();
+    });
   },
 
   // 切换排序：最热 / 最新
-  onSortTap(e) {
-    const sort = e.currentTarget.dataset.sort;
-    if (sort === this.data.currentSort) return;
+  // 修改切换排序方法
+onSortTap(e) {
+  const sort = e.currentTarget.dataset.sort;
+  if (sort === this.data.currentSort) return;
 
-    this.setData(
-      {
-        currentSort: sort
-      },
-      () => {
-        this.updatePosts();
-      }
-    );
-  },
+  this.setData(
+    {
+      currentSort: sort,
+      currentPage: 1  // 重置为第一页
+    },
+    () => {
+      this.updatePosts();
+    }
+  );
+},
 
-  // 切换范围：全部 / 我发布的
-  onScopeTap(e) {
-    const scope = e.currentTarget.dataset.scope;
-    if (scope === this.data.currentScope) return;
+  // 修改切换范围方法
+onScopeTap(e) {
+  const scope = e.currentTarget.dataset.scope;
+  if (scope === this.data.currentScope) return;
 
-    this.setData(
-      {
-        currentScope: scope
-      },
-      () => {
-        this.updatePosts();
-      }
-    );
-  },
+  this.setData(
+    {
+      currentScope: scope,
+      currentPage: 1  // 重置为第一页
+    },
+    () => {
+      this.updatePosts();
+    }
+  );
+},
 
   goBack() {
     wx.navigateBack();
@@ -240,5 +274,36 @@ Page({
     wx.navigateTo({
       url: `/pages/experience-detail/experience-detail?id=${id}`
     });
+  },
+
+  // 新增：发布新帖子的方法（在编辑页面调用）
+  publishNewPost(newPost) {
+    const allPosts = this.data.allPosts || [];
+    const updatedPosts = [newPost, ...allPosts];
+    
+    this.setData({
+      allPosts: updatedPosts
+    });
+    
+    // 更新存储
+    this.updateLocalStorage(updatedPosts);
+    
+    // 重新更新显示列表
+    this.updatePosts();
+    
+    console.log('💾 发布后更新存储，帖子数量:', updatedPosts.length);
+    
+    // 新增：通知首页更新
+    this.notifyHomePageUpdate();
+  },
+
+  // 新增：通知首页更新方法
+  notifyHomePageUpdate() {
+    // 通过全局回调通知首页
+    const app = getApp();
+    if (app && app.globalDataUpdateCallback) {
+      console.log('📢 通知首页更新经验帖子');
+      app.globalDataUpdateCallback();
+    }
   }
 });

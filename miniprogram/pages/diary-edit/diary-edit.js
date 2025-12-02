@@ -15,7 +15,21 @@ Page({
       { value: 'surprised', label: '惊讶', icon: '😲' }
     ]
   },
-
+  goBack: function() {
+    const pages = getCurrentPages();
+    
+    if (pages.length > 1) {
+      // 有上一页，正常返回
+      wx.navigateBack({
+        delta: 1
+      });
+    } else {
+      // 没有上一页，使用 reLaunch 跳转到首页
+      wx.reLaunch({
+        url: '/pages/index/index'
+      });
+    }
+  },
   onLoad: function(options) {
     if (options.diaryId) {
       this.loadDiary(options.diaryId);
@@ -62,32 +76,54 @@ Page({
   saveDiary: function() {
     const { selectedMood, diaryContent, isPublic, diaryId } = this.data;
     
+    // 🆕 添加防重复点击
+    if (this.saving) {
+      console.log('⏳ 保存中，请稍候...');
+      return;
+    }
+    this.saving = true;
+    
     if (!diaryContent.trim()) {
       wx.showToast({
         title: '请填写日记内容',
         icon: 'none'
       });
+      this.saving = false;
       return;
     }
-
+  
     const moodInfo = this.data.moodOptions.find(item => item.value === selectedMood) || {};
     
     const diaryData = {
-      id: diaryId || Date.now().toString(),
+      id: diaryId || 'diary_' + Date.now(), // 🆕 更好的ID格式
       mood: selectedMood,
       moodIcon: moodInfo.icon || '',
-      content: diaryContent,
+      content: diaryContent.trim(),
       isPublic: isPublic,
-      createTime: this.formatSimpleDate() // 使用简化的日期格式
+      createTime: this.formatSimpleDate(),
+      updateTime: new Date().toISOString() // 🆕 添加更新时间
     };
-
-    this.saveDiaryToStorage(diaryData);
-
-    wx.showToast({
-      title: '保存成功',
-      icon: 'success',
-      duration: 2000
+  
+    console.log('💾 保存日记:', {
+      模式: diaryId ? '编辑' : '新建',
+      ID: diaryData.id,
+      内容长度: diaryData.content.length
     });
+  
+    this.saveDiaryToStorage(diaryData);
+  
+    wx.showToast({
+      title: diaryId ? '更新成功' : '保存成功',
+      icon: 'success',
+      duration: 1500
+    });
+  
+    // 🆕 保存后禁用按钮，防止重复点击
+    setTimeout(() => {
+      this.saving = false;
+      // 自动返回上一页
+      wx.navigateBack();
+    }, 1500);
   },
 
   // 简化的日期格式 - 只包含年月日

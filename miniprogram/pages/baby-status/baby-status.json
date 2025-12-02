@@ -1,6 +1,6 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "我宝情况",
+  "navigationBarTitleText": "我宝近况",
   "navigationBarBackgroundColor": "#87CEEB",
   "navigationBarTextStyle": "white",
   "enablePullDownRefresh": true

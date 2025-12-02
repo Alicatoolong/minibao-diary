@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "用户协议",
+  "navigationStyle": "custom",
+  "backgroundColor": "#f8f9fa",
+  "enablePullDownRefresh": false,
+  "disableScroll": true
+}

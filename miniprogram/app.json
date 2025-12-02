@@ -2,6 +2,7 @@
   "lazyCodeLoading": "requiredComponents",
   "pages": [
     "pages/index/index",
+    "pages/agreement/agreement",
     "pages/record/record",
     "pages/baby-status/baby-status",
     "pages/edit-symptom/edit-symptom",
@@ -16,7 +17,11 @@
     "pages/experience-list/experience-list",
     "pages/experience-edit/experience-edit",
     "pages/quick-record-history/quick-record-history",
-    "pages/mood-square/mood-square"
+    "pages/mood-square/mood-square",
+    "pages/crop-image/crop-image",
+    "pages/edit-height-weight/edit-height-weight",
+    "pages/height-weight-history/height-weight-history",
+    "pages/auth/auth"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -11,27 +11,43 @@
   border-bottom: 1rpx solid #f0f0f0;
 }
 
-.baby-info {
+.header {
   display: flex;
   align-items: center;
-  margin-bottom: 16rpx;
+  padding: 30rpx 40rpx;
+  background: white;
+  border-bottom: 1rpx solid #eee;
 }
 
-.name {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
-  margin-right: 20rpx;
-}
-
-.age {
-  font-size: 28rpx;
-  color: #666;
-  background: #f5f5f5;
-  padding: 8rpx 16rpx;
+/* 返回按钮样式 */
+.header-back-btn {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: #f8f9fa;
   border-radius: 20rpx;
+  border: 1rpx solid #e8e8e8;
+  margin-right: 24rpx;
+  transition: all 0.3s ease;
 }
 
+.header-back-btn:active {
+  background: #f0f0f0;
+  transform: scale(0.98);
+}
+
+.back-icon {
+  font-size: 36rpx;
+  color: #333;
+  margin-right: 8rpx;
+  line-height: 1;
+}
+
+.back-text {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
 /* 卡片容器 */
 .indicators-container {
   padding: 32rpx;
@@ -167,4 +183,206 @@
   font-size: 28rpx;
   color: #666;
   flex: 1;
+}
+/* 身高体重样式 */
+.height-weight-current {
+  padding: 10rpx 0;
+}
+
+.hw-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+  padding: 12rpx 0;
+}
+
+.hw-label {
+  color: #666;
+  font-size: 28rpx;
+}
+
+.hw-value {
+  font-weight: bold;
+  color: #1890ff;
+  font-size: 28rpx;
+}
+
+.hw-date {
+  font-size: 24rpx;
+  color: #999;
+  text-align: right;
+  margin-top: 8rpx;
+}
+
+.hw-history-preview {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.history-title {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.history-item {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+  padding: 4rpx 0;
+}
+
+/* 优化身高体重弹窗样式 */
+.height-weight-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%; /* 增加宽度比例 */
+  max-width: 700rpx; /* 增加最大宽度 */
+  min-width: 300rpx; /* 添加最小宽度 */
+  background: white;
+  border-radius: 16rpx;
+  z-index: 1001;
+  box-sizing: border-box;
+  box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.2); /* 添加阴影增强视觉效果 */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 36rpx; /* 增大标题字体 */
+  font-weight: 600;
+  color: #333;
+  flex: 1; /* 允许标题占据更多空间 */
+  text-align: center;
+  margin-right: 40rpx; /* 为关闭按钮留出空间 */
+}
+
+.modal-close {
+  font-size: 36rpx;
+  color: #999;
+  padding: 8rpx;
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+}
+
+.modal-body {
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.input-group {
+  margin-bottom: 40rpx; /* 增加间距 */
+  box-sizing: border-box;
+}
+
+.input-label {
+  display: block;
+  font-size: 32rpx; /* 增大标签字体 */
+  color: #333;
+  margin-bottom: 20rpx;
+  font-weight: 500; /* 增加字体权重 */
+}
+
+.input-field {
+  width: 100%;
+  height: 88rpx; /* 标准高度 */
+  padding: 0 24rpx;
+  border: 2rpx solid #e0e0e0; /* 增加边框宽度 */
+  border-radius: 12rpx; /* 增加圆角 */
+  font-size: 32rpx;
+  box-sizing: border-box;
+  line-height: 88rpx; /* 确保文字垂直居中 */
+  transition: border-color 0.3s; /* 添加过渡效果 */
+}
+
+.input-field:focus {
+  border-color: #6BC5D2; /* 聚焦时改变边框颜色 */
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  padding: 0 32rpx 32rpx;
+  gap: 20rpx;
+  box-sizing: border-box;
+}
+
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  padding: 24rpx;
+  border-radius: 12rpx; /* 增加圆角 */
+  font-size: 32rpx; /* 增大按钮字体 */
+  border: none;
+  box-sizing: border-box;
+  height: 80rpx; /* 固定高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.btn-confirm {
+  background: #6BC5D2; /* 使用主题色 */
+  color: white;
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+  .height-weight-modal {
+    width: 95%; /* 在小屏幕上使用更大比例 */
+    max-width: none; /* 移除最大宽度限制 */
+  }
+  
+  .modal-body {
+    padding: 24rpx;
+  }
+  
+  .input-field {
+    height: 100rpx;
+    font-size: 34rpx; /* 增大字体 */
+    line-height: 100rpx;
+  }
+  
+  .input-label {
+    font-size: 34rpx;
+  }
+  
+  .btn-cancel, .btn-confirm {
+    font-size: 34rpx;
+    height: 90rpx;
+  }
+}
+
+/* 针对特别小的屏幕 */
+@media (max-width: 320px) {
+  .modal-header {
+    padding: 24rpx;
+  }
+  
+  .modal-title {
+    font-size: 32rpx;
+  }
+  
+  .modal-body {
+    padding: 20rpx;
+  }
+  
+  .input-group {
+    margin-bottom: 30rpx;
+  }
 }
